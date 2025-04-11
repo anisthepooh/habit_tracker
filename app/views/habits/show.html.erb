@@ -1,0 +1,139 @@
+<% content_for :title, "Showing habit" %>
+
+<div class="w-full min-h-screen pb-24">
+  <div class="flex justify-between">
+    <%= lucide_icon(@habit.icon, class: "w-16 h-16") %>
+    <button popovertarget="my-popover" class="font-semibold text-xl rounded-full bg-primary-foreground w-8 h-8 text-primary flex items-center justify-center">
+      <%= lucide_icon("ellipsis")%>
+    </button>
+  </div>
+  <div class="mt-4">
+    <p class="font-semibold text-2xl">
+      <%= @habit.name%>
+    </p>
+    <p class="text-muted-foreground">
+      <%= @habit.description%>
+    </p>
+  </div>
+  
+  <div class="w-full p-4 rounded-2xl bg-white my-8">
+    <div class="flex w-full justify-between mb-2">
+      <p class="text-sm font-medium">Progress</p>
+      <p class="text-sm font-medium"> 1/30 days</p>
+    </div>
+    <div class="w-full bg-primary-foreground rounded-full h-2.5">
+      <div class="bg-primary h-2.5 rounded-full" style="width: 45%"></div>
+    </div>
+  </div>
+
+  <div class="w-full p-4 rounded-2xl bg-white my-8 flex justify-between">
+    <div>
+      <span class="flex items-center gap-1">
+        <p class="text-2xl font-semibold">1</p>
+        <%= lucide_icon("flame", class: "w-6 h-6") %>
+      </span>
+      <p class="text-muted-foreground text-xs">Streak</p>
+    </div>
+    <div>
+      <p class="text-2xl font-semibold text-center">1</p>
+      <p class="text-muted-foreground text-xs text-center">Check-ins</p>
+    </div>
+    <div>
+      <span class="flex items-center gap-1">
+        <p class="text-2xl font-semibold">1</p>
+        <%= lucide_icon("percent", class: "w-6 h-6") %>
+      </span>
+      <p class="text-muted-foreground text-xs">Score</p>
+    </div>
+  </div>
+  <div>
+    <div>
+      <p class="text-xs text-muted-foreground font-medium ">DETAILS</p>
+    </div>
+    <ol class="bg-white mt-2 mb-8 p-4 rounded-2xl divide-stone-200 divide-y">
+      <li class="flex justify-between py-4">
+        <p class="font-medium">Frequency</p>
+        <p class="text-muted-foreground">Daily</p>
+      </li>
+      <li class="flex justify-between py-4">
+        <p class="font-medium">Duration</p>
+        <p class="text-muted-foreground">30 days</p>
+      </li>
+      <li class="flex justify-between py-4">
+        <p class="font-medium">Start</p>
+        <p class="text-muted-foreground"><%= @habit.start_date %></p>
+      </li>
+      <li class="flex justify-between py-4">
+        <p class="font-medium">Daily Reminde</p>
+        <p class="text-muted-foreground"><%= @habit.reminder %></p>
+      </li>
+    </ol>
+  </div>
+  <div>
+    <div>
+      <p class="text-xs text-muted-foreground font-medium ">ENTRIES</p>
+    </div>
+    <ol class="bg-white mt-2 mb-8 p-4 rounded-2xl divide-stone-200 divide-y">
+      <% if @habit.entries.empty? %>
+      <div class="flex flex-col items-center text-center py-8 space-y-4">
+        <%=lucide_icon("flask-conical", "size" => "32", class:"w-8 h-8 text-muted-foreground" )%>
+        <p class="font-medium text-muted-foreground max-w-[80%]">Log your first entry to start building your habit</p>
+        <%= link_to new_habit_entry_path(@habit), class: "sm:w-auto w-full flex items-center justify-center rounded-md px-3.5 py-2.5 bg-primary text-primary-foreground hover:opacity-80 font-medium" do %>
+          <%= lucide_icon("plus", "size" => "24", class: "mr-2") %>
+          Add entry
+        <% end %>
+      </div>
+      <% else%>
+        <% @habit.entries.each do |entry| %>
+          <%= link_to habit_entry_path(entry) do %>
+            <li class="flex justify-between items-center py-4">
+              <div>
+                <p class="font-medium"><%= entry.date %></p>
+                <p class="text-muted-foreground"><%= entry.description %></p>
+                <p class="text-muted-foreground"><%= entry.mood %></p>
+              </div>
+              <%= lucide_icon("chevron-right", class:"text-muted-foreground")%>
+            </li>
+          <% end %>
+        <% end %>
+      <% end %>
+    </ol>
+  </div>
+  <div class="bg-stone-50/80 fixed bottom-0 left-0 right-0 pb-16 px-4">
+  <%= link_to new_habit_entry_path(@habit), class: "sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 bg-primary text-primary-foreground hover:opacity-80 font-medium" do %>
+    <%= lucide_icon("plus", "size" => "24", class: "mr-2") %>
+    Check in
+  <% end %>
+  </div>
+
+
+</div>
+
+
+
+<div 
+  popover 
+  id="my-popover" 
+  class="fixed bg-black/20 h-[100dvh] [&:backdrop]:bg-black/20 text-black bottom-0 rounded-lg mb-0 pb-10 mx-0 w-screen px-5 [&:popover-open]:flex flex-col transition-[opacity overlay display] duration-200 transition-discrete [&:backdrop]:transition-[opacity overlay display] [&:backdrop]:duration-200 [&:backdrop]:transition-discrete [&:starting]:[&:backdrop]:bg-transparent [&:popover-open]:[&:backdrop]:opacity-100 [&:backdrop]:opacity-0"
+>
+  <div popovertarget="my-popover" class= "bg-white w-full max-w-[600px] mx-auto rounded-[32px] p-8 translate-y-0 relative overflow-y-scroll h-fit mt-auto [&:starting]:translate-y-10 transition-[translate transform] duration-300 ease-in transition-discrete">
+    <div class="w-full flex items-center justify-between border-b pb-4 mb-4">
+      <h3 class="font-medium text-lg">Actions</h3>
+      <button popovertarget="my-popover">
+        <%= lucide_icon("x", "size" => "24")%>
+      </button>
+    </div>
+    <ol class="space-y-2">
+      <%= link_to edit_habit_path(@habit), class: "w-full sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 bg-primary text-primary-foreground hover:opacity-80 font-medium" do %>
+        <%= lucide_icon("edit", "size" => "24", class: "mr-2") %>
+        Edit
+      <% end %>
+
+      <%= button_to @habit, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } do %>
+        <%= lucide_icon("trash", "size" => "24", class: "mr-2") %>
+        Delete
+      <% end %>
+
+    </ol>
+  </div>
+</div>

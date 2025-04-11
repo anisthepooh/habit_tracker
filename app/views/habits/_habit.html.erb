@@ -1,0 +1,17 @@
+<%= link_to habit, class:"w-full" do %>
+  <div id="<%= dom_id habit %>" class="w-full flex bg-white rounded-2xl items-center gap-3 p-4 ">
+    <span class="rounded-full w-12 h-12 text-primary flex items-center justify-center bg-primary-foreground">
+      <%= lucide_icon(habit.icon) %>
+    </span>
+    <div>
+      <p class="font-semibold">
+        <%= habit.name %>
+      </p>
+      <div class="text-muted-foreground flex gap-2 text-sm">
+        <time datetime="<%= habit.start_date%>"><%= habit.start_date%></time>
+        •
+        <p><%= habit.duration%></p>
+      </div>
+    </div>
+  </div>
+<% end %>
