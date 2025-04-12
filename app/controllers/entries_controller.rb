@@ -28,6 +28,7 @@ class EntriesController < ApplicationController
 
     respond_to do |format|
       if @entry.save
+        format.turbo_stream
         format.html do
           redirect_to habit_entry_path(@habit, @entry), notice: "Entry was successfully created."
         end
@@ -35,12 +36,9 @@ class EntriesController < ApplicationController
           render :show, status: :created, location: habit_entry_path(@habit, @entry)
         end
       else
-        format.html do
-          render :new, status: :unprocessable_entity
-        end
-        format.json do
-          render json: @entry.errors, status: :unprocessable_entity
-        end
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(:modal, partial: "entries/form", locals: { entry: @entry }) }
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @entry.errors, status: :unprocessable_entity }
       end
     end
   end

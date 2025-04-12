@@ -1,0 +1,10 @@
+<%= link_to habit_entry_path(id: entry, habit_id: entry.habit) do %>
+  <li class="flex justify-between items-center py-4">
+    <div>
+      <p class="font-medium"><%= entry.date %></p>
+      <p class="text-muted-foreground"><%= entry.description %></p>
+      <p class="text-muted-foreground"><%= mood_label(entry.mood) %></p>
+    </div>
+    <%= lucide_icon("chevron-right", class:"text-muted-foreground")%>
+  </li>
+<% end %>

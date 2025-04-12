@@ -10,6 +10,27 @@
       </ul>
     </div>
   <% end %>
+<% icons = ["sun", "moon", "star", "heart", "check", "x", "smile", "bell"] %>
+
+ <%= form.label :icon, "Select an icon", class: "block text-sm font-medium text-gray-700 mb-2" %>
+
+<div data-controller="icon-select" class="flex flex-wrap gap-6">
+  <% icons.each do |icon| %>
+    <button 
+      type="button"
+      data-action="click->icon-select#select"
+      data-icon-select-icon-value="<%= icon %>"
+      class="flex items-center justify-center w-16 h-16 aspect-square rounded-xl border transition-all 
+             hover:border-muted hover:bg-muted
+             <%= 'border-muted bg-muted' if habit.icon == icon %>">
+      
+      <%= lucide_icon icon %>
+    </button>
+  <% end %>
+
+  <%= form.hidden_field :icon, data: { icon_select_target: "input" } %>
+</div>
+
 
   <div class="my-5">
     <%= form.label :name %>
@@ -31,15 +52,20 @@
     <%= form.number_field :duration, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": habit.errors[:duration].none?, "border-red-400 focus:outline-red-600": habit.errors[:duration].any?}] %>
   </div>
 
-  <div class="my-5 flex items-center gap-2">
-    <%= form.label :reminder %>
-    <%= form.checkbox :reminder, class: ["block shadow-sm rounded-md border order-first h-5 w-5", {"border-gray-400 focus:outline-blue-600": habit.errors[:reminder].none?, "border-red-400 focus:outline-red-600": habit.errors[:reminder].any?}] %>
+<%= form.label :reminder, class: "inline-flex items-center mb-5 cursor-pointer" do %>
+  <%= form.check_box :reminder, class: "sr-only peer" %>
+
+  <div class="relative w-11 h-6 bg-stone-200 rounded-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-200
+              peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full
+              peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px]
+              after:bg-white after:border-stone-200 after:border after:rounded-full after:w-5 after:h-5 after:transition-all
+              peer-checked:bg-green-500">
   </div>
 
-  <div class="my-5">
-    <%= form.label :icon %>
-    <%= form.text_field :icon, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": habit.errors[:icon].none?, "border-red-400 focus:outline-red-600": habit.errors[:icon].any?}] %>
-  </div>
+  <span class="ms-3 text-sm font-medium text-gray-900">
+    Enable Reminder
+  </span>
+<% end %>
 
   <div class="inline">
     <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>

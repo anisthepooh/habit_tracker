@@ -83,24 +83,19 @@
           Add entry
         <% end %>
       </div>
-      <% else%>
-        <% @habit.entries.each do |entry| %>
-          <%= link_to habit_entry_path(entry) do %>
-            <li class="flex justify-between items-center py-4">
-              <div>
-                <p class="font-medium"><%= entry.date %></p>
-                <p class="text-muted-foreground"><%= entry.description %></p>
-                <p class="text-muted-foreground"><%= entry.mood %></p>
-              </div>
-              <%= lucide_icon("chevron-right", class:"text-muted-foreground")%>
-            </li>
-          <% end %>
+      <% else %>
+        <%= turbo_frame_tag "entries" do %>
+          <ul id="entries-list">
+            <% @habit.entries.each do |entry| %>
+              <%= render "entries/item", entry: entry %>
+            <% end %>
+          </ul>
         <% end %>
       <% end %>
     </ol>
   </div>
   <div class="bg-stone-50/80 fixed bottom-0 left-0 right-0 pb-16 px-4">
-  <%= link_to new_habit_entry_path(@habit), class: "sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 bg-primary text-primary-foreground hover:opacity-80 font-medium" do %>
+  <%= link_to new_habit_entry_path(@habit), data: {action: "click->dialog#open", turbo_frame: :modal}, class: "sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 bg-primary text-primary-foreground hover:opacity-80 font-medium" do %>
     <%= lucide_icon("plus", "size" => "24", class: "mr-2") %>
     Check in
   <% end %>

@@ -22,7 +22,8 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body data-controller="dialog" class="bg-black">
+    <div id="main-content-wrapper" class="transition-transform duration-300 origin-center rounded-t-2xl" data-dialog-target="content">
     <main class="container mx-auto bg-background min-h-screen relative">
       <nav class="py-4 px-2 flex items-center justify-between sticky top-0 border-b border-b-gray-200 bg-background z-50">
         <%= link_to habits_path do%>
@@ -43,5 +44,24 @@
         <%= yield %>
       </div>
     </main>
+    </div>
+    <div data-action="click->dialog#clickOutside">
+   <dialog data-dialog-target="modal" 
+        class="fixed inset-x-0 bottom-0 top-auto rounded-t-xl rounded-b-none border-t border-x border-b-0 bg-background p-0 shadow-lg outline-none w-full max-w-full md:max-w-xl mx-auto transition-transform duration-300">
+      <div class="flex flex-col gap-4 p-4">
+        <div class="mx-auto h-1.5 w-16 rounded-full bg-muted"></div>
+        <div class="p-4">
+          <%= turbo_frame_tag :modal %>
+        </div>
+        <div class="flex justify-end">
+          <button 
+            class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+            data-action="dialog#close">
+            Close
+          </button>
+        </div>
+      </div>
+    </dialog>
+  </div>
   </body>
 </html>

@@ -48,3 +48,50 @@
     
   }
 }
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-in {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+}
+
+.slide-in-from-bottom {
+  animation-name: slideInFromBottom;
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease;
+}
+
+dialog {
+  z-index: 50;
+}
+
+body.dialog-open > *:not(dialog):not([data-controller="dialog"]):not(.fixed):not([style*="position: fixed"]) {
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+/* Reset transform for non-dialog-open state */
+body > *:not(dialog):not([data-controller="dialog"]):not(.fixed):not([style*="position: fixed"]) {
+  transition: transform 0.3s ease;
+}
