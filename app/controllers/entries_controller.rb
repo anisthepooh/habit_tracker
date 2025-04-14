@@ -36,7 +36,7 @@ class EntriesController < ApplicationController
           render :show, status: :created, location: habit_entry_path(@habit, @entry)
         end
       else
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(:modal, partial: "entries/form", locals: { entry: @entry }) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(:drawer, partial: "entries/form", locals: { entry: @entry }) }
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @entry.errors, status: :unprocessable_entity }
       end

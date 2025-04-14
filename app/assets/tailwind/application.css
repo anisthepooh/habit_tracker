@@ -38,6 +38,9 @@
   .bg-primary {
     background: var(--primary);
   }
+  .bg-input {
+    background: white;
+  }
   .bg-primary-foreground {
     background: var(--primary-foreground);
   }
