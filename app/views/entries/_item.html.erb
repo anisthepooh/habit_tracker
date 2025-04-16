@@ -1,9 +1,9 @@
-<%= link_to habit_entry_path(id: entry, habit_id: entry.habit) do %>
-  <li class="flex justify-between items-center py-4">
+<%= link_to habit_entry_path(id: entry, habit_id: entry.habit), data: { turbo: false }  do %>
+  <li class="flex justify-between items-center py-4 border-b border-b-border">
     <div>
-      <p class="font-medium"><%= entry.date %></p>
-      <p class="text-muted-foreground"><%= entry.description %></p>
-      <p class="text-muted-foreground"><%= mood_label(entry.mood) %></p>
+      <p class="font-medium"><%= entry.date.strftime("%m %B %Y") %></p>
+      <p class="text-muted-foreground"><%= entry.date.strftime("%H.%M") %></p>
+      <p class="text-muted-foreground"><%= "#{truncate(entry.description, length: 40)} • #{mood_label(entry.mood)}" %></p>
     </div>
     <%= lucide_icon("chevron-right", class:"text-muted-foreground")%>
   </li>

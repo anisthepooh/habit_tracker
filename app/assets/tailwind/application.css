@@ -47,8 +47,11 @@
   .border {
     border-color: var(--border)
   }
-  .divider {
-    
+  .border-b-border {
+    border-color: var(--border)
+  }
+  .border-l-border {
+    border-color: var(--border)
   }
 }
 
