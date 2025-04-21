@@ -1,0 +1,26 @@
+<%= form_with model: @user, local: true, class: "space-y-6", builder: CustomFormBuilder do |form| %>
+  <div class="grid gap-4">
+    <!-- First Name -->
+    <div>
+      <%= form.label :first_name %>
+      <%= form.text_field :first_name %>
+    </div>
+
+    <!-- Last Name -->
+    <div>
+      <%= form.label :last_name %>
+      <%= form.text_field :last_name %>
+    </div>
+
+    <!-- Email -->
+    <div>
+      <%= form.label :email_address, "Email" %>
+      <%= form.email_field :email_address %>
+    </div>
+  </div>
+
+  <!-- Submit Button -->
+  <div>
+    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-primary hover:opacity-80 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

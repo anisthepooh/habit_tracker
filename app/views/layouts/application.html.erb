@@ -38,6 +38,7 @@
     >
     <div id="main-content-wrapper" class="transition-transform duration-300 origin-center rounded-t-2xl overscroll-none" data-dialog-target="content">
     <main class="container mx-auto bg-background min-h-screen relative">
+      <% if Current.user %>
       <nav class="p-4 flex items-center justify-between sticky top-0 border-b border-b-gray-200 bg-background z-50">
         <%= link_to habits_path do%>
           <div class="text-xl font-semibold font-pacifico text-primary flex items-center gap-2">
@@ -49,11 +50,12 @@
           <%= link_to new_habit_path, class: "rounded-full w-10 h-10 bg-primary flex items-center justify-center text-primary-foreground" do %>
             <%= lucide_icon('plus') %>
           <% end %>
-          <a class="rounded-full w-10 h-10 bg-primary-foreground flex items-center justify-center text-primary font-semibold">
-            A
-          </a>
+          <%= link_to user_path(id: Current.user.id), class: "rounded-full w-10 h-10 bg-primary-foreground flex items-center justify-center text-primary font-semibold" do %>
+            <%= lucide_icon('user') %>
+          <% end %>
         </div>
       </nav>
+      <% end %>
       <div class="p-4">
         <%= yield %>
       </div>

@@ -6,7 +6,8 @@ one:
   start_date: 2025-04-09
   duration: 1
   reminder: false
-  icon: MyString
+  icon: moon
+  group: one
 
 two:
   name: MyString
@@ -14,4 +15,14 @@ two:
   start_date: 2025-04-09
   duration: 1
   reminder: false
-  icon: MyString
+  icon: moon
+  group: one
+
+three:
+  name: Three
+  description: MyText
+  start_date: 2025-04-09
+  duration: 1
+  reminder: false
+  icon: sun
+  group: two

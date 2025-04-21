@@ -4,8 +4,10 @@ one:
   date: 2025-04-10 10:29:29
   description: MyString
   mood: MyString
+  habit: one
 
 two:
   date: 2025-04-10 10:29:29
   description: MyString
   mood: MyString
+  habit: two

@@ -58,7 +58,7 @@
       </div>
       <div class="flex flex-col items-center">
         <span class="flex items-center gap-1">
-          <p class="text-2xl font-semibold"><%= mood_label(@most_mood[0]) %></p>
+          <p class="text-2xl font-semibold"><%= mood_label(@most_mood[0]) unless @most_mood.blank? %></p>
         </span>
         <p class="text-muted-foreground text-xs">Mood</p>
       </div>

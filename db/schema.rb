@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_10_082928) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_21_131105) do
   create_table "entries", force: :cascade do |t|
     t.datetime "date"
     t.string "description"
@@ -19,6 +19,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_10_082928) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["habit_id"], name: "index_entries_on_habit_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "habits", force: :cascade do |t|
@@ -30,7 +36,34 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_10_082928) do
     t.string "icon"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "group_id", null: false
+    t.index ["group_id"], name: "index_habits_on_group_id"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email_address", null: false
+    t.string "password_digest", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "group_id"
+    t.string "first_name"
+    t.string "last_name"
+    t.datetime "last_signed_in_at"
+    t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["group_id"], name: "index_users_on_group_id"
   end
 
   add_foreign_key "entries", "habits"
+  add_foreign_key "habits", "groups"
+  add_foreign_key "sessions", "users"
+  add_foreign_key "users", "groups"
 end

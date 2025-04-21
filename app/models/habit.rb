@@ -1,5 +1,6 @@
 class Habit < ApplicationRecord
   has_many :entries, dependent: :destroy
+  belongs_to :group
 
   def calculate_streak
     return 0 if entries.empty?

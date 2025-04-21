@@ -3,7 +3,7 @@ class HabitsController < ApplicationController
 
   # GET /habits or /habits.json
   def index
-    @habits = Habit.all
+    @habits = Current.user.group.habit
   end
 
   # GET /habits/1 or /habits/1.json
@@ -25,7 +25,7 @@ class HabitsController < ApplicationController
 
   # POST /habits or /habits.json
   def create
-    @habit = Habit.new(habit_params)
+    @habit = Current.user.group.habit.new(habit_params)
 
     respond_to do |format|
       if @habit.save
