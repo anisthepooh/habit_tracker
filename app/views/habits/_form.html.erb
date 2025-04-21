@@ -16,6 +16,9 @@
   <% content_for :modal_content do %>
     <%= render partial: "icons", locals:{form: form }%>
   <% end %>
+  <% content_for :modal_styles do %>
+    bg-background
+  <% end %>
 
 
   <button 
@@ -65,7 +68,7 @@
   <% end %>
 
     <div class="inline">
-      <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+      <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-primary hover:opacity-80 text-white inline-block font-medium cursor-pointer" %>
     </div>
     <%= render partial: "shared/modal" %>
   </div>

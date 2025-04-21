@@ -53,6 +53,13 @@
   .border-l-border {
     border-color: var(--border)
   }
+  .border-input {
+    border-color: var(--border)
+  }
+}
+
+.font-pacifico {
+  font-family: 'Pacifico', cursive;
 }
 
 dialog::backdrop {

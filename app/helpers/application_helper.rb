@@ -4,7 +4,7 @@ module ApplicationHelper
   end
 
   MOOD_MAP = {
-  "Happy" => "😀",
+  "happy" => "😀",
   "sad" => "😞",
   "angry" => "😠",
   "tired" => "😴",

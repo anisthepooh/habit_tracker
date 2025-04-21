@@ -1,47 +1,67 @@
 <% content_for :title, "Showing habit" %>
 
 <div class="w-full min-h-screen pb-24">
-  <div class="flex justify-between">
-    <%= lucide_icon(@habit.icon || "circle", class: "w-16 h-16") %>
-    <button popovertarget="my-popover" class="font-semibold text-xl rounded-full bg-primary-foreground w-8 h-8 text-primary flex items-center justify-center">
-      <%= lucide_icon("ellipsis")%>
-    </button>
+  <div class="bg-primary rounded-2xl p-4" style="view-transition-name: habit_<%= @habit.id %>">
+    <div id="<%= dom_id @habit %>" class="w-full space-y-2">
+      <div class="flex items-center gap-3 w-full justify-between">
+        <span class="rounded-full w-12 h-12 text-stone-200 flex items-center justify-center ">
+          <%= lucide_icon(@habit.icon) %>
+        </span>
+        <button data-action="click->modal#open" class="font-semibold text-xl rounded-full bg-primary-foreground w-8 h-8 text-primary flex items-center justify-center">
+          <%= lucide_icon("ellipsis")%>
+        </button>
+      </div>
+      <div>
+        <p class="font-semibold text-stone-200 text-lg">
+          <%= @habit.name %>
+        </p>
+        <div class="text-stone-400 flex gap-2 text-sm">
+          <time datetime="<%= @habit.start_date%>"><%= @habit.start_date.strftime("%d %B %Y")%></time>
+          •
+          <p><%= @habit.duration%> Days</p>
+        </div>
+      </div>
+    </div>
+    <div class="w-full mt-3">
+      <div class="flex w-full justify-between mb-2 text-stone-200">
+        <p class="text-sm font-medium ">Progress</p>
+        <p class="text-sm font-medium"><%="1/#{@habit.duration} days"%> </p>
+      </div>
+      <div class="w-full bg-stone-200 rounded-full p-0.5">
+        <div class="bg-primary h-2.5 rounded-full" style="width: <%= number_to_percentage((@habit.entries.size.to_f / @habit.duration) * 100, precision: 0) %>"></div>
+      </div>
+    </div>
   </div>
-  <div class="mt-4">
-    <p class="font-semibold text-2xl">
-      <%= @habit.name%>
-    </p>
-    <p class="text-muted-foreground">
+
+  <div class="my-8">
+    <p class="text-xs text-muted-foreground font-medium ">DESCRIPTION</p>
+    <div class="bg-white mt-2 mb-8 p-4 rounded-2xl">
+      <p class="">
       <%= @habit.description%>
     </p>
-  </div>
-  
-  <div class="w-full p-4 rounded-2xl bg-white my-8">
-    <div class="flex w-full justify-between mb-2">
-      <p class="text-sm font-medium">Progress</p>
-      <p class="text-sm font-medium"><%="1/#{@habit.duration} days"%> </p>
-    </div>
-    <div class="w-full bg-primary-foreground rounded-full h-2.5">
-      <div class="bg-primary h-2.5 rounded-full" style="width: <%= number_to_percentage((@habit.entries.size.to_f / @habit.duration) * 100, precision: 0) %>"></div>
     </div>
   </div>
-  <div class="w-full p-4 rounded-2xl bg-white my-8 flex justify-between">
-    <div>
-      <span class="flex items-center gap-1">
-        <p class="text-2xl font-semibold"><%= @habit.calculate_streak %></p>
-        <%= lucide_icon("flame", class: "w-6 h-6") %>
-      </span>
-      <p class="text-muted-foreground text-xs">Streak</p>
-    </div>
-    <div>
-      <p class="text-2xl font-semibold text-center"><%= @habit.entries.size %></p>
-      <p class="text-muted-foreground text-xs text-center">Check-ins</p>
-    </div>
-    <div>
-      <span class="flex items-center gap-1">
-        <p class="text-2xl font-semibold"><%= number_to_percentage((@habit.entries.size.to_f / @habit.duration) * 100, precision: 0) %></p>
-      </span>
-      <p class="text-muted-foreground text-xs">Score</p>
+
+  <div class="my-8">
+    <p class="text-xs text-muted-foreground font-medium">STATS</p>
+    <div class="w-full p-4 rounded-2xl bg-white flex justify-between mt-2">
+      <div>
+        <span class="flex items-center gap-1">
+          <p class="text-2xl font-semibold"><%= @habit.calculate_streak %></p>
+          <%= lucide_icon("flame", class: "w-6 h-6") %>
+        </span>
+        <p class="text-muted-foreground text-xs">Streak</p>
+      </div>
+      <div>
+        <p class="text-2xl font-semibold text-center"><%= @habit.entries.size %></p>
+        <p class="text-muted-foreground text-xs text-center">Check-ins</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="flex items-center gap-1">
+          <p class="text-2xl font-semibold"><%= mood_label(@most_mood[0]) %></p>
+        </span>
+        <p class="text-muted-foreground text-xs">Mood</p>
+      </div>
     </div>
   </div>
   <div>
@@ -59,7 +79,7 @@
       </li>
       <li class="flex justify-between py-4">
         <p class="font-medium">Start</p>
-        <p class="text-muted-foreground"><%= @habit.start_date %></p>
+        <p class="text-muted-foreground"><%= @habit.start_date.strftime("%d %B %Y") %></p>
       </li>
       <li class="flex justify-between py-4">
         <p class="font-medium">Daily Reminde</p>
@@ -102,31 +122,15 @@
 
 </div>
 
+<% content_for :modal_content do %>
+  <%= link_to edit_habit_path(@habit), class: "w-full sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 bg-primary text-primary-foreground hover:opacity-80 font-medium" do %>
+    <%= lucide_icon("edit", "size" => "24", class: "mr-2") %>
+    Edit
+  <% end %>
 
-
-<div 
-  popover 
-  id="my-popover" 
-  class="fixed bg-black/20 h-[100dvh] [&:backdrop]:bg-black/20 text-black bottom-0 rounded-lg mb-0 pb-10 mx-0 w-screen px-5 [&:popover-open]:flex flex-col transition-[opacity overlay display] duration-200 transition-discrete [&:backdrop]:transition-[opacity overlay display] [&:backdrop]:duration-200 [&:backdrop]:transition-discrete [&:starting]:[&:backdrop]:bg-transparent [&:popover-open]:[&:backdrop]:opacity-100 [&:backdrop]:opacity-0"
->
-  <div popovertarget="my-popover" class= "bg-white w-full max-w-[600px] mx-auto rounded-[32px] p-8 translate-y-0 relative overflow-y-scroll h-fit mt-auto [&:starting]:translate-y-10 transition-[translate transform] duration-300 ease-in transition-discrete">
-    <div class="w-full flex items-center justify-between border-b pb-4 mb-4">
-      <h3 class="font-medium text-lg">Actions</h3>
-      <button popovertarget="my-popover">
-        <%= lucide_icon("x", "size" => "24")%>
-      </button>
-    </div>
-    <ol class="space-y-2">
-      <%= link_to edit_habit_path(@habit), class: "w-full sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 bg-primary text-primary-foreground hover:opacity-80 font-medium" do %>
-        <%= lucide_icon("edit", "size" => "24", class: "mr-2") %>
-        Edit
-      <% end %>
-
-      <%= button_to @habit, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } do %>
-        <%= lucide_icon("trash", "size" => "24", class: "mr-2") %>
-        Delete
-      <% end %>
-
-    </ol>
-  </div>
-</div>
+  <%= button_to @habit, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } do %>
+    <%= lucide_icon("trash", "size" => "24", class: "mr-2") %>
+    Delete
+  <% end %>
+<% end %>
+<%= render partial: "shared/modal" %>

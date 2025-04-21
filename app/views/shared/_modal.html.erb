@@ -10,7 +10,7 @@
   <dialog 
     data-modal-target="dialog"
     data-action="click->modal#backdropClose"
-    class="fixed inset-x-0 bottom-8 top-auto bg-white w-full w-[80%] mx-auto rounded-[32px] p-8 relative overflow-y-scroll h-fit transition-transform duration-300 ease-in transform left-1/2 -translate-x-1/2"
+    class="fixed inset-x-0 bottom-8 top-auto bg-white w-full w-[80%] mx-auto rounded-[32px] p-8 relative overflow-y-scroll h-fit transition-transform duration-300 ease-in transform left-1/2 -translate-x-1/2 <%= yield :modal_styles%>"
   >
     <div class="w-full flex items-center justify-between border-b pb-4 mb-4">
       <h3 class="font-medium text-lg">Actions</h3>

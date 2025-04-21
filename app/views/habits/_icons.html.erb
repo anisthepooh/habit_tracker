@@ -1,21 +1,5 @@
+<% icons_general = ["sun", "moon", "star", "heart"] %>
+<% icons_fitness = ["check", "x", "smile", "bell"] %>
 
-<% icons = ["sun", "moon", "star", "heart", "check", "x", "smile", "bell"] %>
-    
-  <%= form.label :icon, "Select an icon", class: "block text-sm font-medium text-gray-700 mb-2" %>
-
-  <div class="flex flex-wrap gap-6">
-    <% icons.each_with_index do |icon, index| %>
-      <% radio_id = "icon_#{index}" %>
-
-      <div class="relative">
-        <%= form.radio_button :icon, icon, id: radio_id, class: "hidden peer", data: { action: "preview#update", preview_icon_value: icon } %>
-
-        <label for="<%= radio_id %>" class="flex items-center justify-center w-16 h-16 aspect-square rounded-xl border transition-all cursor-pointer
-                    bg-white border-gray-200 text-gray-500
-                    peer-checked:border-blue-600 peer-checked:text-blue-600
-                    hover:border-muted hover:bg-muted">
-          <%= lucide_icon icon %>
-        </label>
-      </div>
-    <% end %>
-  </div>
+<%= icon_radio_group(form, label: "General", icons: icons_general, group: "general") %>
+<%= icon_radio_group(form, label: "Fitness", icons: icons_fitness, group: "fitness") %>
