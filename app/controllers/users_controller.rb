@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    flash[:notice] = "Profile updated!"
     if @user.update(user_params)
       redirect_to @user, notice: "Profile updated!"
     else
