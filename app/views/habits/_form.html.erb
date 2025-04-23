@@ -34,23 +34,38 @@
 
     <div class="my-5">
       <%= form.label :name %>
-      <%= form.text_field :name  %>
+      <%= form.text_field :name, required: true %>
     </div>
 
     <div class="my-5">
       <%= form.label :description %>
-      <%= form.textarea :description, rows: 4  %>
+      <%= form.textarea :description, rows: 4, required: true  %>
     </div>
 
     <div class="my-5">
       <%= form.label :start_date %>
-      <%= form.date_field :start_date %>
+      <%= form.date_field :start_date, required: true %>
     </div>
 
     <div class="my-5">
-      <%= form.label :duration %>
-      <%= form.number_field :duration %>
-    </div>
+  <%= form.label :duration, "Duration", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <div class="relative w-full">
+        <%= form.select :duration,
+          options_for_select([
+            ["30 days", 30],
+            ["12 weeks", 84],
+            ["6 months", 180],
+            ["1 year", 365]
+          ], selected: form.object.duration),
+          {}, # HTML options
+              class: "appearance-none w-full rounded-xl bg-white border border-border py-3 pl-4 pr-10 text-base text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm"
+        %>
+        <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400">
+          <%= lucide_icon("chevron-down")%>
+        </div>
+
+      </div>
+  </div>
 
   <%= form.label :reminder, class: "inline-flex items-center mb-5 cursor-pointer" do %>
     <%= form.check_box :reminder, class: "sr-only peer" %>

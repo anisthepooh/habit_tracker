@@ -1,28 +1,88 @@
 <div class="mx-auto max-w-2xl space-y-8 ">
-  <div class="flex items-center gap-6">
-    <div class="h-20 w-20 rounded-full bg-stone-200 flex items-center justify-center text-stone-500 text-2xl font-semibold shadow-sm">
-      <%= @user.first_name.first.upcase if @user.first_name.present? %>
+  <div class="relative" style="view-transition-name: profile_card<%= @user.id %>;">
+    <%= image_tag "/images/gradients/gradient_1.png", class: "absolute w-full h-full rounded-2xl brightness-80 z-10"%>
+    <%= image_tag "/images/gradients/gradient_1.png", class: "absolute -bottom-4 left-1/2 -translate-x-1/2 w-[120%] h-20 blur-2xl opacity-40 z-0 pointer-events-none" %>
+    <div class="relative z-10 p-4 flex items-center gap-3 ">
+      <% if @user.avatar.attached? %>
+        <%=image_tag @user.avatar, class: "h-16 w-16 min-w-16 rounded-full shadow-sm object-cover bg-white/10 backdrop-blur-xl" %>
+      <% else %>
+        <div class="h-16 w-16 min-w-16 rounded-full bg-stone-200 flex items-center justify-center text-stone-500 text-2xl font-semibold shadow-sm">
+          <%= @user.first_name.first.upcase if @user.first_name.present? %>
+        </div>
+      <% end %>
+      <div class="flex gap-2 justify-between w-full">
+        <div>
+          <p class="text-xs text-white opacity-80 font-medium">NAME</p>
+          <p class="font-medium text-white text-sm">
+            <%= @user.first_name %> <%= @user.last_name %>
+          </p>
+        </div>
+        <div>
+          <p class="text-xs text-white opacity-80 font-medium">JOINED</p>
+          <p class="font-medium text-white text-sm">
+            <%= @user.created_at.strftime("%d %B %Y") %>
+          </p>
+        </div>
+      </div>
     </div>
-    <div>
-      <h1 class="text-2xl font-bold text-stone-800">
-        <%= @user.first_name %> <%= @user.last_name %>
-      </h1>
-    </div>
-  </div>
-
-  <div class="grid gap-4 text-sm text-stone-700">
-    <div>
-      <span class="font-medium text-stone-600">Email:</span>
-      <p class="text-stone-800"><%= @user.email_address %></p>
+    
+    <div class="my-8 relative z-10 w-full p-4 flex justify-between mt-2 text-white border-t-2 border-t-white/50">
+      <div>
+        <span class="flex items-center gap-1">
+          <p class="text-2xl font-semibold"><%= @user.group.habit.size %></p> 
+          <%= lucide_icon("flame", class: "w-4 h-4") %>
+        </span>
+        <p class="text-white text-xs">Habits</p>
+      </div>
+      <div>
+        <span class="flex items-center gap-1">
+          <p class="text-2xl font-semibold text-center"><%= @user.group.habit.entries.size %></p> 
+          <%= lucide_icon("target", class: "w-4 h-4") %>
+        </span>
+        <p class="text-white text-xs text-center">Entries</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="flex items-center gap-1">
+          <p class="text-2xl font-semibold">1</p>
+          <%= lucide_icon("check-check", class: "w-4 h-4") %>
+        </span>
+        <p class="text-white text-xs">Completed</p>
+      </div>
     </div>
 
   </div>
 
   <div>
-    <%= link_to "Edit Profile", edit_user_path(@user), class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-primary hover:opacity-80 text-white inline-block font-medium cursor-pointer text-center" %>
-    <%= button_to session_path, method: :delete, class: "flex items-center justify-center gap-2", form_class: "rounded-md my-6 px-3.5 py-2.5 bg-primary-foreground flex items-center justify-center text-primary font-semibold", data: { turbo_confirm: "Are you sure?" } do %>
-      <%= lucide_icon('log-out') %>
-      Log out
-    <% end %>
+    <div>
+      <p class="text-xs text-muted-foreground font-medium ">DETAILS</p>
+    </div>
+    <ol class="bg-white mt-2 mb-8 p-4 rounded-2xl divide-stone-200 divide-y">
+      <li class="flex justify-between py-4">
+        <p class="font-medium">Email</p>
+        <p class="text-muted-foreground"><%= @user.email_address %></p>
+      </li>
+    </ol>
   </div>
+
+  <div>
+    <div>
+      <p class="text-xs text-muted-foreground font-medium ">SETTINGS</p>
+    </div>
+    <ol class="bg-white mt-2 mb-8 p-4 rounded-2xl divide-stone-200 divide-y">
+      <%= link_to edit_user_path(@user) do %>
+        <li class="flex justify-between py-4">
+          <span class="flex items-center gap-2 font-medium">
+            <%= lucide_icon('user-pen' , class:"w-4 h-4") %>
+            Edit Profile
+          </span>
+          <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
+        </li>
+      <% end %>
+    </ol>
+  </div>
+
+  <%= button_to session_path, method: :delete, class: "flex items-center justify-center gap-2", form_class: "rounded-md w-full px-3.5 py-2.5  flex items-center justify-center text-primary font-semibold", data: { turbo_confirm: "Are you sure?" } do %>
+    <%= lucide_icon('log-out') %>
+    Log out
+  <% end %>
 </div>

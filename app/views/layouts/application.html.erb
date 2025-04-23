@@ -38,6 +38,7 @@
     >
     <div id="main-content-wrapper" class="transition-transform duration-300 origin-center rounded-t-2xl overscroll-none" data-dialog-target="content">
     <main class="container mx-auto bg-background min-h-screen relative">
+      <%= render partial: "shared/pwa_prompt"%>
       <% if Current.user %>
       <nav class="p-4 flex items-center justify-between sticky top-0 border-b border-b-gray-200 bg-background z-50">
         <%= link_to habits_path do%>
@@ -50,8 +51,14 @@
           <%= link_to new_habit_path, class: "rounded-full w-10 h-10 bg-primary flex items-center justify-center text-primary-foreground" do %>
             <%= lucide_icon('plus') %>
           <% end %>
-          <%= link_to user_path(id: Current.user.id), class: "rounded-full w-10 h-10 bg-primary-foreground flex items-center justify-center text-primary font-semibold" do %>
-            <%= lucide_icon('user') %>
+          <%= link_to user_path(id: Current.user.id), class: "outline-stone-500 outline-2 outline-offset-2 overflow-hidden rounded-full w-10 h-10 bg-primary-foreground flex items-center justify-center text-primary font-semibold" do %>
+          <% if Current.user.avatar.attached? %>
+              <%=image_tag Current.user.avatar, class: " object-cover" %>
+            <% else %>
+              <div class="h-20 w-20 rounded-full bg-stone-200 flex items-center justify-center text-stone-500 text-2xl font-semibold shadow-sm">
+                <%= Current.user.first_name.first.upcase if Current.user.first_name.present? %>
+              </div>
+            <% end %>
           <% end %>
         </div>
       </nav>

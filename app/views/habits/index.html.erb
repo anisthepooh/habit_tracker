@@ -1,28 +1,99 @@
 <% content_for :title, "Habits" %>
 
 <div class="w-full">
-
-  <div id="habits" class="min-w-full divide-y divide-gray-200 space-y-5">
-    <% if @habits.any? %>
-      <% @habits.each_with_index do |habit, index| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0 gap-8">
-          <%= render partial: "habit", locals: { index: index, habit: habit } %>
+  <div class="relative" style="view-transition-name: profile_card<%= Current.user.id %>;">
+    <%= image_tag "/images/gradients/gradient_1.png", class: "absolute w-full h-full rounded-2xl brightness-80 z-10"%>
+    <div class="relative z-10 p-4 flex items-center gap-3 ">
+      <% if Current.user.avatar.attached? %>
+        <%=image_tag Current.user.avatar, class: "h-16 w-16 min-w-16 rounded-full shadow-sm object-cover bg-white/10 backdrop-blur-xl" %>
+      <% else %>
+        <div class="h-16 w-16 min-w-16 rounded-full bg-stone-200 flex items-center justify-center text-stone-500 text-2xl font-semibold shadow-sm">
+          <%= Current.user.first_name.first.upcase if Current.user.first_name.present? %>
         </div>
       <% end %>
-    <% else %>
+      <div>
+        <h1 class="font-medium text-lg text-white"><%= "Hey #{Current.user.first_name}!"%></h1>
+        <p class="my-0 text-white/80 text-sm">Welcome back, your next habit is waiting for you.</p>
+      </div>
+    </div>
+    <div class="my-8 relative z-10 w-full p-4 flex justify-between mt-2 text-white border-t-2 border-t-white/50">
+      <div>
+        <span class="flex items-center gap-1">
+          <p class="text-2xl font-semibold"><%= Current.user.group.habit.size %></p> 
+          <%= lucide_icon("flame", class: "w-4 h-4") %>
+        </span>
+        <p class="text-white text-xs">Habits</p>
+      </div>
+      <div>
+        <span class="flex items-center gap-1">
+          <p class="text-2xl font-semibold text-center"><%= Current.user.group.habit.entries.size %></p> 
+          <%= lucide_icon("target", class: "w-4 h-4") %>
+        </span>
+        <p class="text-white text-xs text-center">Entries</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="flex items-center gap-1">
+          <p class="text-2xl font-semibold">1</p>
+          <%= lucide_icon("check-check", class: "w-4 h-4") %>
+        </span>
+        <p class="text-white text-xs">Completed</p>
+      </div>
+    </div>
+  </div>
+
+  <div data-controller="tabs" class="w-full">
+    <div class="flex border-b border-stone-200 mb-6 w-full">
+      <button
+        type="button"
+        class="w-full data-[active=true]:border-b-2 data-[active=true]:border-stone-900 data-[active=true]:text-stone-900
+              text-stone-500 px-4 py-2 text-sm font-medium transition-all"
+        data-action="click->tabs#switch"
+        data-tabs-target="tab"
+        data-id="active"
+        data-active="true">
+        Your Habits
+      </button>
+      <button
+        type="button"
+        class="w-full data-[active=true]:border-b-2 data-[active=true]:border-stone-900 data-[active=true]:text-stone-900
+              text-stone-500 px-4 py-2 text-sm font-medium transition-all""
+        data-action="click->tabs#switch"
+        data-tabs-target="tab"
+        data-id="archived"
+        data-active="false">
+        Archived
+      </button>
+    </div>
+
+    <!-- Active Habits -->
+    <div id="habits" class="min-w-full divide-y divide-gray-200 space-y-5" data-tabs-target="content" data-id="active">
+      <% if @habits.any? %>
+        <% @habits.each_with_index do |habit, index| %>
+          <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0 gap-8">
+            <%= render partial: "habit", locals: { index: index, habit: habit } %>
+          </div>
+        <% end %>
+      <% else %>
         <div class="grid gap-6 mx-auto mt-8">
-          <%= lucide_icon('flask-conical', class:" mx-auto p-3 rounded-full w-12 h-12 text-primary flex items-center justify-center bg-primary-foreground") %>
+          <%= lucide_icon('flask-conical', class:"mx-auto p-3 rounded-full w-12 h-12 text-primary flex items-center justify-center bg-primary-foreground") %>
           <div class="space-y-2">
-            <h2 class="text-center text-black text-base font-semibold leading-relaxed pb-1">You have not create any habits yet</h2>
-            <p class="text-center text-black font-normal leading-snug pb-4">Try changing your filters to <br />see appointments </p>
+            <h2 class="text-center text-black text-base font-semibold leading-relaxed pb-1">You have not created any habits yet</h2>
+            <p class="text-center text-black font-normal leading-snug pb-4">Try changing your filters to <br />see appointments</p>
             <div class="flex gap-3">
-              <%= link_to new_habit_path, class: " flex items-center gap-2 text-medium font-semibold text-primary text-center justify-center bg-primary-foreground w-full py-3 rounded-lg" do %>
+              <%= link_to new_habit_path, class: "flex items-center gap-2 text-medium font-semibold text-primary text-center justify-center bg-primary-foreground w-full py-3 rounded-lg" do %>
                 <%= lucide_icon('plus', class:"rounded-full w-6 h-6 bg-primary flex items-center justify-center text-primary-foreground") %>
                 Create your first habit
-            <% end %>
+              <% end %>
             </div>
           </div>
         </div>
-    <% end %>
+      <% end %>
+    </div>
+
+    <!-- Archived Habits -->
+    <div class="hidden" data-tabs-target="content" data-id="archived">
+      <p class="text-center text-stone-500 text-sm mt-6">Archived habits go here (just a placeholder for now).</p>
+    </div>
   </div>
+
 </div>

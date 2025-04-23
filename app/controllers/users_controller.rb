@@ -29,7 +29,7 @@ class UsersController < ApplicationController
       :last_name,
       :username,
       :bio,
-      :avatar_url,
+      :avatar,
       :admin,
       :group_id
     )
