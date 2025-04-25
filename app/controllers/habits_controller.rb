@@ -4,6 +4,7 @@ class HabitsController < ApplicationController
   # GET /habits or /habits.json
   def index
     @habits = Current.user.group.habit
+    @grouped_entries = Current.user.entries.group_by(&:date)
   end
 
   # GET /habits/1 or /habits/1.json

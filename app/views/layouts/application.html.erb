@@ -53,7 +53,7 @@
           <% end %>
           <%= link_to user_path(id: Current.user.id), class: "outline-stone-500 outline-2 outline-offset-2 overflow-hidden rounded-full w-10 h-10 bg-primary-foreground flex items-center justify-center text-primary font-semibold" do %>
           <% if Current.user.avatar.attached? %>
-              <%=image_tag Current.user.avatar, class: " object-cover" %>
+              <%=image_tag Current.user.avatar, class: " object-cover h-full w-full" %>
             <% else %>
               <div class="h-20 w-20 rounded-full bg-stone-200 flex items-center justify-center text-stone-500 text-2xl font-semibold shadow-sm">
                 <%= Current.user.first_name.first.upcase if Current.user.first_name.present? %>

@@ -17,6 +17,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def croppable
+    @user = set_user
+    @user.cropped_avatar.attach(
+      io: StringIO.new(Base64.decode64(user_params[:cropped_avatar].split(",")[1])),
+      filename: "cropped_image.jpg",
+      content_type: "image/jpg"
+    )
+  end
+
   private
 
   def set_user
@@ -30,8 +39,10 @@ class UsersController < ApplicationController
       :username,
       :bio,
       :avatar,
+      :cropped_avatar,
       :admin,
-      :group_id
+      :group_id,
+      :remove_avatar
     )
   end
 end

@@ -1,6 +1,7 @@
 <% content_for :title, "Habits" %>
 
 <div class="w-full">
+  <%# <%= render partial: "shared/activity_graph" %> 
   <div class="relative" style="view-transition-name: profile_card<%= Current.user.id %>;">
     <%= image_tag "/images/gradients/gradient_1.png", class: "absolute w-full h-full rounded-2xl brightness-80 z-10"%>
     <div class="relative z-10 p-4 flex items-center gap-3 ">

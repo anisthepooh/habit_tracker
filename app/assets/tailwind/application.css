@@ -126,3 +126,39 @@ body.dialog-open > *:not(dialog):not([data-controller="dialog"]):not(.fixed):not
 body > *:not(dialog):not([data-controller="dialog"]):not(.fixed):not([style*="position: fixed"]) {
   transition: transform 0.3s ease;
 }
+
+.image {
+  display: flex;
+  width: auto;
+  height: 300px;
+  max-width: 100%;
+}
+
+.image-container > cropper-canvas {
+  width: auto;
+  height: 300px;
+  max-width: 100%;
+}
+
+.containe1 {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}
+
+#source {
+  margin: 0 5px;
+}
+
+#output {
+  margin: 0 5px;
+}
+
+.cropper-crop-box,
+.cropper-view-box {
+  border-radius: 50% !important;
+}
+
+.cropper-view-box {
+  outline: 9999px solid rgba(0, 0, 0, 0.5); /* darkens outside the circle */
+}

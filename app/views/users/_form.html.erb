@@ -1,6 +1,43 @@
 <%= form_with model: @user, local: true, class: "space-y-6", builder: CustomFormBuilder do |form| %>
   <div class="grid gap-4">
-    <%= form.file_field :avatar %>
+   <div class="my-4" data-controller="preview-image">
+    <%= form.file_field :avatar,
+          class: "peer sr-only",
+          id: "user_avatar",
+          accept: "image/*",
+          data: {
+            preview_image_target: "input",
+            action: "change->preview-image#update"
+          } %>
+
+    <% if @user.avatar.attached? %>
+      <%= form.label :avatar do %>
+        <%= image_tag @user.avatar,
+              id: "cropped-preview",
+              class: "rounded-full w-24 h-24 object-cover mx-auto outline-stone-500 outline-2 outline-offset-2",
+              data: { preview_image_target: "image" } %>
+      <% end %>
+
+      <!-- Delete button -->
+      <div class="text-center mt-2">
+        <%= button_tag "Remove Image", type: "button",
+              class: "text-red-600 text-sm underline",
+              data: {
+                action: "click->preview-image#remove"
+              } %>
+
+        <%= form.hidden_field :remove_avatar, value: false, data: { preview_image_target: "removeField" } %>
+      </div>
+    <% else %>
+      <%= form.label :avatar,
+            class: "overflow-hidden rounded-full w-24 h-24 border flex flex-col items-center justify-center cursor-pointer text-xs font-medium gap-1 mx-auto outline-stone-500 outline-2 outline-offset-2" do %>
+        <%= lucide_icon("upload", class: "w-4 h-4") %>
+        <img data-preview-image-target="image" class="hidden" />
+        Upload Image
+      <% end %>
+    <% end %>
+  </div>
+
 
     <!-- First Name -->
     <div>

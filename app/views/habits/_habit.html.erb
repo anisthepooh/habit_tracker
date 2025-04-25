@@ -24,7 +24,12 @@
         <p class="text-sm font-medium"><%="1/#{habit.duration} days"%> </p>
       </div>
       <div class="w-full bg-stone-200 rounded-full p-0.5">
-        <div class="bg-primary h-2.5 rounded-full" style="width: <%= number_to_percentage((habit.entries.size.to_f / habit.duration) * 100, precision: 0) %>"></div>
+        <% if habit.entries.size == habit.duration %>
+          <div class="bg-linear-to-r from-green-400 to-green-500 h-2.5 rounded-full max-w-full" style="width: 100%"></div>
+        <% else %>
+          <div class="bg-primary h-2.5 rounded-full max-w-full" style="width: <%= number_to_percentage((habit.entries.size.to_f / habit.duration) * 100, precision: 0) %>"></div>
+        <% end %>
+
       </div>
     </div>
   </div>

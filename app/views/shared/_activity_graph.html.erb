@@ -1,0 +1,32 @@
+<% start_date = 12.weeks.ago.to_date.beginning_of_week %>
+<% end_date = Date.today.end_of_week %>
+<% total_days = (end_date - start_date).to_i + 1 %>
+<% date_range = (start_date..end_date).to_a %>
+<% columns = date_range.in_groups_of(7).transpose %> <!-- one column per week -->
+
+<div class="flex flex-col gap-1 overflow-x-auto my-8">
+  <% columns.each do |week| %>
+    <div class="flex flex-row gap-1">
+      <p class="text-xs w-8 min-w-8 text-muted-foreground"><%= week[0].strftime("%a") %></p>
+      <% week.each do |day| %>
+         <% count = @grouped_entries
+                    .select { |date, _entries| date.to_date == day }
+                    .values
+                    .flatten
+                    .size %>
+        <% color_class =
+          case count
+          when 0 then "bg-gray-200"
+          when 1 then "bg-green-200"
+          when 2..3 then "bg-green-400"
+          when 4..6 then "bg-green-600"
+          else "bg-green-800"
+          end
+        %>
+        <div title="<%= "#{day}: #{count} entries" %>"
+             class="w-full aspect-square rounded-sm <%= color_class %>">
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
