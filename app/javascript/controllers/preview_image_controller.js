@@ -10,7 +10,7 @@ export default class extends Controller {
       const reader = new FileReader()
       reader.onload = (e) => {
         this.imageTarget.src = e.target.result
-        this.imageTarget.classList.remove("hidden")
+        this.imageTarget.classList.remove("hidden"
       }
       reader.readAsDataURL(file)
     }
