@@ -1,5 +1,11 @@
-<% icons_general = ["sun", "moon", "star", "heart"] %>
-<% icons_fitness = ["check", "x", "smile", "bell"] %>
+<% icons_general = ["sun", "moon", "eye", "ear", "gift", "handshake", "fingerprint", "ticket", "wallet", "wallpaper", "paw-print", "trending-up", "camera", "mic", "send", "phone", "wand-sparkles", "pencil", "palette"] %>
+<% icons_sport = ["award", "circle-gauge", "dumbbell", "gauge", "land-plot", "medal", "trophy"] %>
+<% icons_nature = [ "flame-kindling", "flower", "leaf", "mountain", "shovel", "sprout", "tree-pine", "tent"] %>
+<% icons_emojis = [ "laugh", "meh", "annoyed", "frown", "angry", "hand-metal", "biceps-flexed", "heart", "party-popper", "ribbon", "star", "thumbs-up" ] %>
+<% icons_foods = [ "apple", "bean", "beef", "beer", "beer-off", "candy", "candy-off", "dna-off", "egg-off", "wheat-off", "ice-cream-cone", "utensils" ] %>
 
 <%= icon_radio_group(form, label: "General", icons: icons_general, group: "general") %>
-<%= icon_radio_group(form, label: "Fitness", icons: icons_fitness, group: "fitness") %>
+<%= icon_radio_group(form, label: "Sport", icons: icons_sport, group: "sport") %>
+<%= icon_radio_group(form, label: "Nature", icons: icons_nature, group: "nature") %>
+<%= icon_radio_group(form, label: "Emoji", icons: icons_emojis, group: "emoji") %>
+<%= icon_radio_group(form, label: "Food", icons: icons_foods, group: "food") %>
