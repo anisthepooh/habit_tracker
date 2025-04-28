@@ -18,10 +18,9 @@
               data: { preview_image_target: "image" } %>
       <% end %>
 
-      <!-- Delete button -->
       <div class="text-center mt-2">
         <%= button_tag "Remove Image", type: "button",
-              class: "text-red-600 text-sm underline",
+              class: "text-red-600 text-sm underline font-medium cursor-pointer",
               data: {
                 action: "click->preview-image#remove"
               } %>
