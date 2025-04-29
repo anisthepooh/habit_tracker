@@ -82,8 +82,18 @@
         <p class="text-muted-foreground"><%= @habit.start_date.strftime("%d %B %Y") %></p>
       </li>
       <li class="flex justify-between py-4">
+        <p class="font-medium">Ends at</p>
+        <p class="text-muted-foreground">
+          <%= (@habit.start_date + @habit.duration.days).strftime("%d %B %Y") %>
+        </p>
+      </li>
+      <li class="flex justify-between py-4">
         <p class="font-medium">Daily Reminde</p>
-        <p class="text-muted-foreground"><%= @habit.reminder %></p>
+        <% if @habit.reminder %>
+        <%= lucide_icon("bell-ring", class: "text-muted-foreground") %>
+        <% else %>
+        <%= lucide_icon("bell-off", class: "text-muted-foreground") %>
+        <% end %>
       </li>
     </ol>
   </div>
