@@ -4,7 +4,7 @@
   <div class="bg-primary rounded-2xl p-4" style="view-transition-name: habit_<%= @habit.id %>">
     <div id="<%= dom_id @habit %>" class="w-full space-y-2">
       <div class="flex items-center gap-3 w-full justify-between">
-        <span class="rounded-full w-12 h-12 text-stone-200 flex items-center justify-center ">
+        <span class="rounded-full w-12 h-12 text-stone-200 flex items-center justify-center rounded-full <%= @habit.entries.size == @habit.duration && "bg-linear-to-r from-green-400 to-green-500"  %>">
           <%= lucide_icon(@habit.icon || "circle") %>
         </span>
         <button data-action="click->modal#open" class="font-semibold text-xl rounded-full bg-primary-foreground w-8 h-8 text-primary flex items-center justify-center">
@@ -28,7 +28,11 @@
         <p class="text-sm font-medium"><%="1/#{@habit.duration} days"%> </p>
       </div>
       <div class="w-full bg-stone-200 rounded-full p-0.5">
-        <div class="bg-primary h-2.5 rounded-full" style="width: <%= number_to_percentage((@habit.entries.size.to_f / @habit.duration) * 100, precision: 0) %>"></div>
+        <% if @habit.entries.size == @habit.duration %>
+          <div class="bg-linear-to-r from-green-400 to-green-500 h-2.5 rounded-full max-w-full" style="width: 100%"></div>
+        <% else %>
+          <div class="bg-primary h-2.5 rounded-full max-w-full min-w-2" style="width: <%= number_to_percentage((@habit.entries.size.to_f / @habit.duration) * 100, precision: 0) %>"></div>
+        <% end %>
       </div>
     </div>
   </div>
