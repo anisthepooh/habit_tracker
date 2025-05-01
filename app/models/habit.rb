@@ -2,6 +2,17 @@ class Habit < ApplicationRecord
   has_many :entries, dependent: :destroy
   belongs_to :group
 
+  STATUS = [ "active", "succeded", "failed" ].freeze
+
+  def update_status
+    self.status = if entries.size >= duration
+                    "succeeded"
+    else
+                    "active"
+    end
+    save if status_changed? # Save if the status actually changed
+  end
+
   def calculate_streak
     return 0 if entries.empty?
 

@@ -2,45 +2,7 @@
 
 <div class="w-full">
   <%# <%= render partial: "shared/activity_graph" %> 
-  <div class="relative" style="view-transition-name: profile_card<%= Current.user.id %>;">
-    <%= image_tag "/images/gradients/gradient_1.png", class: "absolute w-full h-full rounded-2xl brightness-80 z-10"%>
-    <div class="relative z-10 p-4 flex items-center gap-3 ">
-      <% if Current.user.avatar.attached? %>
-        <%=image_tag Current.user.avatar, class: "h-16 w-16 min-w-16 rounded-full shadow-sm object-cover bg-white/10 backdrop-blur-xl" %>
-      <% else %>
-        <div class="h-16 w-16 min-w-16 rounded-full bg-stone-200 flex items-center justify-center text-stone-500 text-2xl font-semibold shadow-sm">
-          <%= Current.user.first_name.first.upcase if Current.user.first_name.present? %>
-        </div>
-      <% end %>
-      <div>
-        <h1 class="font-medium text-lg text-white"><%= "Hey #{Current.user.first_name}!"%></h1>
-        <p class="my-0 text-white/80 text-sm">Welcome back, your next habit is waiting for you.</p>
-      </div>
-    </div>
-    <div class="my-8 relative z-10 w-full p-4 flex justify-between mt-2 text-white border-t-2 border-t-white/50">
-      <div>
-        <span class="flex items-center gap-1">
-          <p class="text-2xl font-semibold"><%= Current.user.group.habit.size %></p> 
-          <%= lucide_icon("flame", class: "w-4 h-4") %>
-        </span>
-        <p class="text-white text-xs">Habits</p>
-      </div>
-      <div>
-        <span class="flex items-center gap-1">
-          <p class="text-2xl font-semibold text-center"><%= Current.user.group.habit.entries.size %></p> 
-          <%= lucide_icon("target", class: "w-4 h-4") %>
-        </span>
-        <p class="text-white text-xs text-center">Entries</p>
-      </div>
-      <div class="flex flex-col items-center">
-        <span class="flex items-center gap-1">
-          <p class="text-2xl font-semibold">1</p>
-          <%= lucide_icon("check-check", class: "w-4 h-4") %>
-        </span>
-        <p class="text-white text-xs">Completed</p>
-      </div>
-    </div>
-  </div>
+  <%= render partial: "shared/user_card", locals: {user: Current.user} %>
 
   <div data-controller="tabs" class="w-full">
     <div class="flex border-b border-stone-200 mb-6 w-full">

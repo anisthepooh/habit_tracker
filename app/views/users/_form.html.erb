@@ -55,6 +55,12 @@
       <%= form.label :email_address, "Email" %>
       <%= form.email_field :email_address %>
     </div>
+    <div>
+      <% images = [ "blank", "/images/gradients/gradient_1.png", "/images/gradients/gradient_2.jpg", "/images/gradients/gradient_3.png", "/images/gradients/gradient_1.png", "/images/gradients/gradient_2.jpg", "/images/gradients/gradient_3.png",] %>
+
+      <%= form.label :card_background, "Choose a theme for your card", class:"pb-1" %>
+      <%= image_radio_group(form, label: "General", images: images, group: "general") %>
+    </div>
   </div>
 
   <!-- Submit Button -->

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_21_144322) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_30_122520) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -65,6 +65,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_21_144322) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "group_id", null: false
+    t.string "status"
+    t.integer "frequency"
     t.index ["group_id"], name: "index_habits_on_group_id"
   end
 
@@ -86,6 +88,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_21_144322) do
     t.string "first_name"
     t.string "last_name"
     t.datetime "last_signed_in_at"
+    t.string "card_background"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
     t.index ["group_id"], name: "index_users_on_group_id"
   end
