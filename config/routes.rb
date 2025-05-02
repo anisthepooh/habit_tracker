@@ -1,10 +1,16 @@
 Rails.application.routes.draw do
-  resource :session
+  # authentication
+  get "signup", to: "registrations#new", as: :new_registration
+  post "signup", to: "registrations#create", as: :registration
+  resource :session, except: [ :new ]
+  get "login", to: "sessions#new", as: :new_session
   resources :passwords, param: :token
   resources :habits do
     resources :entries
   end
-  resources :users, except: [ :index ]
+  resources :users, except: [ :index ] do
+    get :finish_profile, to: "users#new_user",  on: :member
+  end
   patch "croppable/:id", to: "users#croppable", as: "croppable"
    # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -16,5 +22,5 @@ Rails.application.routes.draw do
    get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "habits#index"
+  root "pages#home"
 end

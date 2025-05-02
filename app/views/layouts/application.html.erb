@@ -62,6 +62,12 @@
           <% end %>
         </div>
       </nav>
+      <% else %>
+      <nav class="text-xl font-semibold font-pacifico text-primary flex items-center gap-2 justify-center mb-6">
+        <%=lucide_icon("pipette", class:"text-muted-foreground")%>
+        Habit Tracker
+      </nav>
+
       <% end %>
       <div class="p-4">
         <%= yield %>
