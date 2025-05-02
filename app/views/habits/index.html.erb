@@ -3,32 +3,6 @@
 <div class="w-full">
   <%# <%= render partial: "shared/activity_graph" %> 
   <%= render partial: "shared/user_card", locals: {user: Current.user} %>
-
-  <div data-controller="tabs" class="w-full">
-    <div class="flex border-b border-stone-200 mb-6 w-full">
-      <button
-        type="button"
-        class="w-full data-[active=true]:border-b-2 data-[active=true]:border-stone-900 data-[active=true]:text-stone-900
-              text-stone-500 px-4 py-2 text-sm font-medium transition-all"
-        data-action="click->tabs#switch"
-        data-tabs-target="tab"
-        data-id="active"
-        data-active="true">
-        Your Habits
-      </button>
-      <button
-        type="button"
-        class="w-full data-[active=true]:border-b-2 data-[active=true]:border-stone-900 data-[active=true]:text-stone-900
-              text-stone-500 px-4 py-2 text-sm font-medium transition-all""
-        data-action="click->tabs#switch"
-        data-tabs-target="tab"
-        data-id="archived"
-        data-active="false">
-        Archived
-      </button>
-    </div>
-
-    <!-- Active Habits -->
     <div id="habits" class="min-w-full divide-y divide-gray-200 space-y-5" data-tabs-target="content" data-id="active">
       <% if @habits&.any? %>
         <% @habits.each_with_index do |habit, index| %>
@@ -52,11 +26,4 @@
         </div>
       <% end %>
     </div>
-
-    <!-- Archived Habits -->
-    <div class="hidden" data-tabs-target="content" data-id="archived">
-      <p class="text-center text-stone-500 text-sm mt-6">Archived habits go here (just a placeholder for now).</p>
-    </div>
-  </div>
-
 </div>

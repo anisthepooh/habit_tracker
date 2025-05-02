@@ -22,19 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="w-full mt-3">
-      <div class="flex w-full justify-between mb-2 text-stone-200">
-        <p class="text-sm font-medium ">Progress</p>
-        <p class="text-sm font-medium"><%="1/#{@habit.duration} days"%> </p>
-      </div>
-      <div class="w-full bg-stone-200 rounded-full p-0.5">
-        <% if @habit.entries.size == @habit.duration %>
-          <div class="bg-linear-to-r from-green-400 to-green-500 h-2.5 rounded-full max-w-full" style="width: 100%"></div>
-        <% else %>
-          <div class="bg-primary h-2.5 rounded-full max-w-full min-w-2" style="width: <%= number_to_percentage((@habit.entries.size.to_f / @habit.duration) * 100, precision: 0) %>"></div>
-        <% end %>
-      </div>
-    </div>
+    <%= render partial: "shared/progress_bar", locals: {habit: @habit}%>
   </div>
 
   <div class="my-8">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Habit Tracker" %></title>
+    <title><%= content_for(:title) || "Bite Habit" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -43,8 +43,8 @@
       <nav class="p-4 flex items-center justify-between sticky top-0 border-b border-b-gray-200 bg-background z-50">
         <%= link_to habits_path do%>
           <div class="text-xl font-semibold font-pacifico text-primary flex items-center gap-2">
-            <%=lucide_icon("pipette", class:"text-muted-foreground")%>
-            Habit Tracker
+            <%=lucide_icon("ham", class:"text-muted-foreground")%>
+            Bite Habit
           </div>
         <% end %>
         <div class="flex gap-4">
@@ -65,7 +65,7 @@
       <% else %>
       <nav class="text-xl font-semibold font-pacifico text-primary flex items-center gap-2 justify-center mb-6">
         <%=lucide_icon("pipette", class:"text-muted-foreground")%>
-        Habit Tracker
+        Bite Habit
       </nav>
 
       <% end %>
