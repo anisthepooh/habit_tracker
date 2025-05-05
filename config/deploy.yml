@@ -7,7 +7,7 @@ image: casperanisimow95/habit_tracker
 # Deploy to these servers.
 servers:
   web:
-    - bitehabit.app
+    - 195.201.123.65
   # job:
   #   hosts:
   #     - 192.168.0.1
