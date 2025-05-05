@@ -50,6 +50,9 @@
   .border-b-border {
     border-color: var(--border)
   }
+  .border-t-border {
+    border-color: var(--border)
+  }
   .border-l-border {
     border-color: var(--border)
   }

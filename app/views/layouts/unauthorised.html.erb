@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Bite Habit" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <meta name="view-transition" content="same-origin" />
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body 
+    data-controller="dialog modal" 
+    class="bg-black"
+    >
+    <div id="main-content-wrapper" class="transition-transform duration-300 origin-center rounded-t-2xl overscroll-none" data-dialog-target="content">
+    <main class="container mx-auto bg-white min-h-screen relative">
+      <%= render partial: "shared/pwa_prompt"%>
+      <nav class="p-4 flex items-center justify-between sticky top-0 border-b border-b-gray-200 bg-background z-50 mb-6">
+        <%= link_to root_path do %>
+          <div class="text-xl font-semibold font-pacifico text-primary flex items-center gap-2">
+            <%=lucide_icon("ham", class:"text-muted-foreground")%>
+            Bite Habit
+          </div>
+        <% end %>
+        <%= link_to "Login", new_session_path, class: "text-sm font-medium hover:opacity-80 text-primary" %>
+      </nav>
+      <section class="flex-1 flex flex-col justify-center items-center text-center px-4">
+        <%= yield %>
+      </section>
+    </main>
+    </div>
+    <%= render 'shared/flash' %>
+
+  </body>
+</html>

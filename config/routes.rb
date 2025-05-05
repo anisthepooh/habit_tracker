@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :habits do
     resources :entries
   end
+  get :entries, to: "entries#index_all"
   resources :users, except: [ :index ] do
     get :finish_profile, to: "users#new_user",  on: :member
   end

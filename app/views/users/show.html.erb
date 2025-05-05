@@ -4,21 +4,40 @@
 
   <div>
     <div>
-      <p class="text-xs text-muted-foreground font-medium ">DETAILS</p>
+      <p class="text-xs text-muted-foreground font-medium pl-1 ">DETAILS</p>
     </div>
-    <ol class="bg-white mt-2 mb-8 p-4 rounded-2xl divide-stone-200 divide-y">
-      <li class="flex justify-between py-4">
+    <ol class="bg-white mt-2 mb-8 px-4 rounded-2xl divide-stone-200 divide-y">
+      <li class="flex flex-col justify-between py-4 text-sm">
         <p class="font-medium">Email</p>
-        <p class="text-muted-foreground"><%= @user.email_address %></p>
+        <p class="text-muted-foreground line-clamp-1"><%= @user.email_address %></p>
       </li>
     </ol>
   </div>
 
   <div>
     <div>
-      <p class="text-xs text-muted-foreground font-medium ">SETTINGS</p>
+      <p class="text-xs text-muted-foreground font-medium pl-1 ">HISTORY</p>
     </div>
-    <ol class="bg-white mt-2 mb-8 p-4 rounded-2xl divide-stone-200 divide-y">
+    <ol class="bg-white mt-2 mb-8 px-4 rounded-2xl divide-stone-200 divide-y">
+      <%= link_to entries_path do %>
+        <li class="flex justify-between py-4">
+          <span class="flex items-center gap-2 font-medium">
+            <%= lucide_icon('target' , class:"w-4 h-4 text-muted-foreground") %>
+            Entries
+          </span>
+          <span class="bg-background rounded-full w-6 h-6 flex items-center justify-center">
+                <p class="text-muted-foreground text-sm"><%= @user.entries.count %></p>
+              </span>
+        </li>
+      <% end %>
+    </ol>
+  </div>
+
+  <div>
+    <div>
+      <p class="text-xs text-muted-foreground font-medium pl-1 ">SETTINGS</p>
+    </div>
+    <ol class="bg-white mt-2 mb-8 px-4 rounded-2xl divide-stone-200 divide-y">
       <%= link_to edit_user_path(@user) do %>
         <li class="flex justify-between py-4">
           <span class="flex items-center gap-2 font-medium">
@@ -28,6 +47,7 @@
           <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
         </li>
       <% end %>
+      
     </ol>
   </div>
 

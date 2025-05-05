@@ -7,6 +7,12 @@ class EntriesController < ApplicationController
     @habit = Habit.find(params[:habit_id])
   end
 
+  def index_all
+    @habits = Current.user.group.habit
+    @entries = Entry.all
+    render :index
+  end
+
   # GET /entries/1 or /entries/1.json
   def show
     @habit = Habit.find(params[:habit_id])

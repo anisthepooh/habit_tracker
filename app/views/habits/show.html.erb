@@ -35,7 +35,7 @@
   </div>
 
   <div class="my-8">
-    <p class="text-xs text-muted-foreground font-medium">STATS</p>
+    <p class="text-xs text-muted-foreground font-medium pl-1">STATS</p>
     <div class="w-full p-4 rounded-2xl bg-white flex justify-between mt-2">
       <div>
         <span class="flex items-center gap-1">
@@ -50,7 +50,7 @@
       </div>
       <div class="flex flex-col items-center">
         <span class="flex items-center gap-1">
-          <p class="text-2xl font-semibold"><%= mood_label(@most_mood[0]) unless @most_mood.blank? %></p>
+          <p class="text-2xl font-semibold"><%= @most_mood.blank? ? "--" : mood_label(@most_mood[0]) %></p>
         </span>
         <p class="text-muted-foreground text-xs">Mood</p>
       </div>
@@ -58,29 +58,29 @@
   </div>
   <div>
     <div>
-      <p class="text-xs text-muted-foreground font-medium ">DETAILS</p>
+      <p class="text-xs text-muted-foreground font-medium pl-1 ">DETAILS</p>
     </div>
-    <ol class="bg-white mt-2 mb-8 p-4 rounded-2xl divide-stone-200 divide-y">
-      <li class="flex justify-between py-4">
-        <p class="font-medium">Frequency</p>
+    <ol class="bg-white mt-2 mb-8 px-4 rounded-2xl divide-stone-200 divide-y">
+      <li class="flex flex-col justify-between py-4">
+        <p class="font-medium text-sm">Frequency</p>
         <p class="text-muted-foreground">Daily</p>
       </li>
-      <li class="flex justify-between py-4">
-        <p class="font-medium">Duration</p>
+      <li class="flex flex-col justify-between py-4">
+        <p class="font-medium text-sm">Duration</p>
         <p class="text-muted-foreground">30 days</p>
       </li>
-      <li class="flex justify-between py-4">
-        <p class="font-medium">Start</p>
+      <li class="flex flex-col justify-between py-4">
+        <p class="font-medium text-sm">Start</p>
         <p class="text-muted-foreground"><%= @habit.start_date.strftime("%d %B %Y") %></p>
       </li>
-      <li class="flex justify-between py-4">
-        <p class="font-medium">Ends at</p>
+      <li class="flex flex-col justify-between py-4">
+        <p class="font-medium text-sm">Ends at</p>
         <p class="text-muted-foreground">
           <%= (@habit.start_date + @habit.duration.days).strftime("%d %B %Y") %>
         </p>
       </li>
-      <li class="flex justify-between py-4">
-        <p class="font-medium">Daily Reminde</p>
+      <li class="flex flex-col justify-between py-4">
+        <p class="font-medium text-sm">Daily Reminde</p>
         <% if @habit.reminder %>
         <%= lucide_icon("bell-ring", class: "text-muted-foreground") %>
         <% else %>

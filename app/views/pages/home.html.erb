@@ -1,1 +1,62 @@
-<%= link_to "login", new_session_path %>
+<div class="min-h-screen flex flex-col bg-white text-primary font-sans -mt-6">
+
+  <!-- Hero -->
+  <section class="flex-1 flex flex-col justify-center items-center text-center px-4 pb-24 pt-10 bg-linear-to-b from-gray-50 to-gray-100 rounded-b-2xl">
+     <div class="flex items-center space-x-3 mb-6 bg-linear-to-br from-gray-900 to-gray-700 text-primary-foreground border border-gray-200 px-2 py-2 rounded-full shadow-sm">
+    <!-- Avatars -->
+    <div class="flex -space-x-2">
+      <img class="w-8 h-8 rounded-full border-2 border-border" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-4.0.3&ixid=&auto=format&fit=crop&w=80&h=80&q=80" alt="User 1" />
+      <img class="w-8 h-8 rounded-full border-2 border-border" src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-4.0.3&ixid=&auto=format&fit=crop&w=80&h=80&q=80" alt="User 2" />
+      <img class="w-8 h-8 rounded-full border-2 border-border" src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&ixid=&auto=format&fit=crop&w=80&h=80&q=80" alt="User 3" />
+    </div>
+    <!-- Review Text -->
+    <span class="text-sm ">⭐ 4.9 from 2,300+ users</span>
+  </div>
+    <h1 class="text-4xl md:text-5xl font-semibold tracking-tight mb-4">Track Habits, Stay Consistent</h1>
+    <p class="text-base md:text-lg max-w-xl text-neutral-500 mb-8">
+      Create new habits, set your goals, log results, and get gentle reminders to keep moving forward.
+    </p>
+    <div class="flex gap-3">
+      <%= link_to "Get Started", new_registration_path, class: "font-medium leading-6 px-5 py-2 bg-primary text-primary-foreground rounded-lg text-sm hover:opacity-80 transition" %>
+      <%= link_to "Learn More", "#features", class: " font-medium px-5 py-2 leading-6 text-prymary border border-border border-2 bg-white rounded-lg text-sm hover:opacity-80 transition" %>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="py-20 md:px-8">
+    <div class="max-w-4xl mx-auto text-left space-y-6 ">
+      <div class="space-y-2 border-b border-b-border pb-6">
+        <span class="rounded-lg bg-gray-100 text-prymary w-10 h-10 max-w-10 flex items-center justify-center">
+          <%= lucide_icon("ham")%>
+        </span>
+        <h2 class="text-2xl font-semibold">Create habits with intention</h2>
+        <p class="text-neutral-500 text-base">
+          Name your habits, define your frequency, and set durations that match your goals.
+        </p>
+      </div>
+      <div class="space-y-2 border-b border-b-border pb-6">
+        <span class="rounded-lg bg-gray-100 text-prymary w-10 h-10 max-w-10 flex items-center justify-center">
+          <%= lucide_icon("target")%>
+        </span>
+        <h2 class="text-2xl font-semibold">Log progress effortlessly</h2>
+        <p class="text-neutral-500 text-base">
+          Tick off your habits daily with a clean, distraction-free interface.
+        </p>
+      </div>
+      <div class="space-y-2 border-b border-b-border pb-6">
+        <span class="rounded-lg bg-gray-100 text-prymary w-10 h-10 max-w-10 flex items-center justify-center">
+          <%= lucide_icon("bell")%>
+        </span>
+        <h2 class="text-2xl font-semibold">Stay consistent with reminders</h2>
+        <p class="text-neutral-500 text-base">
+          Nudges via notifications help you stay on track without feeling overwhelmed.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-auto py-10 text-center text-sm text-muted-foreground border-t border-t-border">
+    &copy; <%= Time.current.year %> HabitFlow. Built with ☕ and good habits.
+  </footer>
+</div>

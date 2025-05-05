@@ -1,23 +1,48 @@
 <% content_for :title, "Entries" %>
 
 <div class="w-full">
-
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Entries</h1>
-    <%= link_to "New entry", new_habit_entry_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
   </div>
 
-  <div id="entries" class="min-w-full divide-y divide-gray-200 space-y-5">
-    <% if @entries.any? %>
-      <% @entries.each do |entry| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render entry %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", habit_entry_path(id: entry), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit", new_habit_entry_path(entry), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Destroy", habit_entry_path(id: entry), method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
-          </div>
-        </div>
+  <div id="entries">
+    <% if @habits.any? %>
+      <% all_entries = @habits.flat_map(&:entries) %>
+
+      <% if all_entries.empty? %>
+        <span class="flex flex-col items-center p-4 py-12">
+          <%= lucide_icon('target', class: "w-14 h-14 text-muted-foreground") %>
+          <p class="text-muted-foreground text-center mt-4">
+            All your entries will be listed on this site.
+          </p>
+        </span>
+      <% else %>
+        <ol class="bg-white mt-2 mb-8 px-4 rounded-2xl divide-stone-200 divide-y">
+          <% @habits.each do |habit| %>
+            <% unless habit.entries.empty? %>
+            <span class="py-4 flex justify-between w-full items-center">
+              <p class="font-medium text-base"><%= habit.name %></p>
+              <span class="bg-background rounded-full w-6 h-6 flex items-center justify-center">
+                <p class="text-muted-foreground text-sm"><%= habit.entries.size %></p>
+              </span>
+            </span>
+              <% habit.entries.each do |entry| %>
+                <%= link_to habit_entry_path(id: entry, habit_id: habit.id) do %>
+                  <li class="flex flex-col justify-between py-4 text-sm gap-2">
+                    <span>
+                      <p class="font-medium">Description</p>
+                      <p class="text-muted-foreground line-clamp-1"><%= entry.description %></p>
+                    </span>
+                    <span>
+                      <p class="font-medium">Logged at</p>
+                      <p class="text-muted-foreground line-clamp-1"><%= entry.date.strftime("%m %B %Y at %H.%M") %></p>
+                    </span>
+                  </li>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </ol>
       <% end %>
     <% else %>
       <p class="text-center my-10">No entries found.</p>
