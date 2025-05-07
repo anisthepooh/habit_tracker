@@ -1,0 +1,29 @@
+<nav class="p-4 flex items-center justify-between sticky top-0 border-b border-b-gray-200 bg-background z-50">
+  <%= link_to Current.user ? habits_path : root_path do%>
+    <div class=" font-semibold font-pacifico text-primary flex items-center gap-2">
+      <%=lucide_icon("ham", class:"text-muted-foreground")%>
+      Bite Habit
+    </div>
+  <% end %>
+  <div class="flex gap-4">
+    <% if Current.user %>
+      <%= link_to new_habit_path, class: "rounded-full w-10 h-10 bg-primary flex items-center justify-center text-primary-foreground" do %>
+        <%= lucide_icon('plus') %>
+      <% end %>
+      <%= link_to user_path(id: Current.user.id), class: "outline-stone-500 outline-2 outline-offset-2 overflow-hidden rounded-full w-10 h-10 bg-primary-foreground flex items-center justify-center text-primary font-semibold" do %>
+      <% if Current.user.avatar.attached? %>
+          <%=image_tag Current.user.avatar, class: " object-cover h-full w-full" %>
+        <% else %>
+          <div class="h-20 w-20 rounded-full bg-stone-200 flex items-center justify-center text-stone-500 text-2xl font-semibold shadow-sm">
+            <%= Current.user.first_name.first.upcase if Current.user.first_name.present? %>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= link_to new_session_path, class: "text-sm font-medium hover:opacity-80 text-primary flex items-center gap-1" do %>
+        <%= lucide_icon("log-in", class:"w-4 h-4 text-muted-foreground")%>
+        <p>Sign in</p>
+      <% end %>
+    <% end %>
+  </div>
+</nav>

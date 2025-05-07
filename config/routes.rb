@@ -24,4 +24,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "pages#home"
+  get "privacy_policy", to: "pages#privacy_policy", as: :privacy_policy
 end

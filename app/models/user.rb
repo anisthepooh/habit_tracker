@@ -6,6 +6,9 @@ class User < ApplicationRecord
   has_many :entries, through: :habits
   has_one_attached :avatar
   has_one_attached :cropped_avatar
+  has_one :user_configuration, dependent: :destroy
+  accepts_nested_attributes_for :user_configuration
+
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 

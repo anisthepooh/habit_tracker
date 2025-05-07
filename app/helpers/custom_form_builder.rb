@@ -40,6 +40,11 @@ class CustomFormBuilder < ActionView::Helpers::FormBuilder
     super(method, text, options, &block)
   end
 
+  def check_box (method, options = {})
+    options[:class] = merge_classes(options[:class], "w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500")
+    super(method, options)
+  end
+
   def textarea(method, options = {})
     adjusted_classes = BASE_INPUT_CLASSES.gsub("h-10", "min-h-[120px] resize-y")
     options[:class] = merge_classes(options[:class], adjusted_classes)

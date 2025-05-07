@@ -5,4 +5,7 @@ class PagesController < ApplicationController
   def home
     redirect_to habits_path if authenticated?
   end
+
+  def privacy_policy
+  end
 end

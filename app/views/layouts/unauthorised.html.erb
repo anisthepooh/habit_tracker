@@ -33,15 +33,7 @@
     <div id="main-content-wrapper" class="transition-transform duration-300 origin-center rounded-t-2xl overscroll-none" data-dialog-target="content">
     <main class="container mx-auto bg-white min-h-screen relative">
       <%= render partial: "shared/pwa_prompt"%>
-      <nav class="p-4 flex items-center justify-between sticky top-0 border-b border-b-gray-200 bg-background z-50 mb-6">
-        <%= link_to root_path do %>
-          <div class="text-xl font-semibold font-pacifico text-primary flex items-center gap-2">
-            <%=lucide_icon("ham", class:"text-muted-foreground")%>
-            Bite Habit
-          </div>
-        <% end %>
-        <%= link_to "Login", new_session_path, class: "text-sm font-medium hover:opacity-80 text-primary" %>
-      </nav>
+      <%= render partial: "layouts/navbar"%>
       <section class="flex-1 flex flex-col justify-center items-center text-center px-4">
         <%= yield %>
       </section>
