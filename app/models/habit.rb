@@ -2,7 +2,7 @@ class Habit < ApplicationRecord
   has_many :entries, dependent: :destroy
   belongs_to :group
 
-  STATUS = [ "active", "succeded", "failed" ].freeze
+  STATUS = [ "active", "succeeded", "failed", "archived" ].freeze
 
   def end_date
     start_date + duration.days
@@ -22,7 +22,9 @@ class Habit < ApplicationRecord
   end
 
   def update_status
-    self.status = if entries.size >= duration
+    end_date = self.end_date
+
+    self.status = if Date.today > end_date
                     "succeeded"
     else
                     "active"

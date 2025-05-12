@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_06_124742) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_09_161906) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -37,6 +37,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_124742) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "admins", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "changelog_entries", force: :cascade do |t|
+    t.string "version"
+    t.date "date"
+    t.string "title"
+    t.text "description"
+    t.text "items"
+    t.string "image"
+    t.boolean "published"
+    t.datetime "publish_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "entries", force: :cascade do |t|
@@ -67,6 +88,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_124742) do
     t.integer "group_id", null: false
     t.string "status"
     t.integer "frequency"
+    t.boolean "archived", default: false
     t.index ["group_id"], name: "index_habits_on_group_id"
   end
 
@@ -97,6 +119,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_06_124742) do
     t.string "last_name"
     t.datetime "last_signed_in_at"
     t.string "card_background"
+    t.string "role"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
     t.index ["group_id"], name: "index_users_on_group_id"
   end

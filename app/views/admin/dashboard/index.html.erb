@@ -1,0 +1,5 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <%= render "card", title: "Users", count: User.count, path: admin_users_path %>
+  <%= render "card", title: "Habits", count: Habit.count, path: admin_habits_path %>
+  <%= render "card", title: "Entries", count: Entry.count, path: admin_entries_path %>
+</div>

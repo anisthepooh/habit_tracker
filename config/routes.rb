@@ -6,11 +6,15 @@ Rails.application.routes.draw do
   get "login", to: "sessions#new", as: :new_session
   resources :passwords, param: :token
   resources :habits do
+    patch :archive, on: :member
     resources :entries
   end
+  get :completed_habits, to: "habits#completed_index"
+  get :archived_habits, to: "habits#archived_index"
   get :entries, to: "entries#index_all"
   resources :users, except: [ :index ] do
     get :finish_profile, to: "users#new_user",  on: :member
+    get :report
   end
   patch "croppable/:id", to: "users#croppable", as: "croppable"
    # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -25,4 +29,15 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
   get "privacy_policy", to: "pages#privacy_policy", as: :privacy_policy
+  get "change_log", to: "pages#change_log", as: :change_log
+
+
+  # Admin
+  namespace :admin do
+    get "dashboard", to: "dashboard#index"
+    resources :users
+    resources :habits
+    resources :entries
+    resources :changelog_entries
+  end
 end

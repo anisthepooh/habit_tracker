@@ -1,9 +1,16 @@
-<nav class="p-4 flex items-center justify-between sticky top-0 border-b border-b-gray-200 bg-background z-50">
-  <%= link_to Current.user ? habits_path : root_path do%>
-    <div class=" font-semibold font-pacifico text-primary flex items-center gap-2">
-      <%=lucide_icon("ham", class:"text-muted-foreground")%>
-      Bite Habit
-    </div>
+<nav class="p-4 flex items-center justify-between sticky top-0  bg-background z-50 relative">
+  <%=link_to @path, class: "transition-opacity flex gap-1 items-center  #{@path.present? ? "" : "opacity-0"}"  do %>
+    <%= lucide_icon('chevron-left')%>
+    <p class="text-xs font-medium text-muted-foreground">
+      <%= @title if @title.present? %>
+    </p>
+  <% end %> 
+  <%= link_to Current.user ? habits_path : root_path, class: "font-semibold text-primary flex items-center justify-center gap-2 absolute inset-0 translate-x-[-0%] top-0 bottom-0 w-fit mx-auto" do%>
+      
+      Bite 
+      <span class="flex items-center gap-[2px]" >
+      <%= image_tag "/images/intern/h-icon.svg", class:"w-4 h-4"%>abit
+      </span>
   <% end %>
   <div class="flex gap-4">
     <% if Current.user %>
@@ -20,6 +27,10 @@
         <% end %>
       <% end %>
     <% else %>
+    <%= link_to change_log_path, class: "text-sm font-medium hover:opacity-80 text-primary flex items-center gap-1" do %>
+        <%= lucide_icon("square-chart-gantt", class:"w-4 h-4 text-muted-foreground")%>
+        <p>Change log</p>
+      <% end %>
       <%= link_to new_session_path, class: "text-sm font-medium hover:opacity-80 text-primary flex items-center gap-1" do %>
         <%= lucide_icon("log-in", class:"w-4 h-4 text-muted-foreground")%>
         <p>Sign in</p>

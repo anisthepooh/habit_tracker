@@ -11,6 +11,15 @@
         <p class="font-medium">Email</p>
         <p class="text-muted-foreground line-clamp-1"><%= @user.email_address %></p>
       </li>
+      <%= link_to user_report_path(@user) do %>
+        <li class="flex justify-between py-4">
+          <span class="flex items-center gap-2 font-medium">
+            <%= lucide_icon('chart-pie' , class:"w-4 h-4 text-muted-foreground") %>
+            Report
+          </span>
+          <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
+        </li>
+      <% end %>
     </ol>
   </div>
 
@@ -20,13 +29,35 @@
     </div>
     <ol class="bg-white mt-2 mb-8 px-4 rounded-2xl divide-stone-200 divide-y">
       <%= link_to entries_path do %>
-        <li class="flex justify-between py-4">
+        <li class="flex justify-between py-4 border-b border-b-border">
           <span class="flex items-center gap-2 font-medium">
             <%= lucide_icon('target' , class:"w-4 h-4 text-muted-foreground") %>
             Entries
           </span>
           <span class="bg-background rounded-full w-6 h-6 flex items-center justify-center">
                 <p class="text-muted-foreground text-sm"><%= @user.entries.count %></p>
+              </span>
+        </li>
+      <% end %>
+      <%= link_to completed_habits_path do %>
+        <li class="flex justify-between py-4 border-b border-b-border">
+          <span class="flex items-center gap-2 font-medium">
+            <%= image_tag "/images/intern/h-icon.svg", class:"w-4 h-4"%>
+            Completed habits
+          </span>
+          <span class="bg-background rounded-full w-6 h-6 flex items-center justify-center">
+                <p class="text-muted-foreground text-sm"><%= @user.habits.where(status: "succeeded").count %></p>
+              </span>
+        </li>
+      <% end %>
+      <%= link_to archived_habits_path do %>
+        <li class="flex justify-between py-4">
+          <span class="flex items-center gap-2 font-medium">
+            <%= lucide_icon('archive' , class:"w-4 h-4 text-muted-foreground") %>
+            Archived habits
+          </span>
+          <span class="bg-background rounded-full w-6 h-6 flex items-center justify-center">
+                <p class="text-muted-foreground text-sm"><%= @user.habits.where(archived: 'true').count %></p>
               </span>
         </li>
       <% end %>
@@ -63,6 +94,17 @@
           </span>
           <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
         </li>
+      <% end %>
+      <% if @user.role == "admin" %>
+       <%= link_to admin_dashboard_path do %>
+          <li class="flex justify-between py-4">
+            <span class="flex items-center gap-2 font-medium">
+              <%= lucide_icon('shield-check' , class:"w-4 h-4") %>
+              Admin dashboard
+            </span>
+            <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
+          </li>
+        <% end %>
       <% end %>
       
     </ol>

@@ -76,7 +76,7 @@
       <li class="flex flex-col justify-between py-4">
         <p class="font-medium text-sm">Ends at</p>
         <p class="text-muted-foreground">
-          <%= (@habit.start_date + @habit.duration.days).strftime("%d %B %Y") %>
+          <%= (@habit.end_date).strftime("%d %B %Y") %>
         </p>
       </li>
       <li class="flex flex-col justify-between py-4">
@@ -114,7 +114,7 @@
       <% end %>
     </ol>
   </div>
-  <div class="bg-stone-50/80 fixed bottom-0 left-0 right-0 pb-8 px-4">
+  <div class="bg-stone-50/80 fixed bottom-0 left-0 right-0 pb-8 px-4 max-w-lg mx-auto">
   <%= link_to new_habit_entry_path(@habit), data: {action: "click->dialog#open", turbo_frame: :drawer}, class: "sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 bg-primary text-primary-foreground hover:opacity-80 font-medium" do %>
     <%= lucide_icon("plus", "size" => "24", class: "mr-2") %>
     Check in
@@ -130,9 +130,9 @@
     Edit
   <% end %>
 
-  <%= button_to @habit, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } do %>
-    <%= lucide_icon("trash", "size" => "24", class: "mr-2") %>
-    Delete
+  <%= button_to archive_habit_path(@habit), method: :patch, remote: true, class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2 w-full sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } do %>
+    <%= lucide_icon("archive", "size" => "24", class: "mr-2") %>
+    Archive
   <% end %>
 <% end %>
 <%= render partial: "shared/modal" %>

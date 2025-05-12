@@ -8,6 +8,7 @@ class EntriesController < ApplicationController
   end
 
   def index_all
+    set_path user_path(Current.user), "Back to profile"
     @habits = Current.user.group.habit
     @entries = Entry.all
     render :index

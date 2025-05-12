@@ -1,0 +1,10 @@
+<header class="h-16 flex items-center justify-between bg-white border-b px-6">
+  <h1 class="text-lg font-semibold">Admin Dashboard</h1>
+  <div class="flex items-center gap-4">
+    <span><%= Current.user.first_name %> (<%= Current.user.role %>)</span>
+    <%= button_to session_path, method: :delete, class: "flex items-center justify-center gap-2 text-sm text-muted-foreground", form_class: "rounded-md w-full px-3.5 py-2.5  flex items-center justify-center text-primary font-semibold", data: { turbo_confirm: "Are you sure?" } do %>
+      <%= lucide_icon('log-out', class: "w-4 h-4") %>
+      Log out
+    <% end %>
+  </div>
+</header>

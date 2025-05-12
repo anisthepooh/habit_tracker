@@ -1,0 +1,60 @@
+<%= content_for :title, "Report"%>
+
+<div class="grid grid-cols-2 grid-rows-2 gap-4">
+  <div class="w-full h-full border rounded-2xl px-2 py-4 flex flex-col items-center gap-2">
+    <span class="flex gap-2 items-center text-sm font-medium text-muted-foreground">
+      <%= lucide_icon('target' , class:"w-4 h-4 text-muted-foreground")%>
+      Entries created
+    </span>
+    <p 
+      class="text-4xl font-medium"
+      data-controller="animated-number"
+      data-animated-number-start-value="0"
+      data-animated-number-end-value=" <%= @entries_count %>"
+      data-animated-number-duration-value="1000"
+    >
+    0
+  </p>
+    <time class="text-xs text-muted-foreground" datetime="">Since <%= @first_entry.created_at.strftime("%d %B %Y") %></time>
+  </div>
+  <div class="w-full h-full border rounded-2xl px-2 py-4 flex flex-col items-center gap-2">
+    <span class="flex gap-2 items-center text-sm font-medium text-muted-foreground">
+      <%= image_tag "/images/intern/h-icon.svg", class:"w-4 h-4"%>
+      Habits created
+    </span>
+    <p 
+      class="text-4xl font-medium"
+      data-controller="animated-number"
+      data-animated-number-start-value="0"
+      data-animated-number-end-value=" <%= @entries_count %>"
+      data-animated-number-duration-value="2000"
+    >
+      <%= @habits_count %>
+    </p>
+    <time class="text-xs text-muted-foreground" datetime="">Since <%= @first_habit.created_at.strftime("%d %B %Y") %></time>
+  </div>
+  <div class="w-full h-full border rounded-2xl px-2 py-4 flex flex-col items-center gap-2">
+    <span class="flex gap-2 items-center text-sm font-medium text-muted-foreground">
+      <%= lucide_icon('smile' , class:"w-4 h-4 text-muted-foreground")%>
+       Mood
+    </span>
+    <p class="text-4xl font-medium"><%= @most_mood.blank? ? "--" : mood_label(@most_mood[0]) %></p>
+    <time class="text-xs text-muted-foreground" datetime="">Most used mood</time>
+  </div>
+  <div class="w-full h-full border rounded-2xl px-2 py-4 flex flex-col items-center gap-2">
+    <span class="flex gap-2 items-center text-sm font-medium text-muted-foreground">
+      <%= lucide_icon('party-popper' , class:"w-4 h-4 text-muted-foreground")%>
+      Habits completed
+    </span>
+    <p 
+      class="text-4xl font-medium"
+      data-controller="animated-number"
+      data-animated-number-start-value="0"
+      data-animated-number-end-value=" <%= @entries_count %>"
+      data-animated-number-duration-value="3000"
+    >
+      <%= @habits_completed_count %>
+    </p>
+    <time class="text-xs text-muted-foreground" datetime="">Nice work!</time>
+  </div>
+</div>

@@ -1,32 +1,48 @@
 class HabitsController < ApplicationController
-  before_action :set_habit, only: %i[ show edit update destroy ]
+  before_action :set_habit, only: %i[ show edit update destroy archive ]
+  before_action :set_user
+  before_action :update_status, only: [ :index, :show, :completed_index ]
+
 
   # GET /habits or /habits.json
   def index
-    @habits = Current.user.group&.habit
-    @grouped_entries = Current.user.entries.group_by(&:date)
+    @habits = @user.group&.habit.where.not(status: [ "succeeded" ]).where.not(archived: true)
+    @grouped_entries = @user.entries.group_by(&:date)
+  end
+
+  def completed_index
+    set_path user_path(@user), "Back to profile"
+    @habits = @user.group&.habit.where(status: "succeeded")
+  end
+
+  def archived_index
+    set_path user_path(@user), "Back to profile"
+    @habits = @user.group&.habit.where(archived: "true")
   end
 
   # GET /habits/1 or /habits/1.json
   def show
+    set_path habits_path, "Back to habits"
     @habit = Habit.find(params[:id])
     @most_mood = @habit.entries.group(:mood).order("count_id DESC").count(:id).first
   end
 
   # GET /habits/new
   def new
+    set_path habits_path, "Back to habits"
     @icon_svgs = icons
     @habit = Habit.new
   end
 
   # GET /habits/1/edit
   def edit
+    set_path habit_path(@habit), "Back to habits"
     @icon_svgs = icons
   end
 
   # POST /habits or /habits.json
   def create
-    @habit = Current.user.group.habit.new(habit_params)
+    @habit = @user.group.habit.new(habit_params)
 
     respond_to do |format|
       if @habit.save
@@ -59,6 +75,21 @@ class HabitsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to habits_path, status: :see_other, notice: "Habit was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def archive
+    if @habit.update(archived: true)
+      respond_to do |format|
+        format.html { redirect_to habits_path, notice: "Habit was successfully archived." } # This is for regular HTML requests
+        format.js   # Respond with JS for remote requests
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to habits_path, alert: "Something went wrong." } # For regular HTML requests on failure
+        format.js   # Handle failure in JS as well
+      end
     end
   end
 
@@ -141,8 +172,17 @@ class HabitsController < ApplicationController
       @habit = Habit.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
+    def set_user
+      @user = Current.user
+    end
+
+    def update_status
+      Current.user.group.habit.each do |habit|
+        habit.update_status
+      end
+    end
+
     def habit_params
-      params.expect(habit: [ :name, :description, :start_date, :duration, :reminder, :icon ])
+      params.expect(habit: [ :name, :description, :start_date, :duration, :reminder, :icon, :archived, :status ])
     end
 end

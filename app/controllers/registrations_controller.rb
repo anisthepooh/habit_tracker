@@ -1,5 +1,5 @@
 class RegistrationsController < ApplicationController
-  layout "unauthorised"
+  layout "sign_in_layout"
   allow_unauthenticated_access
 
   def new

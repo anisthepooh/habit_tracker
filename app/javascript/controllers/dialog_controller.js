@@ -31,7 +31,7 @@ export default class extends Controller {
     
     // First, position the dialog off-screen (at the bottom)
     this.modalTarget.style.transform = 'translateY(100%)'
-    this.contentTarget.classList.add("overflow-hidden")
+    this.contentTarget.classList.add("overflow-hidden", "rounded-t-2xl")
     
     // Ensure transition classes are present
     if (!this.modalTarget.classList.contains('transition-transform')) {
@@ -60,7 +60,7 @@ export default class extends Controller {
     
     // Apply transform to slide out
     this.modalTarget.style.transform = 'translateY(100%)'
-    this.contentTarget.classList.remove("overflow-hidden")
+    this.contentTarget.classList.remove("overflow-hidden", "rounded-t-2xl")
     
     // Remove dialog-open class to revert scale effect
     document.body.classList.remove('dialog-open')
