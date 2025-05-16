@@ -1,114 +1,94 @@
 <div class="mx-auto max-w-2xl space-y-8 ">
   <%= render partial: "shared/user_card", locals: {user: @user} %>
 
+<%= render ListViewComponent.new(title: "HISTORY") do %>
+  <li class="flex flex-col justify-between py-4 text-sm">
+    <p class="font-medium">Email</p>
+    <p class="text-muted-foreground line-clamp-1"><%= @user.email_address %></p>
+  </li>
+  <%= link_to user_report_path(@user) do %>
+    <li class="flex justify-between py-4">
+      <span class="flex items-center gap-2 font-medium">
+        <%= lucide_icon('chart-pie' , class:"w-4 h-4 text-muted-foreground") %>
+        Report
+      </span>
+      <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
+    </li>
+  <% end %>
 
-  <div>
-    <div>
-      <p class="text-xs text-muted-foreground font-medium pl-1 ">DETAILS</p>
-    </div>
-    <ol class="bg-white mt-2 mb-8 px-4 rounded-2xl divide-stone-200 divide-y">
-      <li class="flex flex-col justify-between py-4 text-sm">
-        <p class="font-medium">Email</p>
-        <p class="text-muted-foreground line-clamp-1"><%= @user.email_address %></p>
-      </li>
-      <%= link_to user_report_path(@user) do %>
-        <li class="flex justify-between py-4">
-          <span class="flex items-center gap-2 font-medium">
-            <%= lucide_icon('chart-pie' , class:"w-4 h-4 text-muted-foreground") %>
-            Report
-          </span>
-          <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
-        </li>
-      <% end %>
-    </ol>
-  </div>
+<% end %>
 
-  <div>
-    <div>
-      <p class="text-xs text-muted-foreground font-medium pl-1 ">HISTORY</p>
-    </div>
-    <ol class="bg-white mt-2 mb-8 px-4 rounded-2xl divide-stone-200 divide-y">
-      <%= link_to entries_path do %>
-        <li class="flex justify-between py-4 border-b border-b-border">
-          <span class="flex items-center gap-2 font-medium">
-            <%= lucide_icon('target' , class:"w-4 h-4 text-muted-foreground") %>
-            Entries
-          </span>
-          <span class="bg-background rounded-full w-6 h-6 flex items-center justify-center">
-                <p class="text-muted-foreground text-sm"><%= @user.entries.count %></p>
-              </span>
-        </li>
-      <% end %>
-      <%= link_to completed_habits_path do %>
-        <li class="flex justify-between py-4 border-b border-b-border">
-          <span class="flex items-center gap-2 font-medium">
-            <%= image_tag "/images/intern/h-icon.svg", class:"w-4 h-4"%>
-            Completed habits
-          </span>
-          <span class="bg-background rounded-full w-6 h-6 flex items-center justify-center">
-                <p class="text-muted-foreground text-sm"><%= @user.habits.where(status: "succeeded").count %></p>
-              </span>
-        </li>
-      <% end %>
-      <%= link_to archived_habits_path do %>
-        <li class="flex justify-between py-4">
-          <span class="flex items-center gap-2 font-medium">
-            <%= lucide_icon('archive' , class:"w-4 h-4 text-muted-foreground") %>
-            Archived habits
-          </span>
-          <span class="bg-background rounded-full w-6 h-6 flex items-center justify-center">
-                <p class="text-muted-foreground text-sm"><%= @user.habits.where(archived: 'true').count %></p>
-              </span>
-        </li>
-      <% end %>
-    </ol>
-  </div>
-
-  <div>
-    <div>
-      <p class="text-xs text-muted-foreground font-medium pl-1 ">SETTINGS</p>
-    </div>
-    <ol class="bg-white mt-2 mb-8 px-4 rounded-2xl divide-stone-200 divide-y">
-      <%= link_to edit_user_path(@user) do %>
-        <li class="flex justify-between py-4">
-          <span class="flex items-center gap-2 font-medium">
-            <%= lucide_icon('user-pen' , class:"w-4 h-4") %>
-            Edit Profile
-          </span>
-          <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
-        </li>
-      <% end %>
-    </ol>
-  </div>
-
-  <div>
-    <div>
-      <p class="text-xs text-muted-foreground font-medium pl-1 ">OTHER OPTIONS</p>
-    </div>
-    <ol class="bg-white mt-2 mb-8 px-4 rounded-2xl divide-stone-200 divide-y">
-      <%= link_to privacy_policy_path do %>
-        <li class="flex justify-between py-4">
-          <span class="flex items-center gap-2 font-medium">
-            <%= lucide_icon('lock' , class:"w-4 h-4") %>
-            Privacy Policy
-          </span>
-          <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
-        </li>
-      <% end %>
-      <% if @user.role == "admin" %>
-       <%= link_to admin_dashboard_path do %>
-          <li class="flex justify-between py-4">
-            <span class="flex items-center gap-2 font-medium">
-              <%= lucide_icon('shield-check' , class:"w-4 h-4") %>
-              Admin dashboard
+  <%= render ListViewComponent.new(title: "HISTORY") do %>
+    <%= link_to entries_path do %>
+      <li class="flex justify-between py-4 border-b border-b-border">
+        <span class="flex items-center gap-2 font-medium">
+          <%= lucide_icon('target' , class:"w-4 h-4 text-muted-foreground") %>
+          Entries
+        </span>
+        <span class="bg-background rounded-full w-6 h-6 flex items-center justify-center">
+              <p class="text-muted-foreground text-sm"><%= @user.entries.count %></p>
             </span>
-            <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
-          </li>
-        <% end %>
+      </li>
+    <% end %>
+    <%= link_to completed_habits_path do %>
+      <li class="flex justify-between py-4 border-b border-b-border">
+        <span class="flex items-center gap-2 font-medium">
+          <%= image_tag "/images/intern/h-icon.svg", class:"w-4 h-4"%>
+          Completed habits
+        </span>
+        <span class="bg-background rounded-full w-6 h-6 flex items-center justify-center">
+              <p class="text-muted-foreground text-sm"><%= @user.habits.where(status: "succeeded").count %></p>
+            </span>
+      </li>
+    <% end %>
+    <%= link_to archived_habits_path do %>
+      <li class="flex justify-between py-4">
+        <span class="flex items-center gap-2 font-medium">
+          <%= lucide_icon('archive' , class:"w-4 h-4 text-muted-foreground") %>
+          Archived habits
+        </span>
+        <span class="bg-background rounded-full w-6 h-6 flex items-center justify-center">
+              <p class="text-muted-foreground text-sm"><%= @user.habits.where(archived: 'true').count %></p>
+            </span>
+      </li>
+    <% end %>
+  <% end %>
+
+  <%= render ListViewComponent.new(title: "SETTINGS") do %>
+    <%= link_to edit_user_path(@user) do %>
+      <li class="flex justify-between py-4">
+        <span class="flex items-center gap-2 font-medium">
+          <%= lucide_icon('user-pen' , class:"w-4 h-4") %>
+          Edit Profile
+        </span>
+        <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
+      </li>
+    <% end %>
+  <% end %>
+
+  <%= render ListViewComponent.new(title: "OTHER OPTIONS") do %>
+    <%= link_to privacy_policy_path do %>
+      <li class="flex justify-between py-4">
+        <span class="flex items-center gap-2 font-medium">
+          <%= lucide_icon('lock', class: "w-4 h-4") %>
+          Privacy Policy
+        </span>
+        <%= lucide_icon('chevron-right', class: "w-4 h-4 text-muted-foreground") %>
+      </li>
+    <% end %>
+
+    <% if @user.role == "admin" %>
+      <%= link_to admin_dashboard_path do %>
+        <li class="flex justify-between py-4">
+          <span class="flex items-center gap-2 font-medium">
+            <%= lucide_icon('shield-check', class: "w-4 h-4") %>
+            Admin dashboard
+          </span>
+          <%= lucide_icon('chevron-right', class: "w-4 h-4 text-muted-foreground") %>
+        </li>
       <% end %>
-      
-    </ol>
-  </div>
+    <% end %>
+  <% end %>
 
   <%= button_to session_path, method: :delete, class: "flex items-center justify-center gap-2", form_class: "rounded-md w-full px-3.5 py-2.5  flex items-center justify-center text-primary font-semibold", data: { turbo_confirm: "Are you sure?" } do %>
     <%= lucide_icon('log-out') %>

@@ -1,12 +1,16 @@
+<%= content_for :header_right_content do %>
+  <%= render(ButtonComponent.new(size: :sm, variant: :outline)) do %>
+    <%= lucide_icon("user-plus", class:"w-4")%>
+    <%= link_to "New User", new_admin_user_path %>
+    <% end %>
+<% end %>
 <div class="flex items-center justify-between mb-6">
   <h1 class="text-2xl font-semibold">Users</h1>
-  <%= link_to "New User", new_admin_user_path, class: "bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm" %>
 </div>
-
 <div class="overflow-x-auto bg-white shadow-sm rounded-xl">
   <table class="min-w-full divide-y divide-gray-200 text-sm">
-    <thead class="bg-gray-50 text-left text-gray-600 uppercase text-xs">
-      <tr>
+    <thead class="[&_tr]:border-b [&_tr]:border-b-gray-200 sticky top-0 z-10 bg-gray-100 text-xs text-muted-foreground">
+      <tr class="text-left">
         <th class="px-6 py-3">ID</th>
         <th class="px-6 py-3">Name</th>
         <th class="px-6 py-3">Email</th>
@@ -24,7 +28,49 @@
           <td class="px-6 py-4"><%= user.role.presence || "—" %></td>
           <td class="px-6 py-4 text-gray-500"><%= user.created_at.strftime("%b %d, %Y") %></td>
           <td class="px-6 py-4 text-right">
-            <%= link_to "Edit", edit_admin_user_path(user), class: "text-blue-600 hover:underline" %>
+            <div data-controller="dropdown" class="relative inline-block text-left">
+              <button
+                type="button"
+                data-dropdown-target="button"
+                data-action="dropdown#toggle click@window->dropdown#hide"
+                class="inline-flex items-center justify-center rounded-md p-2 text-sm font-medium hover:bg-gray-100 transition cursor-pointer"
+              >
+                <%= lucide_icon("more-vertical", class: "w-4 h-4") %>
+              </button>
+              <div
+                data-dropdown-target="menu"
+                class="hidden absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-200 ring-opacity-5 focus:outline-none  "
+                data-transition-enter-from="opacity-0 scale-95"
+                data-transition-enter-to="opacity-100 scale-100"
+                data-transition-leave-from="opacity-100 scale-100"
+                data-transition-leave-to="opacity-0 scale-95"
+              >
+                <div class="py-1 text-sm text-gray-700">
+                  <%= link_to edit_admin_user_path(user), class: "block px-4 py-2 hover:bg-gray-100 transition" do %>
+                    <div class="flex items-center gap-2">
+                      <%= lucide_icon("pencil", class: "w-4 h-4") %>
+                      Edit
+                    </div>
+                  <% end %>
+
+                  <%= link_to admin_user_path(user), class: "block px-4 py-2 hover:bg-gray-100 transition" do %>
+                    <div class="flex items-center gap-2">
+                      <%= lucide_icon("user", class: "w-4 h-4") %>
+                      Show
+                    </div>
+                  <% end %>
+
+                  <div class="border-t border-t-border my-1"></div>
+
+                  <%= button_to "#", method: :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class: "w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition" do %>
+                    <div class="flex items-center gap-2">
+                      <%= lucide_icon("trash", class: "w-4 h-4") %>
+                      Delete
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
           </td>
         </tr>
       <% end %>

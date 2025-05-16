@@ -1,10 +1,44 @@
-<aside class="w-64 bg-white border-r shadow-sm">
-  <div class="h-16 flex items-center justify-center text-xl font-bold border-b">Admin</div>
-  <nav class="p-4 space-y-2">
-    <%= link_to "Dashboard", admin_dashboard_path, class: "block px-3 py-2 rounded-md hover:bg-gray-100" %>
-    <%= link_to "Users", admin_users_path, class: "block px-3 py-2 rounded-md hover:bg-gray-100" %>
-    <%= link_to "Habits", admin_habits_path, class: "block px-3 py-2 rounded-md hover:bg-gray-100" %>
-    <%= link_to "Entries", admin_entries_path, class: "block px-3 py-2 rounded-md hover:bg-gray-100" %>
-    <%= link_to "Changelog", admin_changelog_entries_path, class: "block px-3 py-2 rounded-md hover:bg-gray-100" %>
-  </nav>
+<aside id="sidebar" class="w-64 py-6 pl-6 flex flex-col  duration-300" data-sidebar-target="sidebar" >
+  <div>
+    <div class="h-16 flex items-center gap-2 ">
+      <span class="bg-gray-900 w-10 h-10 rounded-xl flex items-center justify-center">
+      <%= lucide_icon("panel-left", class:"w-4 h-4 text-white")%>
+      </span>
+      <div>
+        <p class="text-sm font-medium">Bite Habit Admin</p>
+        <p class="text-xs"><%= Current.user.first_name %></p>
+      </div>
+        <button class="hover:bg-gray-200 w-6 h-6 flex items-center justify-center rounded-md cursor-pointer ml-auto">
+          <%= lucide_icon("chevrons-up-down", class:"w-4 h-4")%>
+        </button>
+    </div>
+    <nav class=" space-y-2">
+      <%= link_to admin_dashboard_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "dashboard" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
+        <%= lucide_icon("circle-gauge", class:"w-4 h-4")%>
+        Dashboard
+      <% end %>
+      <%= link_to admin_users_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "users" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
+        <%= lucide_icon("user", class:"w-4 h-4")%>
+        Users
+      <% end %>
+      <%= link_to admin_habits_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "habits" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
+        <%= lucide_icon("notebook", class:"w-4 h-4")%>
+        Habits
+      <% end %>
+      <%= link_to admin_entries_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "entries" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
+        <%= lucide_icon("target", class:"w-4 h-4")%>
+        Entries
+      <% end %>
+      <%= link_to admin_changelog_entries_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "changelog_entries" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
+        <%= lucide_icon("square-chart-gantt", class:"w-4 h-4")%>
+        Changelog
+      <% end %>
+    </nav>
+  </div>
+  <div class="border-t border-t-gray-200 mt-auto pt-4">
+    <%= button_to session_path, method: :delete, class: "cursor-pointer flex items-center justify-center gap-2 text-sm text-muted-foreground hover:opacity-80 transition-opacity", form_class: "rounded-md w-full p-2 mt-auto flex items-center justify-start text-primary font-semibold", data: { turbo_confirm: "Are you sure?" } do %>
+      <%= lucide_icon('log-out', class: "w-4 h-4") %>
+      Log out
+    <% end %>
+  </div>
 </aside>
