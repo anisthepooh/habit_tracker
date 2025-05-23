@@ -65,7 +65,7 @@
 
       </div>
   </div>
-
+  <% if Flipper.enabled?(:reminder, Current.user)%>
   <div class="bg-white mt-2 mb-8 px-4  rounded-2xl flex flex-col  divide-stone-200 divide-y">
     <div class="flex justify-between items-center py-4">
       <div class="ms-3 text-sm font-medium text-gray-900">
@@ -84,6 +84,7 @@
       <% end %>
     </div>
   </div>
+  <% end %>
 
     <div class="inline">
       <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-primary hover:opacity-80 text-white inline-block font-medium cursor-pointer" %>

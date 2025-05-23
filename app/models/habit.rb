@@ -1,4 +1,6 @@
 class Habit < ApplicationRecord
+  include PublicActivity::Model
+  tracked only: [ :create ]
   has_many :entries, dependent: :destroy
   belongs_to :group
 

@@ -1,0 +1,25 @@
+<div data-controller="dropdown" class="relative inline-block text-left">
+  <button
+    type="button"
+    data-dropdown-target="button"
+    data-action="dropdown#toggle click@window->dropdown#hide"
+    class="inline-flex items-center justify-center rounded-md p-2 text-sm font-medium hover:bg-gray-100 transition cursor-pointer"
+  >
+    <%= lucide_icon("more-vertical", class: "w-4 h-4") %>
+  </button>
+
+  <div
+    data-dropdown-target="menu"
+    class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-200 ring-opacity-5 focus:outline-none hidden"
+    data-transition-enter-from="opacity-0 scale-95"
+    data-transition-enter-to="opacity-100 scale-100"
+    data-transition-leave-from="opacity-100 scale-100"
+    data-transition-leave-to="opacity-0 scale-95"
+  >
+    <div class="py-1 text-sm text-gray-700">
+      <% items.each do |item| %>
+        <%= item %>
+      <% end %>
+    </div>
+  </div>
+</div>

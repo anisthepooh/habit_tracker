@@ -36,6 +36,10 @@
     </nav>
   </div>
   <div class="border-t border-t-gray-200 mt-auto pt-4">
+    <%= link_to root_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm hover:opacity-80 hover:bg-gray-100" do %>
+      <%= lucide_icon("home", class:"w-4 h-4")%>
+      Back to app
+    <% end %>
     <%= button_to session_path, method: :delete, class: "cursor-pointer flex items-center justify-center gap-2 text-sm text-muted-foreground hover:opacity-80 transition-opacity", form_class: "rounded-md w-full p-2 mt-auto flex items-center justify-start text-primary font-semibold", data: { turbo_confirm: "Are you sure?" } do %>
       <%= lucide_icon('log-out', class: "w-4 h-4") %>
       Log out

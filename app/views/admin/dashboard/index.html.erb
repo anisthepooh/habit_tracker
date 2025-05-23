@@ -1,5 +1,14 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-  <%= render "card", title: "Users", count: User.count, data_description: "Trending up this month", description: "Visitors for the last 6 months", path: admin_users_path %>
-  <%= render "card", title: "Habits", count: Habit.count, data_description: "hello", description: "asdsa", path: admin_habits_path %>
-  <%= render "card", title: "Entries", count: Entry.count, data_description: "hello", description: "asdsa", path: admin_entries_path %>
+  <% @cards.each do |card| %>
+    <%= render "card", card %>
+  <% end %>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+  <div class="shadow w-full p-6 rounded-xl col-span-1 sm:col-span-2 lg:col-span-2"><button class="btn-outline" data-tooltip="Add to library">Hover</button></div>
+    <div class="shadow w-full p-6 rounded-xl max-h-[600px] overflow-y-auto col-span-1 sm:col-span-2 lg:col-span-1">
+      <p class="font-medium mb-2">Activities</p>
+      <ul aria-label="Colored activity feed" role="feed" class="relative flex flex-col gap-12 py-12 pl-6 before:absolute before:top-0 before:left-6 before:h-full before:border before:-translate-x-1/2 before:border-slate-200 before:border-dashed after:absolute after:top-6 after:left-6 after:bottom-6 after:border after:-translate-x-1/2 after:border-slate-200">
+        <%= render_activities(@activities, layout: :activity) %>
+      </ul>
+  </div>
 </div>

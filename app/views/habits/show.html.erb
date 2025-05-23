@@ -79,14 +79,16 @@
           <%= (@habit.end_date).strftime("%d %B %Y") %>
         </p>
       </li>
-      <li class="flex flex-col justify-between py-4">
-        <p class="font-medium text-sm">Daily Reminde</p>
-        <% if @habit.reminder %>
-        <%= lucide_icon("bell-ring", class: "text-muted-foreground") %>
-        <% else %>
-        <%= lucide_icon("bell-off", class: "text-muted-foreground") %>
-        <% end %>
-      </li>
+      <% if Flipper.enabled?(:reminder, Current.user)%>
+        <li class="flex flex-col justify-between py-4">
+          <p class="font-medium text-sm">Daily Reminde</p>
+          <% if @habit.reminder %>
+          <%= lucide_icon("bell-ring", class: "text-muted-foreground") %>
+          <% else %>
+          <%= lucide_icon("bell-off", class: "text-muted-foreground") %>
+          <% end %>
+        </li>
+      <% end %>
     </ol>
   </div>
   <div>

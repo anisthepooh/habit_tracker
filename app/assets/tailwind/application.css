@@ -7,6 +7,8 @@
   --primary-foreground: hsl(20, 6%, 90%);
   --muted-foreground: hsl(25, 5%, 45%);
   --border: hsl(0, 0%, 83%);
+  --destructive: hsl(0, 70%, 35%);
+  --destructive-foreground: hsl(0, 93%, 94%);
 }
  
 .dark {
@@ -43,6 +45,18 @@
   }
   .bg-primary-foreground {
     background: var(--primary-foreground);
+  }
+  .bg-destructive {
+    background: var(--destructive);
+  }
+  .bg-destructive-foreground {
+    background: var(--destructive-foreground);
+  }
+  .text-destructive {
+    color: var(--destructive);
+  }
+  .text-destructive-foreground {
+    color: var(--destructive-foreground);
   }
   .border {
     border-color: var(--border)

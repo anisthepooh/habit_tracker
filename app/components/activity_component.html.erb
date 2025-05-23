@@ -1,0 +1,17 @@
+<li role="article" class="relative pl-6">
+  <% if @icon.present? %>
+    <span class="<%= class_names(
+      "absolute left-0 z-10 flex items-center justify-center w-8 h-8 text-white -translate-x-1/2 rounded-full ring-2 ring-white bg-primary",
+      icon_class
+    ) %>">
+      <%= lucide_icon(@icon, class: "w-4") %>
+    </span>
+  <% end %>
+  <div class="flex flex-col flex-1 gap-0">
+    <h4 class="text-sm font-medium text-text"><%= @title %></h4>
+    <% if @subtitle.present? %>
+      <p class="text-xs"><%= @subtitle %></p>
+    <% end%>
+    <p class="text-xs text-muted-foreground"><%= @date %></p>
+  </div>
+</li>

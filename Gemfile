@@ -19,6 +19,11 @@ gem "jbuilder"
 
 gem "view_component"
 
+gem "public_activity"
+
+gem "flipper-active_record"
+gem "flipper-ui"
+
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"

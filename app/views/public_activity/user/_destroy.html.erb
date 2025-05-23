@@ -1,0 +1,6 @@
+<%= render(ActivityComponent.new(
+  title: "User deleted",
+  icon: "trash",
+  variant: :error,
+  date: activity.created_at.strftime('%d %B - %H:%M')
+)) %>

@@ -1,0 +1,41 @@
+<%= content_for :header_right_content do %>
+  <%= render(ButtonComponent.new(size: :sm, variant: :outline)) do %>
+    <%= lucide_icon("user-plus", class:"w-4")%>
+    <%= link_to "Edit", edit_admin_user_path(@user) %>
+    <% end %>
+  <%= button_to admin_user_path(@user), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } } do %>
+    <%= render(ButtonComponent.new(size: :sm, variant: :destructive)) do %>
+      <%= lucide_icon("trash", class:"w-4")%>
+      Delete
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="max-w-xl">
+  <div class="bg-white rounded-2xl shadow border-gray-100 w-fit">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+      <h1 class="text-xl font-semibold text-gray-900">
+        <%= "#{@user.first_name} #{@user.last_name}" %>
+      </h1>
+    </div>
+
+    <div class="px-6 py-6 space-y-4 text-gray-700">
+      <div>
+        <h2 class="text-sm font-medium text-gray-500">Email</h2>
+        <p><%= @user.email_address %></p>
+      </div>
+
+      <div>
+        <h2 class="text-sm font-medium text-gray-500">Role</h2>
+        <p><%= @user.role.titleize %></p>
+      </div>
+
+      <% if @user.respond_to?(:created_at) %>
+        <div>
+          <h2 class="text-sm font-medium text-gray-500">Joined</h2>
+          <p><%= l(@user.created_at, format: :long) %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

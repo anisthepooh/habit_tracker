@@ -1,0 +1,14 @@
+<%
+  habit = Habit.find_by(id: activity&.trackable_id)
+  user = habit&.group&.users&.first
+  subtitle = if habit && user
+  "#{user.first_name} created #{habit.name} 💪"
+  end
+%>
+<%= render(ActivityComponent.new(
+  title: "New habit created",
+  subtitle: subtitle.nil? ? nil : subtitle.truncate(50),
+  icon: "plus",
+  variant: :success,
+  date: activity.created_at.strftime('%d %B - %H:%M')
+)) %>

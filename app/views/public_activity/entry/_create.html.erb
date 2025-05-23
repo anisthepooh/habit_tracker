@@ -1,0 +1,14 @@
+<%
+  entry = Entry.find_by(id: activity&.trackable_id)
+  user = entry&.habit&.group&.users&.first
+  subtitle = if entry && user
+  "#{user.first_name} logged an entry 🎯"
+  end
+%>
+<%= render(ActivityComponent.new(
+  title: "New entry created",
+  subtitle: subtitle.nil? ? nil : subtitle.truncate(50),
+  icon: "target",
+  variant: :info,
+  date: activity.created_at.strftime('%d %B - %H:%M')
+)) %>

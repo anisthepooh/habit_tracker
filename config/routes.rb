@@ -40,4 +40,5 @@ Rails.application.routes.draw do
     resources :entries
     resources :changelog_entries
   end
+  mount Flipper::UI.app(Flipper) => '/flipper'
 end

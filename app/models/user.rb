@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  include PublicActivity::Model
+  tracked only: [ :create, :destroy ]
+
   has_secure_password
   has_many :sessions, dependent: :destroy
   belongs_to :group, optional: true
