@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "/up", to: proc { [ 200, {}, [ "OK" ] ] }
+
   # authentication
   get "signup", to: "registrations#new", as: :new_registration
   post "signup", to: "registrations#create", as: :registration
@@ -40,5 +42,5 @@ Rails.application.routes.draw do
     resources :entries
     resources :changelog_entries
   end
-  mount Flipper::UI.app(Flipper) => '/flipper'
+  mount Flipper::UI.app(Flipper) => "/flipper"
 end
