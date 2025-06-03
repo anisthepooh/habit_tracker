@@ -21,7 +21,6 @@ servers:
 proxy:
   ssl: true
   host: bitehabit.app
-  app_port: 3000
   
 
 # Credentials for your image host.
