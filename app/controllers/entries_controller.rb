@@ -17,6 +17,7 @@ class EntriesController < ApplicationController
   # GET /entries/1 or /entries/1.json
   def show
     @habit = Habit.find(params[:habit_id])
+    set_path habit_path(@habit), "Back to habit"
   end
 
   # GET /entries/new
@@ -35,10 +36,10 @@ class EntriesController < ApplicationController
 
     respond_to do |format|
       if @entry.save
-        format.turbo_stream
-        format.html do
-          redirect_to habit_entry_path(@habit, @entry), notice: "Entry was successfully created."
-        end
+        format.turbo_stream {
+          render turbo_stream: turbo_stream.replace("entries", partial: "habits/entry_list", locals: { habit: @habit })
+        }
+        format.html
         format.json do
           render :show, status: :created, location: habit_entry_path(@habit, @entry)
         end

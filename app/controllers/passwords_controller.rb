@@ -14,6 +14,7 @@ class PasswordsController < ApplicationController
   end
 
   def edit
+    set_path user_path(@user), "Back to user"
   end
 
   def update

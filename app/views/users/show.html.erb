@@ -64,6 +64,15 @@
         <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
       </li>
     <% end %>
+    <%= link_to edit_password_url(@user.password_reset_token) do %>
+      <li class="flex justify-between py-4">
+        <span class="flex items-center gap-2 font-medium">
+          <%= lucide_icon('lock-keyhole' , class:"w-4 h-4") %>
+          Change Password
+        </span>
+        <%= lucide_icon('chevron-right' , class:"w-4 h-4 text-muted-foreground") %>
+      </li>
+    <% end %>
   <% end %>
 
   <%= render ListViewComponent.new(title: "OTHER OPTIONS") do %>

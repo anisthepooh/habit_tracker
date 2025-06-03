@@ -1,0 +1,41 @@
+<section id="beta" class="overflow-hidden relative flex justify-center items-center text-center px-6 sm:px-16 py-32 md:py-40 rounded-2xl ring-1 ring-black/5 ring-inset bg-[linear-gradient(120deg,_#ffd9a0_20%,_#ff7f7f_60%,_#ff5ec4_90%)] sm:bg-[linear-gradient(140deg,_#ffd9a0_20%,_#ff7f7f_60%,_#ff5ec4_90%)]">
+  <div class="relative max-w-4xl flex flex-col items-start text-left z-10 bg-white/30 backdrop-blur-sm rounded-2xl p-8 ">
+    <div class="flex items-center space-x-3 mb-6 bg-white/20 backdrop-blur-sm pl-3 pr-5 py-2 rounded-full shadow-inner ring-1 ring-white/30">
+      <div class="flex -space-x-2">
+        <img class="w-7 h-7 rounded-full border-2 border-white" src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=80&h=80&q=80" alt="User 1" />
+        <img class="w-7 h-7 rounded-full border-2 border-white" src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=80&h=80&q=80" alt="User 2" />
+        <img class="w-7 h-7 rounded-full border-2 border-white" src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=80&h=80&q=80" alt="User 3" />
+      </div>
+      <span class="text-sm font-medium text-gray-900">⭐ 4.9 from 2,300+ users</span>
+    </div>
+    <h2 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
+      Bite your Habits in the B#!t
+    </h2>
+    <p class="text-lg md:text-xl text-neutral-700 max-w-xl mb-8">
+      Join early and help shape the future of habit tracking. Set goals, log progress, and stay consistent — all while testing new features first.
+    </p>
+    <form action="/beta_signups" method="POST" class="w-full max-w-md">
+      <div class="flex items-center bg-white/80 backdrop-blur-sm w-full rounded-2xl overflow-hidden shadow-md">
+        <input 
+          type="email" 
+          name="email" 
+          placeholder="Your email address" 
+          required
+          class="flex-1 px-4 py-3 text-base  placeholder-gray-500 focus:outline-none"
+        >
+        <button 
+          type="submit"
+          class="px-5 py-3 bg-primary text-primary-foreground font-medium rounded-2xl hover:opacity-90 transition-all"
+        >
+          Join
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="hidden md:block absolute right-12 -bottom-64 z-0">
+    <%= image_tag "/images/intern/mock-ups/dummy_mockup.png", class: "w-[500px] rotate-6 drop-shadow-xl" %>
+  </div>
+  <div class="hidden md:block absolute left-12 -bottom-64 z-0">
+    <%= image_tag "/images/intern/mock-ups/dummy_mockup.png", class: "w-[500px] -rotate-6 drop-shadow-xl" %>
+  </div>
+</section>

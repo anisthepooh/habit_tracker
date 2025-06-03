@@ -20,9 +20,15 @@ gem "jbuilder"
 gem "view_component"
 
 gem "public_activity"
+gem "resend"
 
 gem "flipper-active_record"
 gem "flipper-ui"
+gem "will_paginate", "~> 3.1", ">= 3.1.6"
+gem "ransack"
+gem "chartkick"
+gem "groupdate"
+
 
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]

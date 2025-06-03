@@ -2,6 +2,8 @@ class User < ApplicationRecord
   include PublicActivity::Model
   tracked only: [ :create, :destroy ]
 
+  ROLES= %w[admin user]
+
   has_secure_password
   has_many :sessions, dependent: :destroy
   belongs_to :group, optional: true
@@ -11,6 +13,28 @@ class User < ApplicationRecord
   has_one_attached :cropped_avatar
   has_one :user_configuration, dependent: :destroy
   accepts_nested_attributes_for :user_configuration
+
+  scope :created_in_the_past_month, -> { where("created_at >= ?", 1.month.ago) }
+
+   def self.ransackable_associations(auth_object = nil)
+    %w[
+      activities
+      avatar_attachment
+      avatar_blob
+      cropped_avatar_attachment
+      cropped_avatar_blob
+      entries
+      group
+      habits
+      sessions
+      user_configuration
+    ]
+  end
+
+  # Optional: Also define ransackable_attributes
+  def self.ransackable_attributes(auth_object = nil)
+    %w[first_name last_name email_address created_at]
+  end
 
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }

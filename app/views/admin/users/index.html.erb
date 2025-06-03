@@ -7,15 +7,88 @@
 <div class="flex items-center justify-between mb-6">
   <h1 class="text-2xl font-semibold">Users</h1>
 </div>
-<div class="overflow-x-auto bg-white shadow-sm rounded-xl">
+<%= search_form_for @q, url: admin_users_path, method: :get, builder: CustomFormBuilder, class: "flex gap-4 py-2 w-full px-2 mb-4" do |f| %>
+  <div 
+    x-data="{
+      open: false,
+      selectedRole: null,
+      resetFilters() {
+        this.selectedRole = null;
+        const input = $el.closest('form').querySelector('[name^=\'q[first_name_or_last_name_or_email_address_cont]\']');
+        if (input) input.value = '';
+        $el.closest('form').submit();
+      }
+    }"
+    @click.outside="open = false"
+    class="flex items-center gap-4 w-full"
+  >
+    <%= f.search_field :first_name_or_last_name_or_email_address_cont, class:"max-w-[200px]", placeholder: "Search" %>
+
+    <div class="relative inline-block text-left">
+      <button
+        type="button"
+        @click="open = !open"
+        class="inline-flex items-center gap-2 justify-center rounded-md p-2 text-sm font-medium hover:bg-gray-100 transition cursor-pointer border border-dashed"
+      >
+        <%= lucide_icon("plus-circle", class: "w-4 h-4 text-muted-foreground", "x-show": "!open") %>
+        <%= lucide_icon("minus-circle", class: "w-4 h-4 text-muted-foreground", "x-show": "open") %>
+        Role
+        <template x-if="selectedRole">
+          <span class="ml-2 bg-gray-100 text-xs px-2 rounded"><span x-text="selectedRole"></span></span>
+        </template>
+      </button>
+
+      <div
+        x-show="open"
+        x-transition:enter="transition ease-out duration-100"
+        x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-75"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-95"
+        class="absolute right-0 z-[9999] mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-gray-200 ring-opacity-5 focus:outline-none"
+        style="display: none;"
+      >
+        <div class="py-1 text-sm text-gray-700">
+          <% User::ROLES.each do |role| %>
+            <div
+              class="flex items-center gap-2 block px-4 py-2 hover:bg-gray-100 transition cursor-pointer"
+              @click="selectedRole = '<%= role %>'; open = false"
+            >
+              <%= role %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="ml-auto flex items-center gap-2">  
+      <%= render ButtonComponent.new(
+        variant: :link,
+        class: "fit-content max-w-[100px] ",
+        type: "button",
+        "x-on:click" => "resetFilters()"
+      ) do %>
+        <%= lucide_icon("x", class: "w-4 h-4") %>
+        Reset
+      <% end %>
+
+      <%= render ButtonComponent.new(class: "fit-content max-w-[100px]") do %>
+        <%= lucide_icon("search", class: "w-4 h-4") %>
+        <%= f.submit "Search" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+<div class="overflow-x-auto bg-white shadow-sm rounded-xl pb-6">
+
   <table class="min-w-full divide-y divide-gray-200 text-sm">
-    <thead class="[&_tr]:border-b [&_tr]:border-b-gray-200 sticky top-0 z-10 bg-gray-100 text-xs text-muted-foreground">
+    <thead class="[&_tr]:border-b [&_tr]:border-b-gray-200 sticky top-0 z-10 text-xs">
       <tr class="text-left">
-        <th class="px-6 py-3">ID</th>
-        <th class="px-6 py-3">Name</th>
-        <th class="px-6 py-3">Email</th>
-        <th class="px-6 py-3">Role</th>
-        <th class="px-6 py-3">Joined</th>
+        <th class="px-6 py-3"><%= sort_link(@q, :id, "ID") %></th>
+        <th class="px-6 py-3"><%= sort_link(@q, :first_name, "Name") %></th>
+        <th class="px-6 py-3"><%= sort_link(@q, :email_address, "Email") %></th>
+        <th class="px-6 py-3"><%= sort_link(@q, :role, "Role") %></th>
+        <th class="px-6 py-3"><%= sort_link(@q, :created_at, "Joined") %></th>
         <th class="px-6 py-3"></th>
       </tr>
     </thead>
@@ -25,7 +98,7 @@
           <td class="px-6 py-4 font-mono text-gray-500"><%= user.id %></td>
           <td class="px-6 py-4"><%= "#{user.first_name} #{user.last_name}" %></td>
           <td class="px-6 py-4 text-gray-700"><%= user.email_address %></td>
-          <td class="px-6 py-4"><%= user.role.presence || "—" %></td>
+          <td class="px-6 py-4"><span class=" bg-gray-100 text-xs px-2 rounded"><%= user.role.presence || "—" %></span></td>
           <td class="px-6 py-4 text-gray-500"><%= user.created_at.strftime("%b %d, %Y") %></td>
           <td class="px-6 py-4 text-right">
             <%= render DropdownComponent.new do |dropdown| %>
@@ -67,3 +140,4 @@
     </tbody>
   </table>
 </div>
+<%= will_paginate @users, renderer: PaginationHelper::Pagination %>
