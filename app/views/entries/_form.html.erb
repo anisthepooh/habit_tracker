@@ -24,9 +24,21 @@
     </div>
   <% end %>
 
-  <div class="my-5">
+  <div class="my-5" x-data>
+    <% now = Time.zone.now.strftime("%Y-%m-%dT%H:%M") %>
     <%= form.label :date %>
-    <%= form.datetime_field :date %>
+    <div class="flex">
+      <%= form.datetime_field :date, id: "entry_date_field", class: "block mt-1 rounded-r-none", "x-ref": "dateInput", reqired: true %>
+      <%= render ButtonComponent.new(
+          type: "button", 
+          variant: :primary, 
+          class: "mt-1 rounded-l-none text-xs max-w-[100px]", 
+          "@click": "$refs.dateInput.value = '#{now}'"
+          ) do %>
+        <%= lucide_icon("calendar", class: "w-4 h-4 text-primary-foreground") %>
+        Now
+      <% end %>
+    </div>
   </div>
 
   <div class="my-5">

@@ -1,0 +1,11 @@
+<%= turbo_frame_tag "entries" do %>
+  <ul id="entries-list">
+    <% if habit.entries.none? %>
+      <%= render "entry_empty_state" %>
+    <% else %>
+      <% habit.entries.each do |entry| %>
+        <%= render "entries/item", entry: entry %>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>

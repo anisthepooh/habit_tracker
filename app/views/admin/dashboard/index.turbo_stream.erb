@@ -1,0 +1,11 @@
+<%= turbo_stream.append "activities" do %>
+  <%= render_activities(@activities, layout: :activity) %>
+<% end %>
+
+<% if @activities.next_page %>
+  <%= turbo_stream.replace "load_more_activities" do %>
+    <%= turbo_frame_tag "load_more_activities", src: admin_dashboard_path(page: @activities.next_page, format: :turbo_stream), loading: :lazy %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update "current_page", @activities.current_page %>

@@ -4,11 +4,37 @@
   <% end %>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-  <div class="shadow w-full p-6 rounded-xl col-span-1 sm:col-span-2 lg:col-span-2"><button class="btn-outline" data-tooltip="Add to library">Hover</button></div>
-    <div class="shadow w-full p-6 rounded-xl max-h-[600px] overflow-y-auto col-span-1 sm:col-span-2 lg:col-span-1">
-      <p class="font-medium mb-2">Activities</p>
-      <ul aria-label="Colored activity feed" role="feed" class="relative flex flex-col gap-12 py-12 pl-6 before:absolute before:top-0 before:left-6 before:h-full before:border before:-translate-x-1/2 before:border-slate-200 before:border-dashed after:absolute after:top-6 after:left-6 after:bottom-6 after:border after:-translate-x-1/2 after:border-slate-200">
-        <%= render_activities(@activities, layout: :activity) %>
+  <div class="shadow w-full p-6 rounded-xl col-span-1 sm:col-span-2 lg:col-span-2">
+    <div class="mb-4">
+      <p class="font-medium">Users overview</p>
+      <span class="flex gap-2 items-center w-full text-muted-foreground">
+        <p class="text-sm"><%="That's #{User.created_in_the_past_month.count} new users created in the past month "%></p>
+        <%= lucide_icon("trending-up", class: "w-4 h-4") %>
+      </span>
+    </div>
+    <%= column_chart User.group_by_day_of_week(:created_at, format: "%a").count %>
+  </div>
+
+  <div class="shadow w-full p-6 rounded-xl col-span-1 sm:col-span-2 lg:col-span-1 relative">
+    <p class="font-medium mb-2">Activities</p>
+
+    <div class="relative max-h-[300px] overflow-y-auto">
+      <ul aria-label="Colored activity feed"
+          role="feed"
+          class="relative flex flex-col gap-12 py-12 pl-6
+                 before:absolute before:top-0 before:left-6 before:h-full
+                 before:border before:-translate-x-1/2 before:border-slate-200 before:border-dashed
+                 after:absolute after:top-6 after:left-6 after:bottom-6
+                 after:border after:-translate-x-1/2 after:border-slate-200">
+        <%= turbo_frame_tag "activities", src: admin_dashboard_path(format: :turbo_stream), loading: :lazy do %>
+          <%= render_activities(@activities, layout: :activity) %>
+        <% end %>
+
+        <% if @activities.next_page %>
+          <%= turbo_frame_tag "load_more_activities", src: admin_dashboard_path(page: @activities.next_page, format: :turbo_stream), loading: :lazy %>
+        <% end %>
       </ul>
+    </div>
+      <div class="pointer-events-none absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-white to-transparent z-10"></div>
   </div>
 </div>

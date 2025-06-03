@@ -20,3 +20,5 @@ pin "@cropper/element-viewer", to: "@cropper--element-viewer.js" # @2.0.0
 pin "@cropper/elements", to: "@cropper--elements.js" # @2.0.0
 pin "@cropper/utils", to: "@cropper--utils.js" # @2.0.0
 pin "alpinejs" # @3.14.9
+pin "chartkick", to: "chartkick.js"
+pin "Chart.bundle", to: "Chart.bundle.js"

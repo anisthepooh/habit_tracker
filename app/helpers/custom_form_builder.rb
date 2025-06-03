@@ -51,6 +51,11 @@ class CustomFormBuilder < ActionView::Helpers::FormBuilder
     super(method, options)
   end
 
+  def search_field(method, options = {})
+    options[:class] = merge_classes(options[:class], BASE_INPUT_CLASSES)
+    super(method, options)
+  end
+
 
 
   private
