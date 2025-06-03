@@ -29,7 +29,7 @@ class Admin::DashboardController < Admin::BaseController
       }
     ]
 
-    @activities = PublicActivity::Activity.paginate(page: params[:page], per_page: 3)
+    @activities = PublicActivity::Activity.paginate(page: params[:page], per_page: 3).order("created_at DESC")
   end
 
 
