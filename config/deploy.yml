@@ -8,6 +8,7 @@ image: casperanisimow/habit_tracker
 servers:
   web:
     - 195.201.123.65
+     - "[2a01:4f8:c0c:583::]"
   # job:
   #   hosts:
   #     - 192.168.0.1
