@@ -1,0 +1,14 @@
+<!-- app/components/user_avatar_component.html.erb -->
+<div class="relative">
+  <% if user.avatar.attached? %>
+    <%= image_tag user.avatar, class: avatar_classes %>
+  <% else %>
+    <div class="<%= placeholder_classes %>">
+      <%= user_initial %>
+    </div>
+  <% end %>
+  
+  <% if show_status_indicator? %>
+    <div class="<%= status_indicator_class %>"></div>
+  <% end %>
+</div>

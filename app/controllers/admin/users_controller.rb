@@ -1,7 +1,7 @@
 class Admin::UsersController < Admin::BaseController
   def index
     @q = User.ransack(params[:q])
-    @users = @q.result.order(created_at: :desc).paginate(page: params[:page], per_page: 4)
+    @users = @q.result.order(created_at: :desc).paginate(page: params[:page], per_page: 30)
 
     add_breadcrumb("Users", admin_users_path)
   end

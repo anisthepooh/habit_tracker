@@ -12,7 +12,8 @@
         <%= lucide_icon("trending-up", class: "w-4 h-4") %>
       </span>
     </div>
-    <%= column_chart User.group_by_day_of_week(:created_at, format: "%a").count %>
+    <%= column_chart User.group_by_day(:created_at, range: 4.weeks.ago.midnight..Time.now).count %>
+
   </div>
 
   <div class="shadow w-full p-6 rounded-xl col-span-1 sm:col-span-2 lg:col-span-1 relative">

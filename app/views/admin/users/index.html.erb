@@ -89,6 +89,8 @@
         <th class="px-6 py-3"><%= sort_link(@q, :email_address, "Email") %></th>
         <th class="px-6 py-3"><%= sort_link(@q, :role, "Role") %></th>
         <th class="px-6 py-3"><%= sort_link(@q, :created_at, "Joined") %></th>
+        <th class="px-6 py-3">Habits</th>
+        <th class="px-6 py-3">Entires</th>
         <th class="px-6 py-3"></th>
       </tr>
     </thead>
@@ -96,10 +98,24 @@
       <% @users.each do |user| %>
         <tr>
           <td class="px-6 py-4 font-mono text-gray-500"><%= user.id %></td>
-          <td class="px-6 py-4"><%= "#{user.first_name} #{user.last_name}" %></td>
+          <td class="px-6 py-4">
+            <div class="flex items-center gap-2 relative">
+              <%= render AvatarComponent.new(user: user, show_status: true) %>
+            <%= "#{user.first_name} #{user.last_name}" %>
+          </td>
           <td class="px-6 py-4 text-gray-700"><%= user.email_address %></td>
           <td class="px-6 py-4"><span class=" bg-gray-100 text-xs px-2 rounded"><%= user.role.presence || "—" %></span></td>
           <td class="px-6 py-4 text-gray-500"><%= user.created_at.strftime("%b %d, %Y") %></td>
+          <td class="px-6 py-4 text-gray-500 ">
+            <span class="p-1 bg-gray-100 rounded text-xs font-medium">
+              <%= user.habits.count %>
+            </span>
+          </td>
+          <td class="px-6 py-4 text-gray-500 ">
+            <span class="p-1 bg-gray-100 rounded text-xs font-medium">
+              <%= user.entries.count %>
+            </span>
+          </td>
           <td class="px-6 py-4 text-right">
             <%= render DropdownComponent.new do |dropdown| %>
               <% dropdown.with_item do %>

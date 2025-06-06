@@ -3,6 +3,7 @@ class PagesController < ApplicationController
 
   allow_unauthenticated_access
   def home
+    return if params[:admin]
     redirect_to habits_path if authenticated?
   end
 
