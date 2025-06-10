@@ -1,0 +1,32 @@
+ 
+<div class="w-full relative mt-8 p-4 md:p-16 left-0 h-full flex-grow flex flex-col items-center justify-center overflow-hidden  rounded-4xl ring-1 ring-black/5 ring-inset bg-linear-115 from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] sm:bg-linear-145">
+    <div class="text-left space-x-3 space-y-3 py-10 xl:px-32 px-8 bg-white/20 relative z-20 backdrop-blur-sm rounded-2xl shadow-inner ring-1 ring-white/30">
+        <h1 class="font-medium text-xl">Become a beta tester</h1>
+        <p>You'll get:</p>
+        <ul class="text-left space-y-2 mb-6">
+            <li>✅  A premium account</li>
+            <li>✅  Free lifetime updates of features</li>
+            <li>✅  A saying of how the app should be</li>
+            <li>✅  My deepliest respect</li>
+        </ul>
+        <hr class="border-white/50">
+        <div>
+            <h1 class="mb-6 text-xl font-bold text-stone-800 text-center">Apply for becomming a Beta tester</h1>
+            <%= form_with url: session_url, builder: CustomFormBuilder, class: "space-y-6 max-w-lg ring-1 ring-black/5 ring-inset p-6 md:p-12 rounded-2xl relative z-10 bg-white/20" do |form| %>
+                <div>
+                <%= form.label :email_address, "Email" %>
+                <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email", value: params[:email_address] %>
+                </div>
+
+                <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <%= render ButtonComponent.new(class: "max-w-xs mx-auto") do %>
+                    <%= form.submit "Send request" %>
+                <% end %>
+                </div>
+                <p class="text-gray-600 text-xs">You'll recevie a mail wether you accepted or not</p>
+            <% end %>
+        </div>
+    </div>
+    <%= image_tag "/images/intern/mock-ups/dummy_mockup.png", class: "w-[500px] rotate-6 drop-shadow-xl block absolute right-12 -bottom-64 z-0" %>
+    <%= image_tag "/images/intern/mock-ups/dummy_mockup.png", class: "w-[500px] -rotate-6 drop-shadow-xl block absolute left-12 -bottom-64 z-0" %>
+</div>

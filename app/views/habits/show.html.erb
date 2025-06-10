@@ -23,6 +23,9 @@
       </div>
     </div>
     <%= render partial: "shared/progress_bar", locals: {habit: @habit}%>
+    <div class="mt-8">
+      <%= render partial: "habits/weekly_streak", locals: { habit: @habit } %>
+    </div>
   </div>
 
   <div class="my-8">

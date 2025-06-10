@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "pages#home"
   get :home, to: "pages#home"
+  get :become_beta, to: "pages#become_beta"
   get "privacy_policy", to: "pages#privacy_policy", as: :privacy_policy
   get "change_log", to: "pages#change_log", as: :change_log
 

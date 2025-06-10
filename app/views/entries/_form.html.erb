@@ -24,26 +24,17 @@
     </div>
   <% end %>
 
-  <div class="my-5" x-data>
+  <div class="my-5" >
     <% now = Time.zone.now.strftime("%Y-%m-%dT%H:%M") %>
     <%= form.label :date %>
     <div class="flex">
-      <%= form.datetime_field :date, id: "entry_date_field", class: "block mt-1 rounded-r-none", "x-ref": "dateInput", reqired: true %>
-      <%= render ButtonComponent.new(
-          type: "button", 
-          variant: :primary, 
-          class: "mt-1 rounded-l-none text-xs max-w-[100px]", 
-          "@click": "$refs.dateInput.value = '#{now}'"
-          ) do %>
-        <%= lucide_icon("calendar", class: "w-4 h-4 text-primary-foreground") %>
-        Now
-      <% end %>
+      <%= form.datetime_field :date, id: "entry_date_field", value: now, class: "block mt-1", reqired: true %>
     </div>
   </div>
 
   <div class="my-5">
     <%= form.label :description %>
-    <%= form.text_field :description, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": entry.errors[:description].none?, "border-red-400 focus:outline-red-600": entry.errors[:description].any?}] %>
+    <%= form.text_field :description, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": entry.errors[:description].none?, "border-red-400 focus:outline-red-600": entry.errors[:description].any?}], required: true %>
   </div>
 
   <div class="my-5">

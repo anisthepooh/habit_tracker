@@ -1,0 +1,26 @@
+<div class="flex flex-col items-center space-y-3">
+  <div class="max-w-md w-full">
+    <div class="flex justify-between space-x-3 mb-2">
+      <% days_of_week.each do |day| %>
+        <div class="w-8 h-8 rounded-full flex items-center justify-center <%= day_completed?(day) ? 'bg-primary outline-gray-500 outline-2 outline-offset-2 starting:scale-0 scale-100 transitions-transform delay-500 duration-400' : 'bg-background' %>">
+          <% if day_completed?(day) %>
+            <%= lucide_icon("check", class:"w-5 text-white")%>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+     <div class="flex justify-between space-x-3">
+      <% days_of_week.each do |day| %>
+        <div class="w-8 text-center">
+          <span class="text-sm text-primary-foreground font-medium"><%= day %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="text-center">
+    <p class="text-muted-foreground text-sm leading-relaxed">
+      A <span class="text-gray-500 font-semibold">streak</span> of <%= streak_count %> days<br>
+      <%= pluralize(completed_days.count, 'day') %> completed this week
+    </p>
+  </div>
+</div>

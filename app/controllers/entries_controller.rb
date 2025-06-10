@@ -36,9 +36,20 @@ class EntriesController < ApplicationController
 
     respond_to do |format|
       if @entry.save
-        format.turbo_stream {
-          render turbo_stream: turbo_stream.replace("entries", partial: "habits/entry_list", locals: { habit: @habit })
-        }
+        format.turbo_stream do
+          render turbo_stream: [
+            # Update the entries list
+            turbo_stream.replace("entries",
+              partial: "habits/entry_list",
+              locals: { habit: @habit }
+            ),
+            # Update the weekly streak component
+            turbo_stream.replace("weekly_streak",
+              partial: "habits/weekly_streak",
+              locals: { habit: @habit }
+            )
+          ]
+        end
         format.html
         format.json do
           render :show, status: :created, location: habit_entry_path(@habit, @entry)

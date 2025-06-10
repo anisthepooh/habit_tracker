@@ -1,11 +1,26 @@
 class Habit < ApplicationRecord
   include PublicActivity::Model
   tracked only: [ :create ]
+
   has_many :entries, dependent: :destroy
   belongs_to :group
 
   STATUS = [ "active", "succeeded", "failed", "archived" ].freeze
 
+  # Weekly tracking methods
+  def completed_days_this_week
+    weekly_entries.group_by(&:wday).keys.map { |wday| day_abbreviation(wday) }
+  end
+
+  def entry_made_today?
+    weekly_entries.any? { |date| date == Date.current }
+  end
+
+  def entries_count_this_week
+    weekly_entries.count
+  end
+
+  # Existing methods...
   def end_date
     start_date + duration.days
   end
@@ -24,38 +39,42 @@ class Habit < ApplicationRecord
   end
 
   def update_status
-    end_date = self.end_date
-
-    self.status = if Date.today > end_date
-                    "succeeded"
-    else
-                    "active"
-    end
-    save if status_changed? # Save if the status actually changed
+    self.status = Date.current > end_date ? "succeeded" : "active"
+    save if status_changed?
   end
 
   def calculate_streak
     return 0 if entries.empty?
 
-    latest = entries.first
+    sorted_dates = entries.order(created_at: :desc).pluck(:created_at).map(&:to_date).uniq
+    return 0 if streak_broken?(sorted_dates.first)
 
-    # If the latest entry is older than 24 hours from now, streak is broken
-    return 0 if Time.current - latest.created_at > 24.hours
-
-    streak = 1
-    previous_time = latest.created_at
-
-    entries.offset(1).each do |entry|
-      time_diff = previous_time - entry.created_at
-
-      if time_diff <= 24.hours
-        streak += 1
-        previous_time = entry.created_at
-      else
-        break
-      end
+    sorted_dates.each_cons(2).with_index(1) do |(current, previous), streak|
+      return streak if (previous - current).to_i > 1
     end
 
-    streak
+    sorted_dates.count
+  end
+
+  private
+
+  # Get unique dates when entries were made this week
+  def weekly_entries
+    @weekly_entries ||= entries
+      .where(created_at: Date.current.beginning_of_week(:sunday)..Date.current.end_of_day)
+      .pluck(:created_at)
+      .map(&:to_date)
+      .uniq
+  end
+
+  # Map day number to abbreviation
+  def day_abbreviation(wday)
+    %w[Su M Tu W Th F Sa][wday]
+  end
+
+  # Check if streak is broken (no entry yesterday or today)
+  def streak_broken?(latest_date)
+    return true if latest_date.nil?
+    latest_date < Date.current - 1.day
   end
 end

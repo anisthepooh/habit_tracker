@@ -25,6 +25,8 @@ class HabitsController < ApplicationController
     set_path habits_path, "Back to habits"
     @habit = Habit.find(params[:id])
     @most_mood = @habit.entries.group(:mood).order("count_id DESC").count(:id).first
+    @current_streak = @habit.calculate_streak
+    @completed_days = @habit.completed_days_this_week
   end
 
   # GET /habits/new

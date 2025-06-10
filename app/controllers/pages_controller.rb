@@ -12,6 +12,8 @@ def change_log
   @changelog_entries = ChangelogEntry.published.order(date: :desc)
 end
 
+def become_beta
+end
 
   def privacy_policy
     set_path user_path(Current.user)
