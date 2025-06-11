@@ -1,4 +1,8 @@
-<%= form_with model: @user, local: true, class: "space-y-6", builder: CustomFormBuilder do |form| %>
+<%= form_with model: @user, 
+  url: user_path(@user, new_user: params[:new_user] ), 
+  local: true, 
+  class: "space-y-6", 
+  builder: CustomFormBuilder do |form| %>
   <div class="grid gap-4">
    <div class="my-4" data-controller="preview-image">
     <%= form.file_field :avatar,

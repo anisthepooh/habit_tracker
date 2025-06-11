@@ -189,3 +189,16 @@ body {
     overscroll-behavior: none;
   }
 }
+
+@media (display-mode: standalone) and (max-width: 767px) {
+    body {
+      padding-bottom: 80px;
+      
+    }
+    #standalone-nav {
+      display: block !important;
+    }
+    #non-standalone-menu {
+      display: none !important;
+    }
+  }

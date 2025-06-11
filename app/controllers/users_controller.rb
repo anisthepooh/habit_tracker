@@ -17,6 +17,9 @@ class UsersController < ApplicationController
     @user.build_user_configuration unless @user.user_configuration
     flash[:notice] = "Profile updated!"
     if @user.update(user_params)
+      if params[:new_user]
+        UserMailer.with(user: @user).welcome_email.deliver_now
+      end
       redirect_to @user, notice: "Profile updated!"
     else
       render :edit, status: :unprocessable_entity

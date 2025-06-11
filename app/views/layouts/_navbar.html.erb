@@ -65,7 +65,7 @@
     <% end %>
 
     <!-- Hamburger Menu Button -->
-    <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 -mr-2 relative z-10 standalone:hidden block">
+    <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 -mr-2 relative z-10 block" id="non-standalone-menu">
       <div class="w-5 h-5 flex flex-col justify-center items-center">
         <span class="block w-4 h-0.5 bg-current transform transition-transform duration-200"
               :class="mobileMenuOpen ? 'rotate-45 translate-y-0.5' : ''"></span>
@@ -85,8 +85,10 @@
        x-transition:leave="transition ease-in duration-150"
        x-transition:leave-start="opacity-100"
        x-transition:leave-end="opacity-0"
-       class="md:hidden fixed inset-0 bg-black/20 backdrop-blur bg-opacity-50 z-40 standalone:hidden "
-       @click="mobileMenuOpen = false">
+       class="md:hidden fixed inset-0 bg-black/20 backdrop-blur bg-opacity-50 z-40 "
+       @click="mobileMenuOpen = false"
+       id="non-standalone-menu"
+       >
   </div>
 
   <!-- Mobile Menu Panel -->
@@ -97,7 +99,9 @@
        x-transition:leave="transition ease-in duration-150 transform"
        x-transition:leave-start="translate-x-0"
        x-transition:leave-end="translate-x-full"
-       class="md:hidden fixed top-0 right-0 h-full w-80 max-w-sm bg-background shadow-xl z-50 overflow-y-auto standalone:hidden">
+       class="md:hidden fixed top-0 right-0 h-full w-80 max-w-sm bg-background shadow-xl z-50 overflow-y-auto" 
+       id="non-standalone-menu"
+       >
     
     <!-- Mobile Menu Header -->
     <div class="p-4 border-b border-border">

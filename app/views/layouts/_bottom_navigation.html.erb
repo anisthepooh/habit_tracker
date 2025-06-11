@@ -1,4 +1,4 @@
-<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-background z-50 hidden standalone:block">
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-background z-50 hidden" id="standalone-nav">
   <div class="flex items-center justify-around py-2 px-4 safe-area-pb">
     <% if Current.user %>
       <%= link_to habits_path, class: "flex flex-col items-center justify-center p-2 rounded-lg transition-colors #{current_page?(habits_path) ? 'text-primary' : 'text-muted-foreground hover:text-primary'}" do %>
@@ -26,14 +26,3 @@
     <% end %>
   </div>
 </nav>
-
-<!-- Add bottom padding to body content to prevent overlap -->
-<style>
-  @media (display-mode: standalone) {
-    @media (max-width: 767px) {
-      body {
-        padding-bottom: 80px;
-      }
-    }
-  }
-</style>
