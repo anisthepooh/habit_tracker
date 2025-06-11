@@ -179,3 +179,10 @@ body > *:not(dialog):not([data-controller="dialog"]):not(.fixed):not([style*="po
 .cropper-view-box {
   outline: 9999px solid rgba(0, 0, 0, 0.5); /* darkens outside the circle */
 }
+
+@media (display-mode: standalone) {
+  html,
+  body {
+    overscroll-behavior: none;
+  }
+}
