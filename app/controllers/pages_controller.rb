@@ -15,8 +15,5 @@ class PagesController < ApplicationController
   end
 
   def privacy_policy
-    if Current.user?
-      set_path user_path(Current.user)
-    end
   end
 end
