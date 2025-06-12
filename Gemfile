@@ -28,6 +28,9 @@ gem "will_paginate", "~> 3.1", ">= 3.1.6"
 gem "ransack"
 gem "chartkick"
 gem "groupdate"
+gem "sentry-ruby"
+gem "sentry-rails"
+
 
 
 
