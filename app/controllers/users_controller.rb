@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     flash[:notice] = "Profile updated!"
     if @user.update(user_params)
       if params[:new_user]
-        UserMailer.with(user: @user).welcome_email.deliver_now
+        UserMailer.with(user: @user).welcome_email.deliver_later
       end
       redirect_to @user, notice: "Profile updated!"
     else

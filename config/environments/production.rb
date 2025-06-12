@@ -61,6 +61,8 @@ Rails.application.configure do
 
   # Set your actual domain
   config.action_mailer.default_url_options = { host: "bitehabit.app" }
+  config.action_mailer.deliver_later_queue_name = "mailers"
+
 
   # Configure for Resend SMTP
   config.action_mailer.delivery_method = :smtp
