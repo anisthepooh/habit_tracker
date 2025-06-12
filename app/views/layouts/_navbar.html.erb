@@ -49,8 +49,12 @@
   <div class="md:hidden flex items-center justify-between">
     <!-- Back button (only show if path exists) -->
     <% if @path.present? %>
-      <%=link_to @path, class: "transition-opacity flex items-center p-2 -ml-2" do %>
+      <%=link_to @path, class: "transition-opacity flex items-center p-2 -ml-2 relative " do %>
         <%= lucide_icon('chevron-left', class: 'w-5 h-5')%>
+        <p class="text-xs font-medium text-muted-foreground absolute w-full left-8 whitespace-nowrap
+">
+          <%= @title if @title.present? %>
+        </p>
       <% end %>
     <% else %>
       <div class="w-9"></div> <!-- Spacer -->
@@ -66,14 +70,7 @@
 
     <!-- Hamburger Menu Button -->
     <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 -mr-2 relative z-10 block" >
-      <div class="w-5 h-5 flex flex-col justify-center items-center">
-        <span class="block w-4 h-0.5 bg-current transform transition-transform duration-200"
-              :class="mobileMenuOpen ? 'rotate-45 translate-y-0.5' : ''"></span>
-        <span class="block w-4 h-0.5 bg-current mt-1 transform transition-opacity duration-200"
-              :class="mobileMenuOpen ? 'opacity-0' : ''"></span>
-        <span class="block w-4 h-0.5 bg-current mt-1 transform transition-transform duration-200"
-              :class="mobileMenuOpen ? '-rotate-45 -translate-y-0.5' : ''"></span>
-      </div>
+      <%= lucide_icon("menu")%>
     </button>
   </div>
 
