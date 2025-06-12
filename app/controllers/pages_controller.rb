@@ -7,15 +7,16 @@ class PagesController < ApplicationController
     redirect_to habits_path if authenticated?
   end
 
-# app/controllers/pages_controller.rb
-def change_log
-  @changelog_entries = ChangelogEntry.published.order(date: :desc)
-end
+  def change_log
+    @changelog_entries = ChangelogEntry.published.order(date: :desc)
+  end
 
-def become_beta
-end
+  def become_beta
+  end
 
   def privacy_policy
-    set_path user_path(Current.user)
+    if Current.user?
+      set_path user_path(Current.user)
+    end
   end
 end

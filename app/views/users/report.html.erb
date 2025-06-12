@@ -15,7 +15,7 @@
     >
     0
   </p>
-    <time class="text-xs text-muted-foreground" datetime="">Since <%= @first_entry&.created_at.strftime("%d %B %Y") %></time>
+    <time class="text-xs text-muted-foreground" datetime="">Since <%= @first_entry.present? ? @first_entry&.created_at.strftime("%d %B %Y") : "--" %></time>
   </div>
   <div class="w-full h-full border rounded-2xl px-2 py-4 flex flex-col items-center gap-2">
     <span class="flex gap-2 items-center text-sm font-medium text-muted-foreground">
@@ -31,7 +31,7 @@
     >
       <%= @habits_count %>
     </p>
-    <time class="text-xs text-muted-foreground" datetime="">Since <%= @first_habit&.created_at.strftime("%d %B %Y") %></time>
+    <time class="text-xs text-muted-foreground" datetime="">Since <%= @first_habit.present? ? @first_habit.created_at.strftime("%d %B %Y") : "--" %></time>
   </div>
   <div class="w-full h-full border rounded-2xl px-2 py-4 flex flex-col items-center gap-2">
     <span class="flex gap-2 items-center text-sm font-medium text-muted-foreground">
