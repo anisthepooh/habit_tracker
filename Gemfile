@@ -24,7 +24,7 @@ gem "resend"
 
 gem "flipper-active_record"
 gem "flipper-ui"
-gem "will_paginate", "~> 3.1", ">= 3.1.6"
+gem "will_paginate", "~> 4.0"
 gem "ransack"
 gem "chartkick"
 gem "groupdate"
