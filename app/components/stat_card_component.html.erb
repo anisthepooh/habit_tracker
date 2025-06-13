@@ -1,0 +1,22 @@
+<div class="<%= component_classes %>">
+  <div class="flex items-center justify-between">
+    <p class="text-muted-foreground text-sm"><%= title %></p>
+    <% if show_growth? %>
+      <span class="flex items-center gap-1 text-xs px-3 py-1 border rounded-lg font-medium">
+        <%= lucide_icon("trending-up", class: "w-4 h-4") %>
+        <%= growth_in_procent %>%
+      </span>
+    <% end %>
+  </div>
+  <div class="text-3xl font-semibold mt-1 mb-2"><%= count %></div>
+  <div>
+    <span class="flex gap-2 items-center w-full">
+      <p class="text-sm"><%= data_description %></p>
+      <% if show_icon? %>
+        <%= lucide_icon(icon, class: "w-4 h-4") %>
+      <% else %>
+        <%= lucide_icon("trending-up", class: "w-4 h-4") %>
+      <% end %>
+    </span>
+  </div>
+</div>

@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     resources :habits
     resources :entries
     resources :changelog_entries
+    resources :communications
   end
   mount Flipper::UI.app(Flipper) => "/flipper"
 end

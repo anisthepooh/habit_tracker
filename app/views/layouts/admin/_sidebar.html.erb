@@ -58,6 +58,10 @@
       </div>
       
       <!-- Other Links -->
+      <%= link_to admin_communications_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "communications" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
+        <%= lucide_icon("send", class:"w-4 h-4") %>
+        Communication
+      <% end %>
       <%= link_to admin_habits_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "habits" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
         <%= lucide_icon("notebook", class:"w-4 h-4") %>
         Habits

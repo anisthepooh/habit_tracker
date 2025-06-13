@@ -30,6 +30,8 @@ gem "chartkick"
 gem "groupdate"
 gem "sentry-ruby"
 gem "sentry-rails"
+gem "noticed", "~> 2.7"
+
 
 
 

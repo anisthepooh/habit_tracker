@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
   has_one_attached :cropped_avatar
   has_one :user_configuration, dependent: :destroy
+  has_many :notifications, as: :recipient, dependent: :destroy, class_name: "Noticed::Notification"
   accepts_nested_attributes_for :user_configuration
 
   scope :created_in_the_past_month, -> { where("created_at >= ?", 1.month.ago) }
@@ -45,5 +46,9 @@ class User < ApplicationRecord
 
   def purge_avatar_if_requested
     avatar.purge if ActiveModel::Type::Boolean.new.cast(remove_avatar)
+  end
+
+  def full_name
+    "#{first_name} #{last_name}".strip
   end
 end

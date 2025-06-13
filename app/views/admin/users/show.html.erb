@@ -33,7 +33,6 @@
         </div>
       </div>
     </div>
-
     <!-- Main Content -->
     <div class="px-6 py-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -129,6 +128,77 @@
   </div>
 </div>
 <!-- Add this section below your existing user info card -->
+
+<div class="mt-6 max-w-1/2 ml-auto">
+  <div class="bg-white rounded-2xl shadow overflow-hidden">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-b-border bg-gradient-to-b from-gray-100 to-gray-50">
+      <h2 class="text-xl font-semibold text-gray-900">
+        Notifications (<%= @user.notifications.count %>)
+      </h2>
+      <span class="text-sm text-gray-500">
+        Recent activity
+      </span>
+    </div>
+
+    <% if @user.notifications.any? %>
+      <div class="divide-y divide-gray-100">
+        <% @user.notifications.order(created_at: :desc).limit(10).each do |notification| %>
+          <div class="px-6 py-4 hover:bg-gray-50 transition-colors">
+            <div class="flex items-start justify-between">
+              <div class="flex-1">
+                <div class="flex items-center gap-3 mb-2">
+                  <%= lucide_icon("bell", class: "w-4 h-4 text-gray-400") %>
+                  <h3 class="font-medium text-gray-900">
+                    <%= notification.type.deconstantize %>
+                  </h3>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span class="font-medium text-gray-500">Sent:</span>
+                    <p class="text-gray-700">
+                      <%= l(notification.created_at, format: :short) %>
+                      <span class="text-xs text-gray-500 block">
+                        <%= time_ago_in_words(notification.created_at) %> ago
+                      </span>
+                    </p>
+                  </div>
+                  <div>
+                    <span class="font-medium text-gray-500">Status:</span>
+                    <p class="text-gray-700">
+                      <%= notification.read? ? "Read" : "Unread" %>
+                      <% if notification.read? && notification.read_at %>
+                        <span class="text-xs text-gray-500 block">
+                          <%= time_ago_in_words(notification.read_at) %> ago
+                        </span>
+                      <% end %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      
+      <% if @user.notifications.count > 10 %>
+        <div class="px-6 py-3 bg-gray-50 text-center">
+          <span class="text-sm text-gray-500">
+            Showing 10 of <%= @user.notifications.count %> notifications
+          </span>
+        </div>
+      <% end %>
+    <% else %>
+      <!-- Empty State -->
+      <div class="px-6 py-12 text-center">
+        <%= lucide_icon("bell-off", class: "w-12 h-12 text-gray-300 mx-auto mb-4") %>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No notifications</h3>
+        <p class="text-gray-500">
+          No notifications have been sent to this user yet.
+        </p>
+      </div>
+    <% end %>
+  </div>
+</div>
 
 <% if @user.habits.any? %>
   <div class="mt-6">

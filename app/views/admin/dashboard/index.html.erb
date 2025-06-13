@@ -1,6 +1,11 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
   <% @cards.each do |card| %>
-    <%= render "card", card %>
+    <%= render StatCardComponent.new(
+      title: card[:title],
+      count: card[:count],
+      data_description: card[:data_description],
+      growth_in_procent: card[:growth_in_procent]
+    ) %>
   <% end %>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
