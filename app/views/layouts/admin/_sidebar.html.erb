@@ -1,4 +1,10 @@
-<aside id="sidebar" class="w-64 py-6 pl-6 flex flex-col duration-300" data-sidebar-target="sidebar" x-data="{ usersOpen: <%= controller_name == 'users' ? 'true' : 'false' %> }">
+<aside id="sidebar" class="w-64 py-6 pl-6 flex flex-col duration-300" data-sidebar-target="sidebar" x-data="{ 
+  usersOpen: localStorage.getItem('admin-users-accordion') ? localStorage.getItem('admin-users-accordion') === 'true' : <%= controller_name == 'users' ? 'true' : 'false' %>,
+  toggleUsers() {
+    this.usersOpen = !this.usersOpen;
+    localStorage.setItem('admin-users-accordion', this.usersOpen);
+  }
+}">
   <div>
     <div class="h-16 flex items-center gap-2">
       <span class="bg-gray-900 w-10 h-10 rounded-xl flex items-center justify-center">

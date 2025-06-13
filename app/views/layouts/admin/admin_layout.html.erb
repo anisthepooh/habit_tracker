@@ -3,10 +3,31 @@
   <%= render partial: "layouts/head" %>
 
   <body class="h-full bg-background text-gray-900">
+    <script>
+      // Prevent FOUC by setting initial sidebar state immediately
+      (function() {
+        const isMobile = window.innerWidth < 768;
+        const savedState = localStorage.getItem('admin-sidebar-collapsed');
+        let isCollapsed;
+        
+        if (savedState !== null) {
+          isCollapsed = savedState === 'true';
+        } else {
+          isCollapsed = isMobile;
+        }
+        
+        if (isCollapsed) {
+          document.body.setAttribute('data-sidebar-collapsed', 'true');
+        }
+        
+        // Mark as initialized for CSS
+        document.body.setAttribute('data-sidebar-initialized', 'true');
+      })();
+    </script>
     <div class="flex h-full" data-controller="sidebar">
       <%= render partial: "layouts/admin/sidebar" %>
 
-      <div class="flex flex-col flex-1 h-full">
+      <div class="flex flex-col flex-1 h-full" data-sidebar-target="main">
         <main class="flex-1 p-3 h-full">
           <div
             id="mainContent"

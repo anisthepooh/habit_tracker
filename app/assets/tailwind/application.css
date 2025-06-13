@@ -202,3 +202,32 @@ body {
       display: none !important;
     }
   }
+
+/* Sidebar collapse prevention of FOUC */
+@layer utilities {
+  /* Hide sidebar initially if collapsed state is saved */
+  [data-sidebar-collapsed="true"] #sidebar {
+    opacity: 0;
+    transform: translateX(-100%);
+    width: 0;
+    padding-left: 0;
+  }
+  
+  [data-sidebar-collapsed="true"] [data-sidebar-target="main"] {
+    padding-left: 0;
+  }
+  
+  /* Mobile-first: hide sidebar by default on small screens */
+  @media (max-width: 767px) {
+    body:not([data-sidebar-initialized]) #sidebar {
+      opacity: 0;
+      transform: translateX(-100%);
+      width: 0;
+      padding-left: 0;
+    }
+    
+    body:not([data-sidebar-initialized]) [data-sidebar-target="main"] {
+      padding-left: 0;
+    }
+  }
+}
