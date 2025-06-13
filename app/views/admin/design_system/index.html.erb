@@ -282,6 +282,129 @@
     </div>
   </section>
 
+  <!-- Sidebar Components -->
+  <section class="bg-white rounded-xl p-6 shadow">
+    <h2 class="text-lg font-medium mb-4">Sidebar Components</h2>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Sidebar Link Component -->
+      <div>
+        <h3 class="text-sm font-medium mb-3 text-muted-foreground">SidebarLinkComponent</h3>
+        <div class="bg-gray-50 p-4 rounded-lg space-y-2">
+          <%= render SidebarLinkComponent.new(
+            path: "#",
+            icon: "circle-gauge",
+            label: "Dashboard",
+            active: true
+          ) %>
+          
+          <%= render SidebarLinkComponent.new(
+            path: "#",
+            icon: "users",
+            label: "Users",
+            active: false
+          ) %>
+          
+          <%= render SidebarLinkComponent.new(
+            path: "https://example.com",
+            icon: "external-link",
+            label: "External Link",
+            external: true
+          ) %>
+        </div>
+        
+        <div class="mt-3 p-3 bg-gray-50 rounded-lg">
+          <h4 class="text-xs font-medium mb-2">Usage</h4>
+          <pre class="text-xs text-gray-600 overflow-x-auto"><code>&lt;%= render SidebarLinkComponent.new(
+  path: admin_dashboard_path,
+  icon: "circle-gauge",
+  label: "Dashboard",
+  active: controller_name == "dashboard"
+) %&gt;</code></pre>
+        </div>
+      </div>
+
+      <!-- Sidebar Sub Link Component -->
+      <div>
+        <h3 class="text-sm font-medium mb-3 text-muted-foreground">SidebarSubLinkComponent</h3>
+        <div class="bg-gray-50 p-4 rounded-lg space-y-2 ml-6">
+          <%= render SidebarSubLinkComponent.new(
+            path: "#",
+            icon: "users",
+            label: "All Users",
+            active: true
+          ) %>
+          
+          <%= render SidebarSubLinkComponent.new(
+            path: "#",
+            icon: "git-pull-request",
+            label: "Beta Requests",
+            active: false
+          ) %>
+        </div>
+        
+        <div class="mt-3 p-3 bg-gray-50 rounded-lg">
+          <h4 class="text-xs font-medium mb-2">Usage</h4>
+          <pre class="text-xs text-gray-600 overflow-x-auto"><code>&lt;%= render SidebarSubLinkComponent.new(
+  path: admin_users_path,
+  icon: "users",
+  label: "All Users",
+  active: action_name == "index"
+) %&gt;</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Accordion Component -->
+    <div class="mt-6">
+      <h3 class="text-sm font-medium mb-3 text-muted-foreground">SidebarAccordionComponent</h3>
+      <div class="bg-gray-50 p-4 rounded-lg" x-data="{ usersOpen: true }">
+        <%= render SidebarAccordionComponent.new(
+          icon: "user",
+          label: "Users",
+          open: true,
+          controller_active: true
+        ) do %>
+          <%= render SidebarSubLinkComponent.new(
+            path: "#",
+            icon: "users",
+            label: "All Users",
+            active: true
+          ) %>
+          <%= render SidebarSubLinkComponent.new(
+            path: "#",
+            icon: "git-pull-request", 
+            label: "Beta Requests",
+            active: false
+          ) %>
+        <% end %>
+      </div>
+      
+      <div class="mt-3 p-3 bg-gray-50 rounded-lg">
+        <h4 class="text-xs font-medium mb-2">Usage</h4>
+        <pre class="text-xs text-gray-600 overflow-x-auto"><code>&lt;%= render SidebarAccordionComponent.new(
+  icon: "user",
+  label: "Users", 
+  open: controller_name == "users",
+  controller_active: controller_name == "users"
+) do %&gt;
+  &lt;%= render SidebarSubLinkComponent.new(...) %&gt;
+&lt;% end %&gt;</code></pre>
+      </div>
+    </div>
+
+    <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+      <h4 class="text-sm font-medium mb-2 text-blue-900">Component Features</h4>
+      <ul class="text-xs text-blue-800 space-y-1">
+        <li>• <strong>SidebarLinkComponent:</strong> Standard navigation links with active states and external link support</li>
+        <li>• <strong>SidebarSubLinkComponent:</strong> Smaller sub-navigation links for use within accordions</li>
+        <li>• <strong>SidebarAccordionComponent:</strong> Collapsible sections with Alpine.js animations</li>
+        <li>• <strong>Consistent styling:</strong> All components follow the same design patterns</li>
+        <li>• <strong>Active state detection:</strong> Automatic highlighting based on current controller/action</li>
+      </ul>
+    </div>
+  </section>
+
   <!-- Icons -->
   <section class="bg-white rounded-xl p-6 shadow">
     <h2 class="text-lg font-medium mb-4">Icons</h2>

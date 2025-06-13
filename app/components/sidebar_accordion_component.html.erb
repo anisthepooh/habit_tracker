@@ -1,0 +1,28 @@
+<div class="space-y-1">
+  <button 
+    @click="usersOpen = !usersOpen" 
+    class="<%= button_classes %>"
+    :class="{ 'bg-gray-200': usersOpen }"
+  >
+    <div class="flex items-center gap-2">
+      <%= lucide_icon(icon, class: "w-4 h-4") %>
+      <%= label %>
+    </div>
+    <%= lucide_icon("chevron-down", class: "w-4 h-4 transition-transform duration-200", ":class": "{ 'rotate-180': usersOpen }") %>
+  </button>
+  
+  <div 
+    x-show="usersOpen" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0 max-h-0"
+    x-transition:enter-end="opacity-100 max-h-96"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 max-h-96"
+    x-transition:leave-end="opacity-0 max-h-0"
+    class="overflow-hidden"
+  >
+    <div class="ml-6 space-y-1 pt-1">
+      <%= content %>
+    </div>
+  </div>
+</div>

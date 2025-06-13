@@ -14,90 +14,97 @@
     </div>
     
     <nav class="space-y-2">
-      <!-- Dashboard Link -->
-      <%= link_to admin_dashboard_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "dashboard" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
-        <%= lucide_icon("circle-gauge", class:"w-4 h-4") %>
-        Dashboard
+      <%= render SidebarLinkComponent.new(
+        path: admin_dashboard_path,
+        icon: "circle-gauge",
+        label: "Dashboard",
+        active: controller_name == "dashboard"
+      ) %>
+      
+      <%= render SidebarAccordionComponent.new(
+        icon: "user",
+        label: "Users",
+        open: controller_name == "users",
+        controller_active: controller_name == "users"
+      ) do %>
+        <%= render SidebarSubLinkComponent.new(
+          path: admin_users_path,
+          icon: "users",
+          label: "All Users",
+          active: action_name == "index" && controller_name == "users" && params[:filter].blank?
+        ) %>
+        <%= render SidebarSubLinkComponent.new(
+          path: admin_users_path(),
+          icon: "git-pull-request",
+          label: "Beta User request",
+          active: params[:filter] == "active"
+        ) %>
       <% end %>
       
-      <!-- Users Accordion -->
-      <div class="space-y-1">
-        <button 
-          @click="usersOpen = !usersOpen" 
-          class="flex items-center justify-between w-full gap-2 rounded-md px-2 py-2 font-medium text-sm <%= controller_name == "users" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100" %>"
-          :class="{ 'bg-gray-200': usersOpen }"
-        >
-          <div class="flex items-center gap-2">
-            <%= lucide_icon("user", class:"w-4 h-4") %>
-            Users
-          </div>
-          <%= lucide_icon("chevron-down", class:"w-4 h-4 transition-transform duration-200", ":class": "{ 'rotate-180': usersOpen }") %>
-        </button>
-        
-        <div 
-          x-show="usersOpen" 
-          x-transition:enter="transition ease-out duration-300"
-          x-transition:enter-start="opacity-0 max-h-0"
-          x-transition:enter-end="opacity-100 max-h-96"
-          x-transition:leave="transition ease-in duration-200"
-          x-transition:leave-start="opacity-100 max-h-96"
-          x-transition:leave-end="opacity-0 max-h-0"
-          class="overflow-hidden"
-        >
-          <div class="ml-6 space-y-1 pt-1">
-            <%= link_to admin_users_path, class: "flex items-center gap-2 rounded-md px-2 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 #{action_name == "index" && controller_name == "users" && params[:filter].blank? ? "bg-gray-100 text-gray-900" : ""}" do %>
-              <%= lucide_icon("users", class:"w-3 h-3") %>
-              All Users
-            <% end %>
-            <%= link_to admin_users_path(), class: "flex items-center gap-2 rounded-md px-2 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 #{params[:filter] == "active" ? "bg-gray-100 text-gray-900" : ""}" do %>
-              <%= lucide_icon("git-pull-request", class:"w-3 h-3") %>
-              Beta User request
-            <% end %>
-          </div>
-        </div>
-      </div>
+      <%= render SidebarLinkComponent.new(
+        path: admin_communications_path,
+        icon: "send",
+        label: "Communication",
+        active: controller_name == "communications"
+      ) %>
       
-      <!-- Other Links -->
-      <%= link_to admin_communications_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "communications" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
-        <%= lucide_icon("send", class:"w-4 h-4") %>
-        Communication
-      <% end %>
-      <%= link_to admin_habits_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "habits" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
-        <%= lucide_icon("notebook", class:"w-4 h-4") %>
-        Habits
-      <% end %>
-      <%= link_to admin_entries_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "entries" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
-        <%= lucide_icon("target", class:"w-4 h-4") %>
-        Entries
-      <% end %>
-      <%= link_to admin_changelog_entries_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "changelog_entries" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
-        <%= lucide_icon("square-chart-gantt", class:"w-4 h-4") %>
-        Changelog
-      <% end %>
-      <%= link_to admin_design_system_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "design_system" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
-        <%= lucide_icon("palette", class:"w-4 h-4") %>
-        Design System
-      <% end %>
+      <%= render SidebarLinkComponent.new(
+        path: admin_habits_path,
+        icon: "notebook",
+        label: "Habits",
+        active: controller_name == "habits"
+      ) %>
+      
+      <%= render SidebarLinkComponent.new(
+        path: admin_entries_path,
+        icon: "target",
+        label: "Entries",
+        active: controller_name == "entries"
+      ) %>
+      
+      <%= render SidebarLinkComponent.new(
+        path: admin_changelog_entries_path,
+        icon: "square-chart-gantt",
+        label: "Changelog",
+        active: controller_name == "changelog_entries"
+      ) %>
+      
+      <%= render SidebarLinkComponent.new(
+        path: admin_design_system_path,
+        icon: "palette",
+        label: "Design System",
+        active: controller_name == "design_system"
+      ) %>
     </nav>
   </div>
   
   <div class="border-t border-t-gray-200 mt-auto pt-4">
-    <%= link_to "https://resend.com/emails", class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm hover:opacity-80 hover:bg-gray-100" do %>
-      <%= lucide_icon("mail", class:"w-4 h-4") %>
-      Resend
-    <% end %>
-    <%= link_to "https://bite-habit.sentry.io/issues/", class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm hover:opacity-80 hover:bg-gray-100" do %>
-      <%= lucide_icon("bug", class:"w-4 h-4") %>
-      Issues
-    <% end %>
-    <%= link_to root_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm hover:opacity-80 hover:bg-gray-100" do %>
-      <%= lucide_icon("smartphone", class:"w-4 h-4") %>
-      Back to app
-    <% end %>
-    <%= link_to home_path(admin: true), class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm hover:opacity-80 hover:bg-gray-100" do %>
-      <%= lucide_icon("home", class:"w-4 h-4") %>
-      Back landing
-    <% end %>
+    <%= render SidebarLinkComponent.new(
+      path: "https://resend.com/emails",
+      icon: "mail",
+      label: "Resend",
+      external: true
+    ) %>
+    
+    <%= render SidebarLinkComponent.new(
+      path: "https://bite-habit.sentry.io/issues/",
+      icon: "bug",
+      label: "Issues",
+      external: true
+    ) %>
+    
+    <%= render SidebarLinkComponent.new(
+      path: root_path,
+      icon: "smartphone",
+      label: "Back to app"
+    ) %>
+    
+    <%= render SidebarLinkComponent.new(
+      path: home_path(admin: true),
+      icon: "home",
+      label: "Back landing"
+    ) %>
+    
     <%= button_to session_path, method: :delete, class: "cursor-pointer flex items-center justify-center gap-2 text-sm text-muted-foreground hover:opacity-80 transition-opacity", form_class: "rounded-md w-full p-2 mt-auto flex items-center justify-start text-primary font-semibold", data: { turbo_confirm: "Are you sure?" } do %>
       <%= lucide_icon('log-out', class: "w-4 h-4") %>
       Log out
