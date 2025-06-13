@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   # Admin
   namespace :admin do
     get "dashboard", to: "dashboard#index"
+    get "design_system", to: "design_system#index"
     resources :users
     resources :habits
     resources :entries

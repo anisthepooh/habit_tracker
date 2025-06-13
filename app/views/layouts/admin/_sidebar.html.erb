@@ -74,12 +74,24 @@
         <%= lucide_icon("square-chart-gantt", class:"w-4 h-4") %>
         Changelog
       <% end %>
+      <%= link_to admin_design_system_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm #{controller_name == "design_system" ? "bg-gray-200" : "hover:opacity-80 hover:bg-gray-100"}" do %>
+        <%= lucide_icon("palette", class:"w-4 h-4") %>
+        Design System
+      <% end %>
     </nav>
   </div>
   
   <div class="border-t border-t-gray-200 mt-auto pt-4">
+    <%= link_to "https://resend.com/emails", class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm hover:opacity-80 hover:bg-gray-100" do %>
+      <%= lucide_icon("mail", class:"w-4 h-4") %>
+      Resend
+    <% end %>
+    <%= link_to "https://bite-habit.sentry.io/issues/", class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm hover:opacity-80 hover:bg-gray-100" do %>
+      <%= lucide_icon("bug", class:"w-4 h-4") %>
+      Issues
+    <% end %>
     <%= link_to root_path, class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm hover:opacity-80 hover:bg-gray-100" do %>
-      <%= lucide_icon("home", class:"w-4 h-4") %>
+      <%= lucide_icon("smartphone", class:"w-4 h-4") %>
       Back to app
     <% end %>
     <%= link_to home_path(admin: true), class: "flex items-center justify-start w-full gap-2 rounded-md px-2 py-2 font-medium text-sm hover:opacity-80 hover:bg-gray-100" do %>
