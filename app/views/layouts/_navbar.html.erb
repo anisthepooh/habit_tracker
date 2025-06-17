@@ -23,14 +23,8 @@
         <%= link_to new_habit_path, class: "rounded-full w-10 h-10 bg-primary flex items-center justify-center text-primary-foreground" do %>
           <%= lucide_icon('plus') %>
         <% end %>
-        <%= link_to user_path(id: Current.user.id), class: "outline-stone-500 outline-2 outline-offset-2 overflow-hidden rounded-full w-10 h-10 bg-primary-foreground flex items-center justify-center text-primary font-semibold" do %>
-          <% if Current.user.avatar.attached? %>
-            <%=image_tag Current.user.avatar, class: "object-cover h-full w-full" %>
-          <% else %>
-            <div class="h-full w-full rounded-full bg-stone-200 flex items-center justify-center text-stone-500 text-xl font-semibold shadow-sm">
-              <%= Current.user.first_name.first.upcase if Current.user.first_name.present? %>
-            </div>
-          <% end %>
+        <%= link_to user_path(id: Current.user.id), class: "outline-stone-500 outline-2 outline-offset-2 overflow-hidden rounded-full h-8" do %>
+          <%= render AvatarComponent.new(user: Current.user, size: :sm, show_status: false) %> 
         <% end %>
       <% else %>
         <%= link_to change_log_path, class: "text-sm font-medium hover:opacity-80 text-primary flex items-center gap-1" do %>
@@ -115,15 +109,7 @@
       <% if Current.user %>
         <!-- User Info -->
         <div class="flex items-center gap-3 p-3 rounded-lg bg-muted">
-          <div class="w-12 h-12 rounded-full overflow-hidden bg-primary-foreground flex items-center justify-center">
-            <% if Current.user.avatar.attached? %>
-              <%=image_tag Current.user.avatar, class: "object-cover h-full w-full" %>
-            <% else %>
-              <div class="h-full w-full rounded-full bg-stone-200 flex items-center justify-center text-stone-500 text-xl font-semibold">
-                <%= Current.user.first_name.first.upcase if Current.user.first_name.present? %>
-              </div>
-            <% end %>
-          </div>
+          <%= render AvatarComponent.new(user: Current.user, size: :md, show_status: false) %>
           <div>
             <p class="font-medium"><%= Current.user.first_name %> <%= Current.user.last_name %></p>
             <p class="text-sm text-muted-foreground"><%= Current.user.email_address %></p>

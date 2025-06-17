@@ -6,14 +6,13 @@
     <script>
       // Prevent FOUC by setting initial sidebar state immediately
       (function() {
-        const isMobile = window.innerWidth < 768;
         const savedState = localStorage.getItem('admin-sidebar-collapsed');
         let isCollapsed;
         
         if (savedState !== null) {
           isCollapsed = savedState === 'true';
         } else {
-          isCollapsed = isMobile;
+          isCollapsed = false; // Default to expanded
         }
         
         if (isCollapsed) {

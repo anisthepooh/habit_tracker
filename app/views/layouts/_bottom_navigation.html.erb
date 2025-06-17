@@ -5,21 +5,24 @@
         <%= lucide_icon('list', class: 'w-5 h-5 mb-1') %>
         <span class="text-xs font-medium">Habits</span>
       <% end %>
-      <%= link_to new_habit_path, class: "flex flex-col items-center justify-center p-2 rounded-lg transition-colors #{current_page?(new_habit_path) ? 'text-primary' : 'text-muted-foreground hover:text-primary'}" do %>
-        <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground mb-1">
-          <%= lucide_icon('plus', class: 'w-4 h-4') %>
-        </div>
-        <span class="text-xs font-medium text-primary">Add</span>
+      <% if controller_name == "habits" && @habit.present? && action_name == "show"  %>
+        <%= link_to new_habit_entry_path(@habit), data: {action: "click->dialog#open", turbo_frame: :drawer}, class: "flex flex-col items-center justify-center p-2 rounded-lg transition-colors #{current_page?(new_habit_path) ? 'text-primary' : 'text-muted-foreground hover:text-primary'}" do %>
+          <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground mb-1">
+            <%= lucide_icon('plus', class: 'w-4 h-4') %>
+          </div>
+          <span class="text-xs font-medium text-primary">Add Entry <span>
+        <% end %>
+      <% else %>
+       <%= link_to new_habit_path, class: "flex flex-col items-center justify-center p-2 rounded-lg transition-colors #{current_page?(new_habit_path) ? 'text-primary' : 'text-muted-foreground hover:text-primary'}" do %>
+          <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground mb-1">
+            <%= lucide_icon('plus', class: 'w-4 h-4') %>
+          </div>
+          <span class="text-xs font-medium text-primary">Add Habit</span>
+        <% end %>
       <% end %>
       <%= link_to user_path(id: Current.user.id), class: "flex flex-col items-center justify-center p-2 rounded-lg transition-colors #{current_page?(user_path(id: Current.user.id)) ? 'text-primary' : 'text-muted-foreground hover:text-primary'}" do %>
-        <div class="w-6 h-6 rounded-full overflow-hidden bg-primary-foreground flex items-center justify-center mb-1 border-2 #{current_page?(user_path(id: Current.user.id)) ? 'border-primary' : 'border-transparent'}">
-          <% if Current.user.avatar.attached? %>
-            <%= image_tag Current.user.avatar, class: "object-cover h-full w-full" %>
-          <% else %>
-            <div class="h-full w-full rounded-full bg-stone-200 flex items-center justify-center text-stone-500 text-xs font-semibold">
-              <%= Current.user.first_name.first.upcase if Current.user.first_name.present? %>
-            </div>
-          <% end %>
+        <div class="mb-1 border-2 rounded-full #{current_page?(user_path(id: Current.user.id)) ? 'border-primary' : 'border-transparent'}">
+          <%= render AvatarComponent.new(user: Current.user, size: :xs, show_status: false) %>
         </div>
         <span class="text-xs font-medium">Profile</span>
       <% end %>

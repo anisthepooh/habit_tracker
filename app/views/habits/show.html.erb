@@ -102,12 +102,6 @@
       <%= render partial: "entry_list", locals: { habit: @habit } %>
     </ol>
   </div>
-  <div class="bg-stone-50/80 fixed bottom-0 left-0 right-0 pb-8 px-4 max-w-lg mx-auto">
-  <%= link_to new_habit_entry_path(@habit), data: {action: "click->dialog#open", turbo_frame: :drawer}, class: "sm:w-auto flex items-center justify-center rounded-md px-3.5 py-2.5 bg-primary text-primary-foreground hover:opacity-80 font-medium" do %>
-    <%= lucide_icon("plus", "size" => "24", class: "mr-2") %>
-    Check in
-  <% end %>
-  </div>
 
 
 </div>

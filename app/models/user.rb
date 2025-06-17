@@ -51,4 +51,27 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}".strip
   end
+
+  # Low-res avatar for preloading (tiny, blurred)
+  def avatar_placeholder
+    return unless avatar.attached?
+    begin
+      avatar.variant(resize_to_limit: [32, 32], quality: 30)
+    rescue => e
+      Rails.logger.error "Avatar placeholder generation failed: #{e.message}"
+      avatar # Fallback to original if variant fails
+    end
+  end
+
+  # High-res avatar for main display
+  def avatar_display
+    return unless avatar.attached?
+    begin
+      avatar.variant(resize_to_limit: [128, 128], quality: 85)
+    rescue => e
+      Rails.logger.error "Avatar display generation failed: #{e.message}"
+      avatar # Fallback to original if variant fails
+    end
+  end
+
 end

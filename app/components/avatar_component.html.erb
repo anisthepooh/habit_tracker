@@ -1,7 +1,16 @@
-<!-- app/components/user_avatar_component.html.erb -->
+<!-- app/components/avatar_component.html.erb -->
 <div class="relative">
   <% if user.avatar.attached? %>
-    <%= image_tag user.avatar, class: avatar_classes %>
+    <div class="relative <%= size_config[:avatar] %> rounded-full overflow-hidden">
+      <!-- Animated shimmer loading placeholder -->
+      <div class="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse rounded-full"></div>
+      <!-- Avatar image -->
+      <%= image_tag user.avatar, 
+          class: "#{avatar_classes} transition-opacity duration-300",
+          loading: "lazy",
+          style: "opacity: 0",
+          onload: "this.style.opacity='1'; this.previousElementSibling.style.display='none'" %>
+    </div>
   <% else %>
     <div class="<%= placeholder_classes %>">
       <%= user_initial %>

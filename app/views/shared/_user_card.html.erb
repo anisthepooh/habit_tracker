@@ -1,23 +1,29 @@
-<div class="relative" style="view-transition-name: profile_card<%= user.id %>;">
+<div class="relative overflow-hidden mb-8 rounded-2xl" style="view-transition-name: profile_card<%= user.id %>;">
   <% if user.card_background.present? && user&.card_background != "blank"  %>
-    <%= image_tag (user.card_background), class: "absolute w-full h-full rounded-2xl brightness-80 z-10 bg-primary"%>
+    <!-- Background loading placeholder -->
+    <div class="absolute inset-0 bg-primary rounded-2xl"></div>
+    <!-- Blurred background placeholder -->
+    <%= image_tag (user.card_background), 
+        class: "absolute w-full h-full rounded-2xl brightness-50 blur-md scale-110 transition-opacity duration-500 z-10",
+        loading: "eager",
+        id: "bg-blur-#{user.id}" %>
+    <!-- Full resolution background -->
+    <%= image_tag (user.card_background), 
+        class: "absolute w-full h-full rounded-2xl brightness-80 transition-opacity duration-500 z-20",
+        style: "opacity: 0",
+        loading: "lazy",
+        onload: "this.style.opacity='1'; document.getElementById('bg-blur-#{user.id}').style.opacity='0'" %>
   <% else %>
     <div class="absolute inset-0 bg-primary rounded-2xl"></div>
   <% end %>
-    <div class="relative z-10 p-4 flex items-center gap-3 ">
-      <% if user.avatar.attached? %>
-        <%=image_tag user.avatar, class: "h-16 w-16 min-w-16 rounded-full shadow-sm object-cover bg-white/10 backdrop-blur-xl" %>
-      <% else %>
-        <div class="h-16 w-16 min-w-16 rounded-full bg-stone-200 flex items-center justify-center text-stone-500 text-2xl font-semibold shadow-sm">
-          <%= user.first_name.first.upcase if user.first_name.present? %>
-        </div>
-      <% end %>
+    <div class="relative z-30 p-4 flex items-center gap-3 ">
+<%= render AvatarComponent.new(user: user, size: :lg, show_status: false) %>
       <div>
         <h1 class="font-medium text-lg text-white"><%= "Hey #{user.first_name}!"%></h1>
         <p class="my-0 text-white/80 text-sm">Welcome back, your next habit is waiting for you.</p>
       </div>
     </div>
-    <div class="my-8 relative z-10 w-full p-4 flex justify-between mt-2 text-white border-t-2 border-t-white/50">
+    <div class="my-8 relative z-30 w-full p-4 flex justify-between mt-2 text-white border-t-2 border-t-white/50">
       <div>
         <span class="flex items-center gap-1">
           <p class="text-2xl font-semibold"><%= user.group&.habit&.size %></p> 
