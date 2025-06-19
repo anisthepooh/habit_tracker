@@ -86,6 +86,13 @@
   
   <div class="border-t border-t-gray-200 mt-auto pt-4">
     <%= render SidebarLinkComponent.new(
+      path: "https://bitehabit.app/flipper",
+      icon: "flag",
+      label: "Flipper",
+      external: true
+    ) %>
+
+    <%= render SidebarLinkComponent.new(
       path: "https://resend.com/emails",
       icon: "mail",
       label: "Resend",

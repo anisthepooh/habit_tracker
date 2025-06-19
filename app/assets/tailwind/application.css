@@ -198,9 +198,6 @@ body {
     #standalone-nav {
       display: block !important;
     }
-    #non-standalone-menu {
-      display: none !important;
-    }
   }
 
 /* Sidebar collapse prevention of FOUC */

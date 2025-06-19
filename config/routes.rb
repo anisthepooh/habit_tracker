@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   root "pages#home"
   get :home, to: "pages#home"
   get :become_beta, to: "pages#become_beta"
+  post :beta_signup, to: "beta_signups#create"
   get "privacy_policy", to: "pages#privacy_policy", as: :privacy_policy
   get "change_log", to: "pages#change_log", as: :change_log
 
