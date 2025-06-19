@@ -9,6 +9,11 @@ module NoticedHelper
       icon: "bell",
       delivery_method: "Push notification",
       type: "Habit reminder"
+    },
+    "BetaSignupNotification" => {
+      icon: "file-pen",
+      delivery_method: "Email",
+      type: "Beta signup"
     }
   }.freeze
 
@@ -20,18 +25,18 @@ module NoticedHelper
 
   def notification_delivery_method(notification)
     config = notification_config(notification)
-    config[:delivery_method] || notification.type.demodulize.humanize
+    config[:delivery_method] || notification.type.deconstantize.humanize
   end
 
   def notification_type(notification)
     config = notification_config(notification)
-    config[:type] || notification.type.demodulize.humanize
+    config[:type] || notification.type.deconstantize.humanize
   end
 
   private
 
   def notification_config(notification)
     @notification_configs ||= {}
-    @notification_configs[notification.type] ||= NOTIFICATION_CONFIG[notification.type.demodulize] || {}
+    @notification_configs[notification.type] ||= NOTIFICATION_CONFIG[notification.type.deconstantize] || {}
   end
 end
