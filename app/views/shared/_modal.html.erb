@@ -1,26 +1,16 @@
-<div 
-  data-transition-enter-active="transition ease-out duration-300"
-  data-transition-enter-from="translate-y-full opacity-0"
-  data-transition-enter-to="translate-y-0 opacity-100"
-  data-transition-leave-active="transition ease-in duration-200"
-  data-transition-leave-from="translate-y-0 opacity-100"
-  data-transition-leave-to="translate-y-10 opacity-0"
+<dialog 
+  data-modal-target="dialog"
+  data-action="click->modal#backdropClose"
+  class="fixed inset-x-0 bottom-8 top-auto bg-white w-full max-w-[80%] sm:max-w-sm mx-auto rounded-3xl p-6 relative overflow-y-auto scrollbar-hide h-fit transform left-1/2 shadow-2xl border border-black/5 backdrop-blur-sm transition-allow-discrete [&::backdrop]:transition-all [&::backdrop]:duration-300 [&::backdrop]:bg-black/50 [&::backdrop]:opacity-0 [&[open]::backdrop]:opacity-100 <%= yield :modal_styles%>"
 >
+  <div class="w-full flex items-center justify-between mb-6">
+    <h3 class="font-semibold text-xl text-gray-900">Options</h3>
+    <button type="button" data-action="click->modal#close" class="text-gray-400 bg-gray-50 rounded-full p-2 hover:text-gray-600 transition-colors">
+      <%= lucide_icon("x", class: "w-6 h-6") %>
+    </button>
+  </div>
 
-  <dialog 
-    data-modal-target="dialog"
-    data-action="click->modal#backdropClose"
-    class="fixed inset-x-0 bottom-8 top-auto bg-white w-full w-[80%] mx-auto rounded-[32px] p-8 relative overflow-y-scroll h-fit transition-transform duration-300 ease-in transform left-1/2 -translate-x-1/2 <%= yield :modal_styles%>"
-  >
-    <div class="w-full flex items-center justify-between border-b pb-4 mb-4">
-      <h3 class="font-medium text-lg">Actions</h3>
-      <button type="button" data-action="click->modal#close">
-        <%= lucide_icon("x", "size" => "24") %>
-      </button>
-    </div>
-
-    <div class="space-y-2">
-      <%= yield :modal_content%>
-    </div>
-  </dialog>
-</div>
+  <div class="space-y-3">
+    <%= yield :modal_content%>
+  </div>
+</dialog>

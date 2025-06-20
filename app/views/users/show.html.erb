@@ -1,7 +1,7 @@
 <div class="mx-auto max-w-2xl space-y-8 ">
   <%= render partial: "shared/user_card", locals: {user: @user} %>
 
-<%= render ListViewComponent.new(title: "HISTORY") do %>
+<%= render ListViewComponent.new(title: "INFO") do %>
   <li class="flex flex-col justify-between py-4 text-sm">
     <p class="font-medium">Email</p>
     <p class="text-muted-foreground line-clamp-1"><%= @user.email_address %></p>
