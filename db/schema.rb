@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_13_111017) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_20_105113) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -137,7 +137,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_111017) do
     t.string "status"
     t.integer "frequency"
     t.boolean "archived", default: false
+    t.time "reminder_time"
+    t.string "reminder_timezone", default: "UTC"
+    t.boolean "reminder_enabled", default: false
+    t.datetime "last_reminder_sent_at"
+    t.text "reminder_channels"
     t.index ["group_id"], name: "index_habits_on_group_id"
+    t.index ["reminder_enabled", "reminder_time"], name: "index_habits_on_reminder_enabled_and_reminder_time"
   end
 
   create_table "noticed_events", force: :cascade do |t|
@@ -226,6 +232,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_13_111017) do
     t.datetime "last_signed_in_at"
     t.string "card_background"
     t.string "role"
+    t.string "timezone", default: "UTC"
+    t.text "push_subscription_data"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
     t.index ["group_id"], name: "index_users_on_group_id"
   end

@@ -7,6 +7,17 @@ class Habit < ApplicationRecord
 
   STATUS = [ "active", "succeeded", "failed", "archived" ].freeze
 
+  # Reminder functionality
+  validates :reminder_time, presence: true, if: :reminder_enabled?
+  validates :reminder_timezone, presence: true, if: :reminder_enabled?
+  
+  # JSON serialization for reminder channels
+  serialize :reminder_channels, coder: JSON
+  
+  # Scopes for reminder processing
+  scope :with_reminders_enabled, -> { where(reminder_enabled: true) }
+  scope :needing_reminders, -> { with_reminders_enabled.where.not(reminder_time: nil) }
+
   # Weekly tracking methods
   def completed_days_this_week
     weekly_entries.group_by(&:wday).keys.map { |wday| day_abbreviation(wday) }
@@ -54,6 +65,32 @@ class Habit < ApplicationRecord
     end
 
     sorted_dates.count
+  end
+
+  # Reminder helper methods
+  def should_send_reminder?
+    return false unless reminder_enabled?
+    return false unless reminder_time.present?
+    return false if last_reminder_sent_at&.today?
+    return false if status == 'archived'
+    
+    user_timezone = reminder_timezone.presence || group.users.first&.timezone || 'UTC'
+    current_time_in_zone = Time.current.in_time_zone(user_timezone)
+    
+    # Check if current time is within 5 minutes of reminder time
+    reminder_hour = reminder_time.hour
+    reminder_min = reminder_time.min
+    
+    current_time_in_zone.hour == reminder_hour &&
+      (current_time_in_zone.min - reminder_min).abs <= 5
+  end
+
+  def reminder_channels_list
+    reminder_channels || ['email']
+  end
+
+  def user
+    group.users.first # Assuming single user per group for now
   end
 
   private

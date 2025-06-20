@@ -92,11 +92,22 @@
       </li>
       <% if Flipper.enabled?(:reminder, Current.user)%>
         <li class="flex flex-col justify-between py-4">
-          <p class="font-medium text-sm">Daily Reminde</p>
-          <% if @habit.reminder %>
-          <%= lucide_icon("bell-ring", class: "text-muted-foreground") %>
+          <p class="font-medium text-sm">Daily Reminder</p>
+          <% if @habit.reminder_enabled? %>
+            <div class="flex items-center gap-2">
+              <%= lucide_icon("bell-ring", class: "text-green-600 w-4 h-4") %>
+              <span class="text-muted-foreground text-sm">
+                <%= @habit.reminder_time&.strftime("%I:%M %p") || "Not set" %>
+                <% if @habit.reminder_timezone.present? %>
+                  (<%= @habit.reminder_timezone.split('/').last.gsub('_', ' ') %>)
+                <% end %>
+              </span>
+            </div>
           <% else %>
-          <%= lucide_icon("bell-off", class: "text-muted-foreground") %>
+            <div class="flex items-center gap-2">
+              <%= lucide_icon("bell-off", class: "text-muted-foreground w-4 h-4") %>
+              <span class="text-muted-foreground text-sm">Disabled</span>
+            </div>
           <% end %>
         </li>
       <% end %>

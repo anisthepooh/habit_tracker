@@ -52,6 +52,15 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}".strip
   end
 
+  # Timezone helper methods
+  def time_zone
+    timezone.presence || 'UTC'
+  end
+
+  def current_time
+    Time.current.in_time_zone(time_zone)
+  end
+
   # Low-res avatar for preloading (tiny, blurred)
   def avatar_placeholder
     return unless avatar.attached?

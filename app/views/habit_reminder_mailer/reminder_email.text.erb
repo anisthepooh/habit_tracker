@@ -1,0 +1,18 @@
+⏰ Habit Reminder: <%= @habit_name %>
+
+Hi <%= @user.first_name || @user.email_address.split('@').first %>!
+
+It's time for your daily habit: <%= @habit_name %>
+
+Your progress so far:
+• Current Streak: <%= @streak %> days
+• Total Check-ins: <%= @entries_count %>
+
+Keep up the great work! Every day counts towards building lasting change.
+
+Mark as complete: <%= Rails.application.routes.url_helpers.habit_url(@habit, host: 'bitehabit.app') %>
+
+You're receiving this reminder because you enabled notifications for this habit. 
+You can manage your reminder settings in the app.
+
+© <%= Date.current.year %> BiteHabit. Keep building great habits!

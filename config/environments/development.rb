@@ -8,7 +8,9 @@ Rails.application.configure do
 
   # Do not eager load code on boot.
   config.eager_load = false
-  config.action_mailer.delivery_method = :resend
+  # Use letter_opener in development to view emails in browser
+  config.action_mailer.delivery_method = :file
+  config.action_mailer.file_settings = { location: Rails.root.join('tmp/mail') }
 
   # Show full error reports.
   config.consider_all_requests_local = true
