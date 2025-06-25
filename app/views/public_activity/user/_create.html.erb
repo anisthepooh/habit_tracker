@@ -1,6 +1,6 @@
 <%= render(ActivityComponent.new(
   title: "New user created",
-  subtitle: (user = User.find_by(id: activity&.trackable_id)) ? "Welcome #{user.first_name.truncate(20)} 👋" : nil,
+  subtitle: (user = User.find_by(id: activity&.trackable_id)) ? "Welcome #{user.first_name&.truncate(20)} 👋" : nil,
   icon: "user-plus",
   variant: :success,
   date: activity.created_at.strftime('%d %B - %H:%M')

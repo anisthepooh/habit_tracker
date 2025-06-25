@@ -8,14 +8,14 @@
       <% if controller_name == "habits" && @habit.present? && action_name == "show"  %>
         <%= link_to new_habit_entry_path(@habit), data: {action: "click->dialog#open", turbo_frame: :drawer}, class: "flex flex-col items-center justify-center p-2 rounded-lg transition-colors #{current_page?(new_habit_path) ? 'text-primary' : 'text-muted-foreground hover:text-primary'}" do %>
           <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground mb-1">
-            <%= lucide_icon('plus', class: 'w-4 h-4') %>
+            <%= lucide_icon('circle-fading-plus', class: 'w-4 h-4') %>
           </div>
           <span class="text-xs font-medium text-primary">Add Entry <span>
         <% end %>
       <% else %>
        <%= link_to new_habit_path, class: "flex flex-col items-center justify-center p-2 rounded-lg transition-colors #{current_page?(new_habit_path) ? 'text-primary' : 'text-muted-foreground hover:text-primary'}" do %>
           <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground mb-1">
-            <%= lucide_icon('plus', class: 'w-4 h-4') %>
+            <%= lucide_icon('circle-fading-plus', class: 'w-4 h-4') %>
           </div>
           <span class="text-xs font-medium text-primary">Add Habit</span>
         <% end %>

@@ -14,7 +14,7 @@
     <% end %>
     <div class="flex gap-4">
       <% if Current.user %>
-        <%= link_to new_habit_path, class: "rounded-full w-10 h-10 bg-primary flex items-center justify-center text-primary-foreground" do %>
+        <%= link_to new_habit_path, class: "rounded-full w-8 h-8 bg-primary flex items-center justify-center text-primary-foreground" do %>
           <%= lucide_icon('plus') %>
         <% end %>
         <%= link_to user_path(id: Current.user.id), class: "outline-stone-500 outline-2 outline-offset-2 overflow-hidden rounded-full h-8" do %>

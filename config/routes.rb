@@ -29,7 +29,7 @@ Rails.application.routes.draw do
    get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  root "pages#home"
+  root "pages#landing"
   get :home, to: "pages#home"
   get :become_beta, to: "pages#become_beta"
   post :beta_signup, to: "beta_signups#create"

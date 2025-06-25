@@ -2,6 +2,11 @@ class PagesController < ApplicationController
   layout "unauthorised"
 
   allow_unauthenticated_access
+  
+  def landing
+    redirect_to habits_path if authenticated?
+  end
+  
   def home
     return if params[:admin]
     redirect_to habits_path if authenticated?
