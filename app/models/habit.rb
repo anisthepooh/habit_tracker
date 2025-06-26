@@ -6,14 +6,15 @@ class Habit < ApplicationRecord
   belongs_to :group
 
   STATUS = [ "active", "succeeded", "failed", "archived" ].freeze
+  DONE = %W[succeeded archived]
 
   # Reminder functionality
   validates :reminder_time, presence: true, if: :reminder_enabled?
   validates :reminder_timezone, presence: true, if: :reminder_enabled?
-  
+
   # JSON serialization for reminder channels
   serialize :reminder_channels, coder: JSON
-  
+
   # Scopes for reminder processing
   scope :with_reminders_enabled, -> { where(reminder_enabled: true) }
   scope :needing_reminders, -> { with_reminders_enabled.where.not(reminder_time: nil) }
@@ -72,25 +73,52 @@ class Habit < ApplicationRecord
     return false unless reminder_enabled?
     return false unless reminder_time.present?
     return false if last_reminder_sent_at&.today?
-    return false if status == 'archived'
-    
-    user_timezone = reminder_timezone.presence || group.users.first&.timezone || 'UTC'
+    return false if status == "archived"
+
+    user_timezone = reminder_timezone.presence || group.users.first&.timezone || "UTC"
     current_time_in_zone = Time.current.in_time_zone(user_timezone)
-    
+
     # Check if current time is within 5 minutes of reminder time
     reminder_hour = reminder_time.hour
     reminder_min = reminder_time.min
-    
+
     current_time_in_zone.hour == reminder_hour &&
       (current_time_in_zone.min - reminder_min).abs <= 5
   end
 
   def reminder_channels_list
-    reminder_channels || ['email']
+    reminder_channels || [ "email" ]
   end
 
   def user
     group.users.first # Assuming single user per group for now
+  end
+
+  # Completion methods for habit resume feature
+  def completed?
+    Date.current >= end_date
+  end
+
+  def completion_rate
+    return 0 if total_days <= 0
+    ((entries.count.to_f / total_days) * 100).round(1)
+  end
+
+  def completion_summary
+    rate = completion_rate
+    message = case rate
+    when 80..100 then "🎉 Excellent work!"
+    when 60..79 then "👏 Great job!"
+    when 40..59 then "👍 Good effort!"
+    else "💪 Keep trying!"
+    end
+
+    {
+      completion_rate: rate,
+      total_entries: entries.count,
+      total_days: total_days,
+      message: message
+    }
   end
 
   private

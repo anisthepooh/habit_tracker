@@ -25,8 +25,10 @@ rails server
 ```bash
 rails test                    # Run all tests
 rails test test/models/       # Run model tests
-rails test test/controllers/  # Run controller tests  
+rails test test/controllers/  # Run controller tests
+rails test test/components/   # Run ViewComponent tests  
 rails test:system            # Run system tests
+rails test test/models/user_test.rb  # Run specific test file
 ```
 
 **Code Quality:**
@@ -45,12 +47,18 @@ rails db:reset                # Drop, create, migrate, seed
 ## Architecture
 
 **Core Models:**
-- `User` - Authentication and profiles
+- `User` - Authentication and profiles with timezone support
 - `Group` - Organization unit for users and habits
-- `Habit` - Core tracking entity with streaks and frequency
+- `Habit` - Core tracking entity with streaks, status, and reminders
 - `Entry` - Daily habit completions with mood tracking
+- `Session` - Custom session management with IP/user agent tracking
 - `PublicActivity::Activity` - Activity feed
 - `Noticed::Event` - Notifications system
+
+**Authentication:**
+- Custom session-based authentication (not Devise)
+- Current object pattern for request-scoped data
+- Role-based access with `User#admin?`
 
 **Frontend Stack:**
 - Hotwire (Turbo + Stimulus) for SPA-like experience
@@ -67,11 +75,16 @@ rails db:reset                # Drop, create, migrate, seed
 - `ransack` - Search/filtering
 - `view_component` - Component architecture
 - `solid_*` gems - Production performance (queue, cache, cable)
+- `resend` - Transactional email service
+- `will_paginate` - Pagination
+- `sentry-ruby` - Error monitoring
 
 **Admin Interface:**
 - Separate `/admin` namespace
 - Admin user authentication via `User#admin?`
 - Admin controllers in `app/controllers/admin/`
+- Flipper UI for feature flags at `/flipper`
+- Admin dashboard with user statistics and communication tools
 
 ## Testing Patterns
 
@@ -88,9 +101,24 @@ rails db:reset                # Drop, create, migrate, seed
 - Active Storage for file uploads
 - Comprehensive indexing for performance
 
+## PWA Features
+
+- Service worker for offline functionality  
+- Web app manifest for mobile installation
+- Progressive enhancement approach
+
 ## Deployment
 
 - Docker-based deployment with Kamal
 - Configured with Thruster for HTTP acceleration
 - Sentry for error monitoring
 - Resend for transactional emails
+
+## Key Development Patterns
+
+- Strong parameters with modern `expect` syntax
+- ViewComponent architecture for reusable UI
+- Activity tracking across all major models
+- Timezone-aware habit scheduling and streaks
+- Comprehensive notification system with multiple channels
+- Feature flag management for gradual rollouts

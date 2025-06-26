@@ -37,18 +37,26 @@ class EntriesController < ApplicationController
     respond_to do |format|
       if @entry.save
         format.turbo_stream do
-          render turbo_stream: [
-            # Update the entries list
+          turbo_streams = [
             turbo_stream.replace("entries",
               partial: "habits/entry_list",
               locals: { habit: @habit }
             ),
-            # Update the weekly streak component
             turbo_stream.replace("weekly_streak",
               partial: "habits/weekly_streak",
               locals: { habit: @habit }
             )
           ]
+
+          # Add completion celebration if habit is completed
+          if @habit.completed?
+            turbo_streams << turbo_stream.replace("habit_completion_status",
+              partial: "habits/completion_status",
+              locals: { habit: @habit }
+            )
+          end
+
+          render turbo_stream: turbo_streams
         end
         format.html
         format.json do
