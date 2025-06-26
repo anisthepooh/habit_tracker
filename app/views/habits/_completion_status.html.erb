@@ -1,0 +1,62 @@
+<% if habit.completed? && !Habit::DONE.include?(habit.status) %>
+  <!-- Completion Popup using same style as existing modal -->
+  <div data-controller="completion-popup">
+    <dialog data-completion-popup-target="dialog" 
+            data-action="click->completion-popup#backdropClose"
+            class="fixed inset-x-0 bottom-8 top-auto bg-white w-full max-w-[80%] sm:max-w-sm mx-auto rounded-3xl p-6 relative overflow-y-auto scrollbar-hide h-fit transform top-0 shadow-2xl border border-black/5 backdrop-blur-sm transition-allow-discrete [&::backdrop]:transition-all [&::backdrop]:duration-300 [&::backdrop]:bg-black/50 [&::backdrop]:opacity-0 [&[open]::backdrop]:opacity-100">
+      
+      <!-- Header with close button -->
+      <div class="w-full flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-xl text-gray-900">🎉 Habit Complete!</h3>
+        <button type="button" data-action="click->completion-popup#close" class="text-gray-400 bg-gray-50 rounded-full p-2 hover:text-gray-600 transition-colors">
+          <%= lucide_icon("x", class: "w-6 h-6") %>
+        </button>
+      </div>
+
+      <!-- Celebration Content -->
+      <div class="space-y-4">
+        <!-- Emoji and message -->
+        <div class="text-center">
+          <div class="text-6xl mb-2"><%= habit.completion_summary[:message].split(' ')[0] %></div>
+          <p class="text-lg text-gray-700 font-medium">
+            <%= habit.completion_summary[:message].split(' ', 2)[1] %>
+          </p>
+        </div>
+        
+        <!-- Stats Grid -->
+        <div class="bg-gray-50 rounded-2xl p-4">
+          <div class="grid grid-cols-3 gap-4 text-center">
+            <div>
+              <div class="text-xl font-semiboldbold text-gray-600"><%= habit.completion_summary[:completion_rate] %>%</div>
+              <div class="text-xs text-gray-600">Completion</div>
+            </div>
+            <div>
+              <div class="text-xl font-semiboldbold text-gray-600"><%= habit.completion_summary[:total_entries] %></div>
+              <div class="text-xs text-gray-600">Check-ins</div>
+            </div>
+            <div>
+              <div class="text-xl font-semiboldbold text-gray-600"><%= habit.completion_summary[:total_days] %></div>
+              <div class="text-xs text-gray-600">Days</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="space-y-3">
+          <%= link_to new_habit_path, 
+                      class: "#{ButtonComponent.new(variant: :default, size: :default).component_classes} w-full justify-center" do %>
+            <%= lucide_icon("plus", class: "w-4 h-4") %>
+            Start New Habit
+          <% end %>
+          
+          <%= button_to  archive_habit_path(habit), method: :patch,
+                        class: "#{ButtonComponent.new(variant: :outline, size: :default).component_classes} w-full justify-center",
+                        data: { turbo_confirm: "Archive this completed habit?" } do %>
+            <%= lucide_icon("archive", class: "w-4 h-4") %>
+            Archive
+          <% end %>
+        </div>
+      </div>
+    </dialog>
+  </div>
+<% end %>

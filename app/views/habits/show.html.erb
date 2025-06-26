@@ -16,24 +16,101 @@
             <%= lucide_icon(@habit.icon || "circle", class: "w-5 h-5") %>
           </span>
         </div>
-        <button data-action="click->modal#open" class="font-semibold text-xl rounded-full bg-primary-foreground w-8 h-8 text-primary flex items-center justify-center">
-          <%= lucide_icon("ellipsis")%>
-        </button>
+        <div class="flex items-center gap-2">
+          <% if @habit.completed? && Habit::DONE.include?(@habit.status) %>
+            <div data-controller="completion-popup">
+              <button type="button" 
+                      data-action="click->completion-popup#open" 
+                      class="font-semibold text-xl rounded-full bg-primary-foreground w-8 h-8 text-primary flex items-center justify-center"
+                      title="View completion report">
+                <%= lucide_icon("bar-chart-3", class: "w-4 h-4") %>
+              </button>
+              
+              <dialog data-completion-popup-target="dialog" 
+                      data-action="click->completion-popup#backdropClose"
+                      class="fixed inset-x-0 bottom-8 top-auto bg-white w-full max-w-[80%] sm:max-w-sm mx-auto rounded-3xl p-6 relative overflow-y-auto scrollbar-hide h-fit transform top-0 shadow-2xl border border-black/5 backdrop-blur-sm transition-allow-discrete [&::backdrop]:transition-all [&::backdrop]:duration-300 [&::backdrop]:bg-black/50 [&::backdrop]:opacity-0 [&[open]::backdrop]:opacity-100">
+                
+                <!-- Header with close button -->
+                <div class="w-full flex items-center justify-between mb-6">
+                  <h3 class="font-semibold text-xl text-gray-900">🎉 Habit Complete!</h3>
+                  <button type="button" data-action="click->completion-popup#close" class="text-gray-400 bg-gray-50 rounded-full p-2 hover:text-gray-600 transition-colors">
+                    <%= lucide_icon("x", class: "w-6 h-6") %>
+                  </button>
+                </div>
+
+                <!-- Celebration Content -->
+                <div class="space-y-4">
+                  <!-- Emoji and message -->
+                  <div class="text-center">
+                    <div class="text-6xl mb-2"><%= @habit.completion_summary[:message].split(' ')[0] %></div>
+                    <p class="text-lg text-gray-700 font-medium">
+                      <%= @habit.completion_summary[:message].split(' ', 2)[1] %>
+                    </p>
+                  </div>
+                  
+                  <!-- Stats Grid -->
+                  <div class="bg-gray-50 rounded-2xl p-4">
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                      <div>
+                        <div class="text-xl font-semibold text-gray-600"><%= @habit.completion_summary[:completion_rate] %>%</div>
+                        <div class="text-xs text-gray-600">Completion</div>
+                      </div>
+                      <div>
+                        <div class="text-xl font-semibold text-gray-600"><%= @habit.completion_summary[:total_entries] %></div>
+                        <div class="text-xs text-gray-600">Check-ins</div>
+                      </div>
+                      <div>
+                        <div class="text-xl font-semibold text-gray-600"><%= @habit.completion_summary[:total_days] %></div>
+                        <div class="text-xs text-gray-600">Days</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Action Buttons -->
+                  <div class="space-y-3">
+                    <%= link_to new_habit_path, 
+                                class: "#{ButtonComponent.new(variant: :default, size: :default).component_classes} w-full justify-center" do %>
+                      <%= lucide_icon("plus", class: "w-4 h-4") %>
+                      Start New Habit
+                    <% end %>
+                  </div>
+                </div>
+              </dialog>
+            </div>
+          <% end %>
+          <button data-action="click->modal#open" class="font-semibold text-xl rounded-full bg-primary-foreground w-8 h-8 text-primary flex items-center justify-center">
+            <%= lucide_icon("ellipsis")%>
+          </button>
+        </div>
       </div>
       <div>
         <p class="font-semibold text-stone-200 text-lg">
           <%= @habit.name %>
         </p>
-        <div class="text-stone-400 flex gap-2 text-sm">
-          <time datetime="<%= @habit.start_date%>"><%= @habit.start_date.strftime("%d %B %Y")%></time>
-          •
-          <p><%= @habit.duration%> Days</p>
-        </div>
+        <% if @habit.completed? %>
+          <div class="text-stone-300 flex items-center gap-2 text-sm">
+            <span class="text-white font-medium">✓ Completed</span>
+            •
+            <span><%= @habit.completion_rate %>% done</span>
+            •
+            <span><%= @habit.entries.size %>/<%= @habit.duration %> days</span>
+          </div>
+        <% else %>
+          <div class="text-stone-400 flex gap-2 text-sm">
+            <time datetime="<%= @habit.start_date%>"><%= @habit.start_date.strftime("%d %B %Y")%></time>
+            •
+            <p><%= @habit.duration%> Days</p>
+          </div>
+        <% end %>
       </div>
     </div>
     <div class="mt-8">
       <%= render partial: "habits/weekly_streak", locals: { habit: @habit } %>
     </div>
+  </div>
+
+  <div id="habit_completion_status">
+    <%= render partial: "habits/completion_status", locals: { habit: @habit } %>
   </div>
 
   <div class="my-8">

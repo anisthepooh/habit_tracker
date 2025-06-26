@@ -16,15 +16,23 @@
           <%= lucide_icon(habit.icon || "circle", class: "w-5 h-5") %>
         </span>
       </div>
-      <div>
+      <div class="flex-1">
         <p class="font-semibold text-stone-200">
           <%= habit.name %>
         </p>
-        <div class="text-stone-400 flex gap-2 text-sm">
-          <time datetime="<%= habit.start_date%>"><%= habit.start_date.strftime("%d %B %Y")%></time>
-          •
-          <p><%= habit.duration%> Days</p>
-        </div>
+        <% if habit.completed? %>
+          <div class="text-stone-300 flex items-center gap-2 text-sm">
+            <span class="text-white">✓ Completed</span>
+            •
+            <span><%= habit.completion_rate %>% done</span>
+          </div>
+        <% else %>
+          <div class="text-stone-400 flex gap-2 text-sm">
+            <time datetime="<%= habit.start_date%>"><%= habit.start_date.strftime("%d %B %Y")%></time>
+            •
+            <p><%= habit.duration%> Days</p>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
