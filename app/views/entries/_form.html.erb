@@ -34,31 +34,64 @@
 
   <div class="my-5">
     <%= form.label :description %>
-    <%= form.text_field :description, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": entry.errors[:description].none?, "border-red-400 focus:outline-red-600": entry.errors[:description].any?}], required: true %>
+    <%= form.text_field :description, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": entry.errors[:description].none?, "border-red-400 focus:outline-red-600": entry.errors[:description].any?}] %>
   </div>
 
   <div class="my-5">
     <%= form.label :mood, "Mood", class: "block mb-2 font-medium" %>
-    <div class="relative w-full">
-      <%= form.select :mood, 
-        options_for_select([
-          ["😀 Happy", "happy"],
-          ["😞 Sad", "sad"],
-          ["😠 Angry", "angry"],
-          ["😴 Tired", "tired"],
-          ["🤩 Excited", "excited"],
-          ["😐 Neutral", "neutral"],
-          ["😰 Anxious", "anxious"],
-          ["❤️ Loved", "loved"]
-        ]),
-        {}, # no HTML options for now
-        class: "appearance-none w-full rounded-xl bg-white border border-border py-3 pl-4 pr-10 text-base text-text focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm"
-      %>
-
-      <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400">
-       <%= lucide_icon("chevron-down")%>
-      </div>
-    </div>
+    <%
+      mood_options = [
+        {
+          value: "happy",
+          icon: "😀",
+          title: "Happy",
+          description: "Feeling great and positive"
+        },
+        {
+          value: "sad",
+          icon: "😞",
+          title: "Sad",
+          description: "Feeling down or melancholy"
+        },
+        {
+          value: "angry",
+          icon: "😠",
+          title: "Angry", 
+          description: "Feeling frustrated or upset"
+        },
+        {
+          value: "tired",
+          icon: "😴",
+          title: "Tired",
+          description: "Feeling sleepy or exhausted"
+        },
+        {
+          value: "excited",
+          icon: "🤩",
+          title: "Excited",
+          description: "Feeling energetic and enthusiastic"
+        },
+        {
+          value: "neutral",
+          icon: "😐",
+          title: "Neutral",
+          description: "Feeling balanced and calm"
+        },
+        {
+          value: "anxious",
+          icon: "😰",
+          title: "Anxious",
+          description: "Feeling worried or nervous"
+        },
+        {
+          value: "loved",
+          icon: "❤️",
+          title: "Loved",
+          description: "Feeling appreciated and cared for"
+        }
+      ]
+    %>
+    <%= render SelectComponent.new(form: form, field: :mood, selected: @entry.mood, options: mood_options) %>
   </div>
 <% end %>
 <% end %>

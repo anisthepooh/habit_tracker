@@ -17,9 +17,11 @@
   </div>
 
   </div>
-  <div class="border-l-2 pl-2 border-l-border">
-    <%= entry.description %>
-  </div>
+  <%= entry.description.present? %>
+    <div class="border-l-2 pl-2 border-l-border">
+      <%= entry.description %>
+    </div>
+  <% end %>
 </div>
 <% content_for :modal_content do %>
   <%= link_to "Edit this entry", edit_habit_entry_path(id: @entry), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>

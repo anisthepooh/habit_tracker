@@ -99,7 +99,7 @@
           <div class="text-stone-400 flex gap-2 text-sm">
             <time datetime="<%= @habit.start_date%>"><%= @habit.start_date.strftime("%d %B %Y")%></time>
             •
-            <p><%= @habit.duration%> Days</p>
+            <p><%= duration_display(@habit.duration) %></p>
           </div>
         <% end %>
       </div>
@@ -155,7 +155,7 @@
       </li>
       <li class="flex flex-col justify-between py-4">
         <p class="font-medium text-sm">Duration</p>
-        <p class="text-muted-foreground">30 days</p>
+        <p class="text-muted-foreground"><%= duration_display(@habit.duration) %></p>
       </li>
       <li class="flex flex-col justify-between py-4">
         <p class="font-medium text-sm">Start</p>

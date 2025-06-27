@@ -10,6 +10,23 @@
             <%= render partial: "habit", locals: { index: index, habit: habit } %>
           </div>
         <% end %>
+        <%= link_to new_habit_path, class: "flex text-gray-500 items-center gap-2 text-medium font-semibold  justify-start bg-gray-100 w-full px-4 py-6 rounded-2xl border-2 border-dashed" do %>
+          <div class="absolute w-12 h-12">
+            <svg class="w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4" fill="none" class="text-white" />
+              <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4" fill="none" class="text-gray-500 "
+                      stroke-dasharray="100" 
+                      stroke-dashoffset="100"
+                      stroke-linecap="round" />
+            </svg>
+            <span class="absolute inset-0 text-gray-500 flex items-center justify-center" >
+              <%= lucide_icon("circle-fading-plus", class: "w-5 h-5") %>
+            </span>
+          </div>
+          <span class="mx-auto">
+            Create your first habit
+          </span>
+        <% end %>
       <% else %>
         <div class="grid gap-6 mx-auto mt-8">
           <%= lucide_icon('flask-conical', class:"mx-auto p-3 rounded-full w-12 h-12 text-primary flex items-center justify-center bg-primary-foreground") %>
@@ -17,9 +34,22 @@
             <h2 class="text-center text-black text-base font-semibold leading-relaxed pb-1">You have not created any habits yet</h2>
             <p class="text-center text-black font-normal leading-snug pb-4">Try changing your filters to <br />see appointments</p>
             <div class="flex gap-3">
-              <%= link_to new_habit_path, class: "flex items-center gap-2 text-medium font-semibold text-primary text-center justify-center bg-primary-foreground w-full py-3 rounded-lg" do %>
-                <%= lucide_icon('plus', class:"rounded-full w-6 h-6 bg-primary flex items-center justify-center text-primary-foreground") %>
-                Create your first habit
+              <%= link_to new_habit_path, class: "flex text-gray-500 items-center gap-2 text-medium font-semibold  justify-start bg-gray-100 w-full px-4 py-6 rounded-2xl border-2 border-dashed" do %>
+                <div class="absolute w-12 h-12">
+                  <svg class="w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
+                    <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4" fill="none" class="text-white" />
+                    <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4" fill="none" class="text-gray-500 "
+                            stroke-dasharray="100" 
+                            stroke-dashoffset="100"
+                            stroke-linecap="round" />
+                  </svg>
+                  <span class="absolute inset-0 text-gray-500 flex items-center justify-center" >
+                    <%= lucide_icon("circle-fading-plus", class: "w-5 h-5") %>
+                  </span>
+                </div>
+                <span class="mx-auto">
+                  Create your first habit
+                </span>
               <% end %>
             </div>
           </div>

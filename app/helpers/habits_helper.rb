@@ -1,4 +1,24 @@
 module HabitsHelper
+  DURATION_LABELS = {
+    7 => "Tiny",
+    14 => "Short",
+    30 => "Medium",
+    90 => "Long"
+  }.freeze
+
+  def duration_label(days)
+    DURATION_LABELS[days] || "Custom"
+  end
+
+  def duration_display(days)
+    label = duration_label(days)
+    if label == "Custom"
+      "#{days} days"
+    else
+      "#{label} (#{days} days)"
+    end
+  end
+
   def icon_radio_group(form, label:, icons:, group:)
     content_tag(:div, class: "mb-6 pb-3") do
       concat form.label(:icon, label, class: "block font-medium text-gray-700 mb-2 capitalize")
