@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_20_105113) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_27_083937) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -142,6 +142,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_105113) do
     t.boolean "reminder_enabled", default: false
     t.datetime "last_reminder_sent_at"
     t.text "reminder_channels"
+    t.integer "position"
+    t.index ["group_id", "position"], name: "index_habits_on_group_id_and_position"
     t.index ["group_id"], name: "index_habits_on_group_id"
     t.index ["reminder_enabled", "reminder_time"], name: "index_habits_on_reminder_enabled_and_reminder_time"
   end

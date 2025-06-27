@@ -3,7 +3,11 @@
       <div>
         <p class="font-medium"><%= entry.date.strftime("%d %B %Y") %></p>
         <p class="text-muted-foreground"><%= entry.date.strftime("%H.%M") %></p>
-        <p class="text-muted-foreground"><%= "#{truncate(entry.description, length: 40)} • #{mood_label(entry.mood)}" %></p>
+        <% if entry.description.present? %>
+          <p class="text-muted-foreground"><%= "#{truncate(entry.description, length: 40)} • #{mood_label(entry.mood)}" %></p>
+        <% else %>
+          <p class="text-muted-foreground"><%= "#{mood_label(entry.mood)}" %></p>
+        <% end%>
       </div>
   <% end %>
   <%= link_to habit_entry_path(id: entry, habit_id: entry.habit), data: { turbo: false }  do %>

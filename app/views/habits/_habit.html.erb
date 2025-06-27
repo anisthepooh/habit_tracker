@@ -30,7 +30,7 @@
           <div class="text-stone-400 flex gap-2 text-sm">
             <time datetime="<%= habit.start_date%>"><%= habit.start_date.strftime("%d %B %Y")%></time>
             •
-            <p><%= habit.duration%> Days</p>
+            <p><%= duration_display(habit.duration) %></p>
           </div>
         <% end %>
       </div>
