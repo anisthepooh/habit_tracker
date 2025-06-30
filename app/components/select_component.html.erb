@@ -1,31 +1,89 @@
-<select style="background: white" name="<%= field_name %>" class="custom-select w-full bg-white h-auto border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 h-10 rounded-md">
-  <button type="button" class="border-none bg-transparent p-0 w-full text-left cursor-pointer">
-    <selectedcontent class="flex items-center gap-3 py-2">
+<% if use_native_select? %>
+  <!-- iOS Native Select -->
+  <div class="ios-select-wrapper w-full relative" data-controller="ios-select">
+    <select name="<%= field_name %>" 
+            class="ios-native-select w-full h-12 bg-white border border-input rounded-md px-3 py-2 text-sm appearance-none"
+            data-ios-select-target="select">
+      <% options.each do |option| %>
+        <option value="<%= option[:value] %>" <%= 'selected' if option[:value] == selected_option[:value] %>>
+          <%= option[:icon] if option[:icon] && option[:icon].match?(/[^\x00-\x7F]/) %> <%= option[:title] %>
+        </option>
+      <% end %>
+    </select>
+    <div class="ios-select-display absolute inset-0 flex items-center px-3 pointer-events-none bg-white border border-input rounded-md"
+         data-ios-select-target="display">
       <span class="flex shrink-0 w-5 h-5 text-primary items-center justify-center">
         <%= render_icon(selected_option[:icon]) %>
       </span>
-      <span class="flex flex-col flex-1 gap-0.5">
-        <span class="font-medium text-sm text-foreground leading-5"><%= selected_option[:title] %></span>
-        <span class="text-xs text-muted-foreground leading-tight"><%= selected_option[:description] %></span>
+      <span class="flex flex-col flex-1 gap-0.5 ml-3">
+        <span class="font-medium text-sm text-foreground leading-5" data-ios-select-content>
+          <%= selected_option[:title] %>
+        </span>
+        <span class="text-xs text-muted-foreground leading-tight">
+          <%= selected_option[:description] %>
+        </span>
       </span>
-    </selectedcontent>
-    <%= lucide_icon("chevrons-up-down", class: "ml-auto my-auto text-muted-foreground")%>
-  </button>
+      <%= lucide_icon("chevron-down", class: "ml-auto my-auto text-muted-foreground")%>
+    </div>
+  </div>
+<% else %>
+  <!-- Custom Select for Non-iOS -->
+  <select style="background: white" name="<%= field_name %>" class="custom-select w-full bg-white h-auto border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 h-10 rounded-md">
+    <button type="button" class="border-none bg-transparent p-0 w-full text-left cursor-pointer">
+      <selectedcontent class="flex items-center gap-3 py-2">
+        <span class="flex shrink-0 w-5 h-5 text-primary items-center justify-center">
+          <%= render_icon(selected_option[:icon]) %>
+        </span>
+        <span class="flex flex-col flex-1 gap-0.5">
+          <span class="font-medium text-sm text-foreground leading-5"><%= selected_option[:title] %></span>
+          <span class="text-xs text-muted-foreground leading-tight"><%= selected_option[:description] %></span>
+        </span>
+      </selectedcontent>
+      <%= lucide_icon("chevrons-up-down", class: "ml-auto my-auto text-muted-foreground")%>
+    </button>
 
-  <% options.each do |option| %>
-    <option value="<%= option[:value] %>" <%= 'selected' if option[:value] == selected_option[:value] %> class="flex items-center gap-3 p-3 rounded-lg m-0.5 hover:bg-accent hover:text-accent-foreground data-[state=checked]:bg-green-200 data-[state=checked]:text-accent-foreground">
-      <span class="flex shrink-0 w-5 h-5 text-primary items-center justify-center">
-        <%= render_icon(option[:icon]) %>
-      </span>
-      <span class="flex flex-col flex-1 gap-0.5">
-        <span class="font-medium text-sm text-foreground leading-5"><%= option[:title] %></span>
-        <span class="text-xs text-muted-foreground leading-tight"><%= option[:description] %></span>
-      </span>
-    </option>
-  <% end %>
-</select>
+    <% options.each do |option| %>
+      <option value="<%= option[:value] %>" <%= 'selected' if option[:value] == selected_option[:value] %> class="flex items-center gap-3 p-3 rounded-lg m-0.5 hover:bg-accent hover:text-accent-foreground data-[state=checked]:bg-green-200 data-[state=checked]:text-accent-foreground">
+        <span class="flex shrink-0 w-5 h-5 text-primary items-center justify-center">
+          <%= render_icon(option[:icon]) %>
+        </span>
+        <span class="flex flex-col flex-1 gap-0.5">
+          <span class="font-medium text-sm text-foreground leading-5"><%= option[:title] %></span>
+          <span class="text-xs text-muted-foreground leading-tight"><%= option[:description] %></span>
+        </span>
+      </option>
+    <% end %>
+  </select>
+<% end %>
 
 <style>
+/* iOS Native Select Styles */
+.ios-select-wrapper {
+  position: relative;
+}
+
+.ios-native-select {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  font-size: 16px; /* Prevents zoom on iOS */
+  min-height: 48px; /* iOS-friendly touch target */
+}
+
+.ios-select-display {
+  z-index: 1;
+  min-height: 48px;
+}
+
+/* Show native select on focus for iOS */
+.ios-native-select:focus + .ios-select-display {
+  opacity: 0.8;
+}
+
+/* Custom Select for Non-iOS */
 .custom-select,
 .custom-select::picker(select) {
   appearance: base-select;

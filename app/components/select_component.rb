@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class SelectComponent < ViewComponent::Base
+  include ApplicationHelper
+
   def initialize(form:, field:, selected: nil, options: [], **html_options)
     @form = form
     @field = field
@@ -27,7 +29,7 @@ class SelectComponent < ViewComponent::Base
 
   def render_icon(icon_value)
     return "" if icon_value.blank?
-    
+
     # Check if it's an emoji (contains non-ASCII characters)
     if icon_value.match?(/[^\x00-\x7F]/)
       content_tag(:span, icon_value, class: "text-lg")
@@ -35,5 +37,9 @@ class SelectComponent < ViewComponent::Base
       # It's a Lucide icon name
       lucide_icon(icon_value, class: "w-5 h-5")
     end
+  end
+
+  def use_native_select?
+    ios_device?
   end
 end
