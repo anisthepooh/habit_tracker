@@ -126,7 +126,7 @@ class Habit < ApplicationRecord
   # Get unique dates when entries were made this week
   def weekly_entries
     @weekly_entries ||= entries
-      .where(created_at: Date.current.beginning_of_week(:sunday)..Date.current.end_of_day)
+      .where(created_at: Date.current.beginning_of_week(:monday)..Date.current.end_of_day)
       .pluck(:created_at)
       .map(&:to_date)
       .uniq
@@ -134,7 +134,7 @@ class Habit < ApplicationRecord
 
   # Map day number to abbreviation
   def day_abbreviation(wday)
-    %w[Su M Tu W Th F Sa][wday]
+    %w[M Tu W Th F Sa Su][wday - 1]
   end
 
   # Check if streak is broken (no entry yesterday or today)
