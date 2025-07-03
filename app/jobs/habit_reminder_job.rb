@@ -5,11 +5,7 @@ class HabitReminderJob < ApplicationJob
     habit = Habit.find_by(id: habit_id)
     return unless habit&.should_send_reminder?
 
-    # Send reminder email directly
-    HabitReminderMailer
-      .with(habit: habit, user: habit.user)
-      .reminder_email
-      .deliver_now
+    HabitReminderNotification.with(habit: habit, user: habit.user).deliver(habit.user)
 
     # Update last reminder sent timestamp
     habit.update!(last_reminder_sent_at: Time.current)

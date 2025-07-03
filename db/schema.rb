@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_27_083937) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_03_125157) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -138,7 +138,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_27_083937) do
     t.integer "frequency"
     t.boolean "archived", default: false
     t.time "reminder_time"
-    t.string "reminder_timezone", default: "UTC"
     t.boolean "reminder_enabled", default: false
     t.datetime "last_reminder_sent_at"
     t.text "reminder_channels"
@@ -236,8 +235,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_27_083937) do
     t.string "role"
     t.string "timezone", default: "UTC"
     t.text "push_subscription_data"
+    t.text "otp_secret"
+    t.boolean "otp_enabled", default: false, null: false
+    t.text "otp_backup_codes"
+    t.datetime "otp_verified_at"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
     t.index ["group_id"], name: "index_users_on_group_id"
+    t.index ["otp_enabled"], name: "index_users_on_otp_enabled"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

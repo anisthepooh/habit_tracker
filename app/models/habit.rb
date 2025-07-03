@@ -10,7 +10,7 @@ class Habit < ApplicationRecord
 
   # Reminder functionality
   validates :reminder_time, presence: true, if: :reminder_enabled?
-  validates :reminder_timezone, presence: true, if: :reminder_enabled?
+  
 
   # JSON serialization for reminder channels
   serialize :reminder_channels, coder: JSON
@@ -34,7 +34,8 @@ class Habit < ApplicationRecord
 
   # Existing methods...
   def end_date
-    start_date + duration.days
+    return nil unless start_date.present?
+    start_date + duration.to_i.days
   end
 
   def total_days
@@ -51,8 +52,10 @@ class Habit < ApplicationRecord
   end
 
   def update_status
-    self.status = Date.current > end_date ? "succeeded" : "active"
-    save if status_changed?
+    if end_date.present?
+      self.status = Date.current > end_date ? "succeeded" : "active"
+      save if status_changed?
+    end
   end
 
   def calculate_streak
@@ -75,7 +78,7 @@ class Habit < ApplicationRecord
     return false if last_reminder_sent_at&.today?
     return false if status == "archived"
 
-    user_timezone = reminder_timezone.presence || group.users.first&.timezone || "UTC"
+    user_timezone = user.timezone || "UTC"
     current_time_in_zone = Time.current.in_time_zone(user_timezone)
 
     # Check if current time is within 5 minutes of reminder time
