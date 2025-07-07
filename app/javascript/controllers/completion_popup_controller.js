@@ -17,8 +17,8 @@ export default class extends Controller {
   }
 
   open() {
-    // First, position the dialog off-screen (at the bottom) with scale
-    this.dialogTarget.style.transform = ' translateY(100%) scale(0.95)'
+    // First, position the dialog off-screen (slide down from bottom) with scale
+    this.dialogTarget.style.transform = 'translateY(100%) scale(0.95)'
     this.dialogTarget.style.opacity = '0'
     
     // Ensure transition classes are present
@@ -33,9 +33,9 @@ export default class extends Controller {
     // Force a reflow to ensure the initial transform is applied
     void this.dialogTarget.offsetWidth
     
-    // Now animate it into view with spring-like easing
+    // Now animate it into view - slide up from bottom to its natural position
     requestAnimationFrame(() => {
-      this.dialogTarget.style.transform = ' translateY(50%) scale(1)'
+      this.dialogTarget.style.transform = 'translateY(0) scale(1)'
       this.dialogTarget.style.opacity = '1'
     })
   }
@@ -50,8 +50,8 @@ export default class extends Controller {
       this.dialogTarget.classList.add('transition-all', 'duration-300', 'ease-in')
     }
     
-    // Apply transform to slide out and scale down
-    this.dialogTarget.style.transform = ' translateY(100%) scale(0.95)'
+    // Apply transform to slide down and scale down
+    this.dialogTarget.style.transform = 'translateY(100%) scale(0.95)'
     this.dialogTarget.style.opacity = '0'
     
     // Wait for transition to complete before actually closing
