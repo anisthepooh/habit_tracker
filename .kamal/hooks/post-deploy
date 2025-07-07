@@ -3,4 +3,4 @@
 # This hook is executed after a new version of the app is deployed.
 
 # Start the reminder scheduler job
-/usr/bin/docker exec habit-tracker-web-1 bin/rails scheduler:start
+docker exec habit-tracker-web-1 bin/rails scheduler:start
