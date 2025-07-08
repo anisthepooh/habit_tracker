@@ -185,7 +185,7 @@ class HabitsController < ApplicationController
     end
 
     def habit_params
-      params.expect(habit: [ 
+      params.expect(habit: [
         :name, :description, :start_date, :duration, :reminder, :icon, :archived, :status,
         :reminder_enabled, :reminder_time, reminder_channels: []
       ])

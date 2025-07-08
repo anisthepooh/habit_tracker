@@ -122,3 +122,40 @@ rails db:reset                # Drop, create, migrate, seed
 - Timezone-aware habit scheduling and streaks
 - Comprehensive notification system with multiple channels
 - Feature flag management for gradual rollouts
+
+## Authentication System Implementation
+
+**Custom Authentication Pattern:**
+- Uses `Current` object with `ActiveSupport::CurrentAttributes` for request-scoped data
+- Session management via `Authentication` concern included in `ApplicationController`
+- Session cookie: `cookies.signed.permanent[:session_id]` with httponly and same_site protection
+- Authentication flow: `require_authentication` → `resume_session` → `find_session_by_cookie`
+- Session tracking includes IP address and user agent for security
+
+**Key Authentication Files:**
+- `app/controllers/concerns/authentication.rb` - Main authentication logic
+- `app/models/current.rb` - Request-scoped session/user access
+- `app/models/session.rb` - Session persistence model
+- `app/models/user.rb` - User model with `has_secure_password`
+- Authentication routes: login/logout at `/session`, signup at `/signup`
+
+**Authentication Helpers:**
+- `authenticated?` - Check if user is logged in
+- `Current.user` - Access current user from anywhere
+- `start_new_session_for(user)` - Create new session
+- `terminate_session` - Logout functionality
+- `after_authentication_url` - Redirect after login
+
+## Component Architecture
+
+**ViewComponent Pattern:**
+- All UI components in `app/components/` directory
+- Component-specific CSS and JavaScript via ViewComponent
+- Reusable components: `ButtonComponent`, `AvatarComponent`, `SelectComponent`, `StatCardComponent`
+- Sidebar components: `SidebarLinkComponent`, `SidebarAccordionComponent`
+- List and activity components: `ListViewComponent`, `ActivityComponent`
+
+**Stimulus Integration:**
+- Stimulus controllers for interactive behavior
+- Import maps for JavaScript dependencies
+- Alpine.js for lightweight interactions

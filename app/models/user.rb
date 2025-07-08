@@ -54,7 +54,7 @@ class User < ApplicationRecord
 
   # Timezone helper methods
   def time_zone
-    timezone.presence || 'UTC'
+    timezone.presence || "UTC"
   end
 
   def current_time
@@ -65,7 +65,7 @@ class User < ApplicationRecord
   def avatar_placeholder
     return unless avatar.attached?
     begin
-      avatar.variant(resize_to_limit: [32, 32], quality: 30)
+      avatar.variant(resize_to_limit: [ 32, 32 ], quality: 30)
     rescue => e
       Rails.logger.error "Avatar placeholder generation failed: #{e.message}"
       avatar # Fallback to original if variant fails
@@ -76,11 +76,10 @@ class User < ApplicationRecord
   def avatar_display
     return unless avatar.attached?
     begin
-      avatar.variant(resize_to_limit: [128, 128], quality: 85)
+      avatar.variant(resize_to_limit: [ 128, 128 ], quality: 85)
     rescue => e
       Rails.logger.error "Avatar display generation failed: #{e.message}"
       avatar # Fallback to original if variant fails
     end
   end
-
 end

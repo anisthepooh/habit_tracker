@@ -10,7 +10,7 @@ class Habit < ApplicationRecord
 
   # Reminder functionality
   validates :reminder_time, presence: true, if: :reminder_enabled?
-  
+
 
   # JSON serialization for reminder channels
   serialize :reminder_channels, coder: JSON
