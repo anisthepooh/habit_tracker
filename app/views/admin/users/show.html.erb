@@ -207,9 +207,6 @@
         <h2 class="text-xl font-semibold text-gray-900">
           Habits (<%= @user.habits.count %>)
         </h2>
-        <span class="text-sm text-gray-500">
-          via <%= @user.group&.name || "No Group" %>
-        </span>
       </div>
 
       <div class="px-6 py-6 space-y-6 grid grid-cols-2 gap-6">
@@ -307,19 +304,12 @@
         <%= lucide_icon("target", class: "w-12 h-12 text-gray-300 mx-auto mb-4") %>
         <h3 class="text-lg font-medium text-gray-900 mb-2">No habits yet</h3>
         <p class="text-gray-500 mb-4">
-          <% if @user.group.present? %>
-            This user hasn't created any habits in their group yet.
+          <% if @user.present? %>
+            This user hasn't created any habits yet.
           <% else %>
-            This user needs to join a group to start creating habits.
+            This user needs to create some habits.
           <% end %>
         </p>
-        
-        <% if @user.group.blank? %>
-          <div class="text-sm text-amber-600 bg-amber-50 border border-amber-200 rounded-lg p-3 inline-block">
-            <%= lucide_icon("alert-triangle", class: "w-4 h-4 inline mr-1") %>
-            User must be assigned to a group to access habits
-          </div>
-        <% end %>
       </div>
     </div>
   </div>

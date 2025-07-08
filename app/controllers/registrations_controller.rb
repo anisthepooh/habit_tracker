@@ -7,8 +7,7 @@ class RegistrationsController < ApplicationController
   end
 
   def create
-    group = Group.create!
-    user = group.users.build(user_params)
+    user = User.new(user_params)
 
     if user.save
       start_new_session_for user
