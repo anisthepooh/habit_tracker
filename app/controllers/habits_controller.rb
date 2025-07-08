@@ -6,18 +6,18 @@ class HabitsController < ApplicationController
 
   # GET /habits or /habits.json
   def index
-    @habits = @user.group&.habit.where.not(status: [ "succeeded" ]).where.not(archived: true)
+    @habits = @user.habits.where.not(status: [ "succeeded" ]).where.not(archived: true)
     @grouped_entries = @user.entries.group_by(&:date)
   end
 
   def completed_index
     set_path user_path(@user), "Back to profile"
-    @habits = @user.group&.habit.where(status: "succeeded")
+    @habits = @user.habits.where(status: "succeeded")
   end
 
   def archived_index
     set_path user_path(@user), "Back to profile"
-    @habits = @user.group&.habit.where(archived: "true")
+    @habits = @user.habits.where(archived: "true")
   end
 
   # GET /habits/1 or /habits/1.json
@@ -44,7 +44,7 @@ class HabitsController < ApplicationController
 
   # POST /habits or /habits.json
   def create
-    @habit = @user.group.habit.new(habit_params)
+    @habit = @user.habits.new(habit_params)
 
     respond_to do |format|
       if @habit.save
@@ -179,7 +179,7 @@ class HabitsController < ApplicationController
     end
 
     def update_status
-      Current.user.group.habit.each do |habit|
+      Current.user.habits.each do |habit|
         habit.update_status
       end
     end

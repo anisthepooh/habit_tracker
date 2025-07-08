@@ -1,5 +1,4 @@
 <%= form_with(model: habit, class: "contents", builder: CustomFormBuilder )  do |form| %>
-  <%= form.hidden_field :group_id %>
   <% if habit.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
       <h2><%= pluralize(habit.errors.count, "error") %> prohibited this habit from being saved:</h2>

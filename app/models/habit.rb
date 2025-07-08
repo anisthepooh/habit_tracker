@@ -3,7 +3,7 @@ class Habit < ApplicationRecord
   tracked only: [ :create ]
 
   has_many :entries, dependent: :destroy
-  belongs_to :group
+  belongs_to :user
 
   STATUS = [ "active", "succeeded", "failed", "archived" ].freeze
   DONE = %W[succeeded archived]
@@ -18,6 +18,7 @@ class Habit < ApplicationRecord
   # Scopes for reminder processing
   scope :with_reminders_enabled, -> { where(reminder_enabled: true) }
   scope :needing_reminders, -> { with_reminders_enabled.where.not(reminder_time: nil) }
+  scope :completed, -> { where(status: "Succeeded") }
 
   # Weekly tracking methods
   def completed_days_this_week
@@ -93,9 +94,7 @@ class Habit < ApplicationRecord
     reminder_channels || [ "email" ]
   end
 
-  def user
-    group.users.first # Assuming single user per group for now
-  end
+  # user method now comes from belongs_to :user association
 
   # Completion methods for habit resume feature
   def completed?

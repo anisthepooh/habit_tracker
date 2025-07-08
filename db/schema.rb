@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_03_125157) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_08_105015) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -118,12 +118,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_03_125157) do
     t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true
   end
 
-  create_table "groups", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "habits", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -133,7 +127,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_03_125157) do
     t.string "icon"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "group_id", null: false
     t.string "status"
     t.integer "frequency"
     t.boolean "archived", default: false
@@ -142,9 +135,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_03_125157) do
     t.datetime "last_reminder_sent_at"
     t.text "reminder_channels"
     t.integer "position"
-    t.index ["group_id", "position"], name: "index_habits_on_group_id_and_position"
-    t.index ["group_id"], name: "index_habits_on_group_id"
+    t.integer "user_id", null: false
+    t.index ["position"], name: "index_habits_on_group_id_and_position"
     t.index ["reminder_enabled", "reminder_time"], name: "index_habits_on_reminder_enabled_and_reminder_time"
+    t.index ["user_id"], name: "index_habits_on_user_id"
   end
 
   create_table "noticed_events", force: :cascade do |t|
@@ -227,7 +221,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_03_125157) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "group_id"
     t.string "first_name"
     t.string "last_name"
     t.datetime "last_signed_in_at"
@@ -240,7 +233,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_03_125157) do
     t.text "otp_backup_codes"
     t.datetime "otp_verified_at"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
-    t.index ["group_id"], name: "index_users_on_group_id"
     t.index ["otp_enabled"], name: "index_users_on_otp_enabled"
   end
 
@@ -248,9 +240,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_03_125157) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "beta_testers", "users"
   add_foreign_key "entries", "habits"
-  add_foreign_key "habits", "groups"
+  add_foreign_key "habits", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "taggings", "tags"
   add_foreign_key "user_configurations", "users"
-  add_foreign_key "users", "groups"
 end

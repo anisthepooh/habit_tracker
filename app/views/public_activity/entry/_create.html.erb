@@ -1,6 +1,6 @@
 <%
   entry = Entry.find_by(id: activity&.trackable_id)
-  user = entry&.habit&.group&.users&.first
+  user = entry&.habit&.user
   subtitle = if entry && user
   "#{user.first_name} logged an entry 🎯"
   end

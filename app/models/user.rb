@@ -6,8 +6,7 @@ class User < ApplicationRecord
 
   has_secure_password
   has_many :sessions, dependent: :destroy
-  belongs_to :group, optional: true
-  has_many :habits, through: :group
+  has_many :habits, dependent: :destroy
   has_many :entries, through: :habits
   has_one_attached :avatar
   has_one_attached :cropped_avatar
@@ -25,7 +24,6 @@ class User < ApplicationRecord
       cropped_avatar_attachment
       cropped_avatar_blob
       entries
-      group
       habits
       sessions
       user_configuration

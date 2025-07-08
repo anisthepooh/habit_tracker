@@ -62,7 +62,6 @@ class UsersController < ApplicationController
       :avatar,
       :cropped_avatar,
       :admin,
-      :group_id,
       :remove_avatar,
       :card_background
     )

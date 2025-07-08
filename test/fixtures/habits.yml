@@ -7,7 +7,7 @@ one:
   duration: 7
   reminder: false
   icon: moon
-  group: one
+  user: one
 
 two:
   name: MyString
@@ -16,7 +16,7 @@ two:
   duration: 14
   reminder: false
   icon: moon
-  group: one
+  user: one
 
 three:
   name: Three
@@ -25,4 +25,4 @@ three:
   duration: 30
   reminder: false
   icon: sun
-  group: two
+  user: two

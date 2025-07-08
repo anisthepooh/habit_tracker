@@ -1,6 +1,6 @@
 <%
   habit = Habit.find_by(id: activity&.trackable_id)
-  user = habit&.group&.users&.first
+  user = habit&.user
   subtitle = if habit && user
   "#{user.first_name} created #{habit.name} 💪"
   end
