@@ -1,4 +1,7 @@
-<div class="mx-auto max-w-2xl space-y-8 ">
+<div class="mx-auto max-w-2xl space-y-8" 
+     data-controller="swipe-navigation" 
+     data-swipe-navigation-right-url-value="<%= habits_path %>"
+     data-swipe-navigation-threshold-value="80">
   <%= render partial: "shared/user_card", locals: {user: @user} %>
 
 <%= render ListViewComponent.new(title: "INFO") do %>
