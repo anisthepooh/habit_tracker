@@ -1,0 +1,25 @@
+<div class="absolute right-0 top-0 h-full flex items-center"
+     data-habit-card-swipe-target="actions"
+     style="opacity: 0; width: 210px;">
+  
+  <!-- Edit Action -->
+  <button class="h-full px-3 flex items-center justify-center bg-primary text-white w-[70px] hover:bg-primary transition-colors"
+          data-action="click->habit-card-swipe#edit"
+          title="Edit habit">
+    <%= lucide_icon('edit', class: 'w-5 h-5') %>
+  </button>
+  
+  <!-- Archive Action -->
+  <button class="h-full px-3 flex items-center justify-center bg-gray-500 text-white w-[70px] hover:bg-gray-600 transition-colors"
+          data-action="click->habit-card-swipe#archive"
+          title="Archive habit">
+    <%= lucide_icon('archive', class: 'w-5 h-5') %>
+  </button>
+  
+  <!-- Delete Action -->
+  <button class="h-full px-3 flex items-center justify-center bg-red-500 text-white w-[70px] hover:bg-red-600 transition-colors"
+          data-action="click->habit-card-swipe#delete"
+          title="Delete habit">
+    <%= lucide_icon('trash-2', class: 'w-5 h-5') %>
+  </button>
+</div>

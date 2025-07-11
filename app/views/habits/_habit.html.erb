@@ -1,39 +1,54 @@
-<%= link_to habit, class:"w-full" do %>
-  <div 
-    class="bg-primary rounded-2xl p-4 " 
-    style="view-transition-name: habit_<%= habit.id %>;"
-  >
-    <div id="<%= dom_id habit %>" class="w-full flex items-center gap-3 ">
-      <div class="relative w-12 h-12">
-        <svg class="w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
-          <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4" fill="none" class="text-white/10" />
-          <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4" fill="none" class="text-gray-500 <%= habit.time_progress_percentage == 100 && "text-green-500 "%> "
-                  stroke-dasharray="<%= 2 * Math::PI * 20 %>" 
-                  stroke-dashoffset="<%= 2 * Math::PI * 20 * (1 - [habit.elapsed_days.to_f / habit.total_days, 1].min) %>"
-                  stroke-linecap="round" />
-        </svg>
-        <span class="absolute inset-0 text-stone-200 flex items-center justify-center <%= habit.entries.size == habit.duration && "text-green-400" %>">
-          <%= lucide_icon(habit.icon || "circle", class: "w-5 h-5") %>
-        </span>
-      </div>
-      <div class="flex-1">
-        <p class="font-semibold text-stone-200">
-          <%= habit.name %>
-        </p>
-        <% if habit.completed? %>
-          <div class="text-stone-300 flex items-center gap-2 text-sm">
-            <span class="text-white">✓ Completed</span>
-            •
-            <span><%= habit.completion_rate %>% done</span>
+<div class="w-full relative overflow-hidden rounded-2xl"
+     data-controller="habit-card-swipe"
+     data-edit-url="<%= edit_habit_path(habit) %>"
+     data-archive-url="<%= archive_habit_path(habit) %>"
+     data-delete-url="<%= habit_path(habit) %>"
+     data-habit-card-swipe-threshold-value="60"
+     data-habit-card-swipe-max-reveal-value="210">
+  
+  <!-- Swipeable Card Content -->
+  <div class="relative z-10" data-habit-card-swipe-target="card">
+    <%= link_to habit, class:"block w-full" do %>
+      <div 
+        class="bg-primary rounded-2xl p-4" 
+        style="view-transition-name: habit_<%= habit.id %>;"
+      >
+        <div id="<%= dom_id habit %>" class="w-full flex items-center gap-3">
+          <div class="relative w-12 h-12">
+            <svg class="w-12 h-12 transform -rotate-90" viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4" fill="none" class="text-white/10" />
+              <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4" fill="none" class="text-gray-500 <%= habit.time_progress_percentage == 100 && "text-green-500 "%> "
+                      stroke-dasharray="<%= 2 * Math::PI * 20 %>" 
+                      stroke-dashoffset="<%= 2 * Math::PI * 20 * (1 - [habit.elapsed_days.to_f / habit.total_days, 1].min) %>"
+                      stroke-linecap="round" />
+            </svg>
+            <span class="absolute inset-0 text-stone-200 flex items-center justify-center <%= habit.entries.size == habit.duration && "text-green-400" %>">
+              <%= lucide_icon(habit.icon || "circle", class: "w-5 h-5") %>
+            </span>
           </div>
-        <% else %>
-          <div class="text-stone-400 flex gap-2 text-sm">
-            <time datetime="<%= habit.start_date%>"><%= habit.start_date.strftime("%d %B %Y")%></time>
-            •
-            <p><%= duration_display(habit.duration) %></p>
+          <div class="flex-1">
+            <p class="font-semibold text-stone-200">
+              <%= habit.name %>
+            </p>
+            <% if habit.completed? %>
+              <div class="text-stone-300 flex items-center gap-2 text-sm">
+                <span class="text-white">✓ Completed</span>
+                •
+                <span><%= habit.completion_rate %>% done</span>
+              </div>
+            <% else %>
+              <div class="text-stone-400 flex gap-2 text-sm">
+                <time datetime="<%= habit.start_date%>"><%= habit.start_date.strftime("%d %B %Y")%></time>
+                •
+                <p><%= duration_display(habit.duration) %></p>
+              </div>
+            <% end %>
           </div>
-        <% end %>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
-<% end %>
+  
+  <!-- Hidden Actions Panel -->
+  <%= render 'habits/habit_actions' %>
+</div>
