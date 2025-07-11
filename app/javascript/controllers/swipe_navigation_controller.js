@@ -212,10 +212,6 @@ export default class extends Controller {
           opacity: 1;
         }
         
-        .swipe-enabled:focus {
-          outline: 2px solid #3B82F6;
-          outline-offset: 2px;
-        }
         
         @media (hover: none) {
           .swipe-enabled::before,
