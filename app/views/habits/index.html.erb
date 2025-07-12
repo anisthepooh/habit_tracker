@@ -4,7 +4,6 @@
      data-controller="swipe-navigation" 
      data-swipe-navigation-left-url-value="<%= user_path(Current.user) %>"
      data-swipe-navigation-threshold-value="80">
-  <%# <%= render partial: "shared/activity_graph" %> 
   <%= render partial: "shared/user_card", locals: {user: Current.user} %>
     <div id="habits" class="min-w-full divide-y divide-gray-200 space-y-5" data-tabs-target="content" data-id="active">
       <% if @habits&.any? %>

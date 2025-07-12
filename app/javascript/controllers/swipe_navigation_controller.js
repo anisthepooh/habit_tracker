@@ -22,8 +22,6 @@ export default class extends Controller {
       this.element.addEventListener('touchmove', this.handleTouchMove.bind(this), { passive: false })
       this.element.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: false })
       
-      // Add subtle visual indicators only for touch devices
-      this.addSwipeIndicators()
     }
     
     // Add keyboard navigation support
@@ -164,71 +162,5 @@ export default class extends Controller {
     }, 200)
   }
 
-  addSwipeIndicators() {
-    // Add subtle CSS class to indicate swipe availability
-    this.element.classList.add('swipe-enabled')
-    
-    // Add ARIA attributes for accessibility
-    this.element.setAttribute('aria-label', 'Swipe left or right to navigate, or use arrow keys')
-    this.element.setAttribute('role', 'region')
-    
-    // Add CSS for swipe indicators
-    if (!document.querySelector('#swipe-navigation-styles')) {
-      const style = document.createElement('style')
-      style.id = 'swipe-navigation-styles'
-      style.textContent = `
-        .swipe-enabled {
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .swipe-enabled::before,
-        .swipe-enabled::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          width: 2px;
-          height: 20px;
-          background: rgba(156, 163, 175, 0.3);
-          border-radius: 1px;
-          transform: translateY(-50%);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          z-index: 1;
-        }
-        
-        .swipe-enabled::before {
-          left: 4px;
-        }
-        
-        .swipe-enabled::after {
-          right: 4px;
-        }
-        
-        .swipe-enabled:hover::before,
-        .swipe-enabled:hover::after,
-        .swipe-enabled:focus::before,
-        .swipe-enabled:focus::after {
-          opacity: 1;
-        }
-        
-        
-        @media (hover: none) {
-          .swipe-enabled::before,
-          .swipe-enabled::after {
-            opacity: 0.5;
-          }
-        }
-        
-        /* Reduce motion for users who prefer it */
-        @media (prefers-reduced-motion: reduce) {
-          .swipe-enabled,
-          .swipe-enabled * {
-            transition: none !important;
-          }
-        }
-      `
-      document.head.appendChild(style)
-    }
-  }
+
 }

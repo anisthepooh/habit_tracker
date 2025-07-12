@@ -1,16 +1,17 @@
-<div class="w-full relative overflow-hidden rounded-2xl"
+<div class="w-full relative overflow-hidden rounded-2xl bg-gray-100"
      data-controller="habit-card-swipe"
      data-edit-url="<%= edit_habit_path(habit) %>"
      data-archive-url="<%= archive_habit_path(habit) %>"
      data-delete-url="<%= habit_path(habit) %>"
-     data-habit-card-swipe-threshold-value="60"
-     data-habit-card-swipe-max-reveal-value="210">
-  
+     data-habit-card-swipe-snap-point-value="80"
+     data-habit-card-swipe-trigger-threshold-value="120"
+     data-habit-card-swipe-left-action-value="<%=new_habit_entry_path(habit)%>"
+     >
   <!-- Swipeable Card Content -->
   <div class="relative z-10" data-habit-card-swipe-target="card">
     <%= link_to habit, class:"block w-full" do %>
       <div 
-        class="bg-primary rounded-2xl p-4" 
+        class="bg-primary rounded-2xl p-4 rounded-r-none" 
         style="view-transition-name: habit_<%= habit.id %>;"
       >
         <div id="<%= dom_id habit %>" class="w-full flex items-center gap-3">
@@ -50,5 +51,5 @@
   </div>
   
   <!-- Hidden Actions Panel -->
-  <%= render 'habits/habit_actions' %>
+  <%= render partial: 'habits/habit_actions', locals: {habit: habit} %>
 </div>

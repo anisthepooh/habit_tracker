@@ -3,8 +3,9 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["card", "actions"]
   static values = {
-    threshold: { type: Number, default: 60 },
-    maxReveal: { type: Number, default: 140 }
+    snapPoint: { type: Number, default: 80 },
+    triggerThreshold: { type: Number, default: 120 },
+    leftAction: { type: String, default: "" }
   }
 
   connect() {
@@ -14,7 +15,7 @@ export default class extends Controller {
     this.currentY = 0
     this.isScrolling = false
     this.isSwiping = false
-    this.isRevealed = false
+    this.isAtSnapPoint = false
     this.isDragging = false
     
     // Only add touch events if device supports touch
@@ -27,8 +28,6 @@ export default class extends Controller {
     // Add click outside listener to close revealed actions
     document.addEventListener('click', this.handleClickOutside.bind(this))
     
-    // Add CSS for smooth hardware-accelerated animations
-    this.addAnimationStyles()
   }
 
   disconnect() {
@@ -80,27 +79,53 @@ export default class extends Controller {
       event.preventDefault()
       event.stopPropagation()
       
-      // Allow both left and right swipes
+      // iOS-style swipe with stretching
       if (deltaX < 0) {
-        // Left swipe - reveal actions
+        // Left swipe - reveal and stretch actions
         const distance = Math.abs(deltaX)
-        const maxDistance = Math.min(distance, this.maxRevealValue)
         
-        this.cardTarget.style.transform = `translateX(-${maxDistance}px)`
-        this.cardTarget.style.transition = 'none'
-        
-        // Show actions as they're revealed
-        if (distance > 20) {
-          this.actionsTarget.style.opacity = Math.min(distance / this.thresholdValue, 1)
+        if (distance <= this.snapPointValue) {
+          // Normal reveal up to snap point
+          this.cardTarget.style.transform = `translateX(-${distance}px)`
+          this.actionsTarget.style.width = `${distance}px`
+          this.actionsTarget.style.opacity = Math.min(distance / this.snapPointValue, 1)
+        } else {
+          // Beyond snap point - stretch the action button
+          const stretchDistance = distance - this.snapPointValue
+          const actionWidth = this.snapPointValue + (stretchDistance * 0.5) // Stretch slower
+          
+          this.cardTarget.style.transform = `translateX(-${distance}px)`
+          this.actionsTarget.style.width = `${actionWidth}px`
+          this.actionsTarget.style.opacity = '1'
+          
+          // Update the button inside to fill the space and add visual feedback
+          const actionButton = this.actionsTarget.querySelector('a')
+          if (actionButton) {
+            actionButton.style.width = '100%'
+            actionButton.style.minWidth = `${actionWidth}px`
+            
+            // Add visual feedback when approaching trigger threshold
+            if (distance > this.triggerThresholdValue * 0.8) {
+              actionButton.style.backgroundColor = 'black' // Green when close to trigger
+            } else {
+              actionButton.style.backgroundColor = '' // Reset to default
+            }
+          }
         }
-      } else if (deltaX > 0 && this.isRevealed) {
-        // Right swipe - hide actions if already revealed
+        
+        this.cardTarget.style.transition = 'none'
+        this.actionsTarget.style.transition = 'none'
+        
+      } else if (deltaX > 0 && this.isAtSnapPoint) {
+        // Right swipe - hide actions if at snap point
         const distance = Math.abs(deltaX)
-        const remainingTransform = Math.max(this.maxRevealValue - distance, 0)
+        const remainingTransform = Math.max(this.snapPointValue - distance, 0)
         
         this.cardTarget.style.transform = `translateX(-${remainingTransform}px)`
+        this.actionsTarget.style.width = `${remainingTransform}px`
+        this.actionsTarget.style.opacity = remainingTransform / this.snapPointValue
         this.cardTarget.style.transition = 'none'
-        this.actionsTarget.style.opacity = remainingTransform / this.maxRevealValue
+        this.actionsTarget.style.transition = 'none'
       }
     }
   }
@@ -118,18 +143,20 @@ export default class extends Controller {
     const distance = Math.abs(deltaX)
 
     if (deltaX < 0) {
-      // Left swipe - reveal actions if threshold met
-      if (distance > this.thresholdValue) {
-        this.revealActions()
+      // Left swipe - check for trigger threshold first
+      if (distance > this.triggerThresholdValue && this.leftActionValue) {
+        this.triggerLeftAction()
+      } else if (distance > this.snapPointValue / 2) {
+        this.snapToRevealedState()
       } else {
         this.hideActions()
       }
-    } else if (deltaX > 0 && this.isRevealed) {
-      // Right swipe on revealed card - hide actions if threshold met
-      if (distance > this.thresholdValue / 2) {
+    } else if (deltaX > 0 && this.isAtSnapPoint) {
+      // Right swipe on revealed card - hide if threshold met
+      if (distance > this.snapPointValue / 3) {
         this.hideActions()
       } else {
-        this.revealActions() // Snap back to revealed state
+        this.snapToRevealedState() // Snap back to revealed state
       }
     } else {
       this.hideActions()
@@ -146,16 +173,26 @@ export default class extends Controller {
 
   handleClickOutside(event) {
     // Close actions if clicking outside this card
-    if (this.isRevealed && !this.element.contains(event.target)) {
+    if (this.isAtSnapPoint && !this.element.contains(event.target)) {
       this.hideActions()
     }
   }
 
-  revealActions() {
-    this.isRevealed = true
-    this.cardTarget.style.transform = `translateX(-${this.maxRevealValue}px)`
-    this.cardTarget.style.transition = 'transform 0.3s ease-out'
+  snapToRevealedState() {
+    this.isAtSnapPoint = true
+    this.cardTarget.style.transform = `translateX(-${this.snapPointValue}px)`
+    this.cardTarget.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
+    this.actionsTarget.style.width = `${this.snapPointValue}px`
     this.actionsTarget.style.opacity = '1'
+    this.actionsTarget.style.transition = 'width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
+    
+    // Reset button styles
+    const actionButton = this.actionsTarget.querySelector('a')
+    if (actionButton) {
+      actionButton.style.width = '100%'
+      actionButton.style.minWidth = `${this.snapPointValue}px`
+      actionButton.style.backgroundColor = '' // Reset color
+    }
     
     // Add haptic feedback if available
     if (window.navigator.vibrate) {
@@ -164,16 +201,35 @@ export default class extends Controller {
   }
 
   hideActions() {
-    this.isRevealed = false
+    this.isAtSnapPoint = false
     this.cardTarget.style.transform = 'translateX(0)'
-    this.cardTarget.style.transition = 'transform 0.3s ease-out'
+    this.cardTarget.style.transition = 'transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
+    this.actionsTarget.style.width = '0px'
     this.actionsTarget.style.opacity = '0'
+    this.actionsTarget.style.transition = 'width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)'
+    
+    // Reset button styles
+    const actionButton = this.actionsTarget.querySelector('a')
+    if (actionButton) {
+      actionButton.style.width = '100%'
+      actionButton.style.minWidth = '80px'
+      actionButton.style.backgroundColor = '' // Reset color
+    }
   }
 
   resetCard() {
     this.cardTarget.style.transform = 'translateX(0)'
     this.cardTarget.style.transition = 'transform 0.2s ease-out'
+    this.actionsTarget.style.width = '0px'
     this.actionsTarget.style.opacity = '0'
+    
+    // Reset button styles
+    const actionButton = this.actionsTarget.querySelector('a')
+    if (actionButton) {
+      actionButton.style.width = '100%'
+      actionButton.style.minWidth = '80px'
+      actionButton.style.backgroundColor = '' // Reset color
+    }
   }
 
   closeOtherRevealedCards() {
@@ -182,137 +238,28 @@ export default class extends Controller {
     otherCards.forEach(card => {
       if (card !== this.element) {
         const controller = this.application.getControllerForElementAndIdentifier(card, 'habit-card-swipe')
-        if (controller && controller.isRevealed) {
+        if (controller && controller.isAtSnapPoint) {
           controller.hideActions()
         }
       }
     })
   }
 
-  // Action methods
-  edit() {
-    // Navigate to edit page
-    const editUrl = this.element.dataset.editUrl
-    if (editUrl) {
-      window.Turbo.visit(editUrl)
+  triggerLeftAction() {
+    // Hide actions and trigger the specified action
+    this.hideActions()
+    
+    // Add stronger haptic feedback for full swipe
+    if (window.navigator.vibrate) {
+      window.navigator.vibrate([50, 50, 50])
     }
-  }
-
-  archive() {
-    // Archive the habit with optimistic UI
-    const archiveUrl = this.element.dataset.archiveUrl
-    if (archiveUrl) {
-      // Optimistic UI - immediately start animation
-      this.element.style.transform = 'translateX(-100%)'
-      this.element.style.opacity = '0'
-      this.element.style.transition = 'all 0.3s ease-out'
-      
-      fetch(archiveUrl, {
-        method: 'PATCH',
-        headers: {
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
-          'Accept': 'application/json'
-        }
-      }).then(response => {
-        if (response.ok) {
-          // Success - remove element after animation
-          setTimeout(() => {
-            this.element.remove()
-          }, 300)
-        } else {
-          // Error - revert animation
-          this.element.style.transform = 'translateX(0)'
-          this.element.style.opacity = '1'
-          alert('Failed to archive habit. Please try again.')
-        }
-      }).catch(() => {
-        // Error - revert animation
-        this.element.style.transform = 'translateX(0)'
-        this.element.style.opacity = '1'
-        alert('Failed to archive habit. Please try again.')
-      })
-    }
-  }
-
-  delete() {
-    // Delete the habit with confirmation
-    if (confirm('Are you sure you want to delete this habit?')) {
-      const deleteUrl = this.element.dataset.deleteUrl
-      if (deleteUrl) {
-        // Optimistic UI - immediately start animation
-        this.element.style.transform = 'translateX(-100%)'
-        this.element.style.opacity = '0'
-        this.element.style.transition = 'all 0.3s ease-out'
-        
-        fetch(deleteUrl, {
-          method: 'DELETE',
-          headers: {
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
-            'Accept': 'application/json'
-          }
-        }).then(response => {
-          if (response.ok) {
-            // Success - remove element after animation
-            setTimeout(() => {
-              this.element.remove()
-            }, 300)
-          } else {
-            // Error - revert animation
-            this.element.style.transform = 'translateX(0)'
-            this.element.style.opacity = '1'
-            alert('Failed to delete habit. Please try again.')
-          }
-        }).catch(() => {
-          // Error - revert animation
-          this.element.style.transform = 'translateX(0)'
-          this.element.style.opacity = '1'
-          alert('Failed to delete habit. Please try again.')
-        })
+    
+    // Find and click the existing action button instead of creating a new one
+    if (this.leftActionValue) {
+      const actionButton = this.actionsTarget.querySelector(`a[href="${this.leftActionValue}"]`)
+      if (actionButton) {
+        actionButton.click()
       }
-    }
-  }
-
-  addAnimationStyles() {
-    // Add CSS for smooth animations if not already added
-    if (!document.querySelector('#habit-card-swipe-styles')) {
-      const style = document.createElement('style')
-      style.id = 'habit-card-swipe-styles'
-      style.textContent = `
-        [data-controller~="habit-card-swipe"] {
-          will-change: transform;
-        }
-        
-        [data-habit-card-swipe-target="card"] {
-          will-change: transform;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-        }
-        
-        [data-habit-card-swipe-target="actions"] {
-          will-change: opacity;
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-        }
-        
-        /* Smooth action button hover effects */
-        [data-habit-card-swipe-target="actions"] button {
-          transition: all 0.2s ease;
-        }
-        
-        [data-habit-card-swipe-target="actions"] button:active {
-          transform: scale(0.95);
-        }
-        
-        /* Reduce motion for users who prefer it */
-        @media (prefers-reduced-motion: reduce) {
-          [data-habit-card-swipe-target="card"],
-          [data-habit-card-swipe-target="actions"],
-          [data-habit-card-swipe-target="actions"] button {
-            transition: none !important;
-          }
-        }
-      `
-      document.head.appendChild(style)
     }
   }
 }
