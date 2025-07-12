@@ -1,8 +1,7 @@
 class WelcomeNotification < ApplicationNotifier
-  deliver_by :database
   deliver_by :email, mailer: "UserMailer", method: "welcome_email"
 
-  param :user
+  required_param :user
 
   def message
     "Welcome to our platform!"
