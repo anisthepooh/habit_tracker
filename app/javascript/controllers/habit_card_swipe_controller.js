@@ -90,25 +90,46 @@ export default class extends Controller {
           this.actionsTarget.style.width = `${distance}px`
           this.actionsTarget.style.opacity = Math.min(distance / this.snapPointValue, 1)
         } else {
-          // Beyond snap point - stretch the action button
-          const stretchDistance = distance - this.snapPointValue
-          const actionWidth = this.snapPointValue + (stretchDistance * 0.5) // Stretch slower
-          
+          // Beyond snap point - iOS style: button stays at right edge and stretches
           this.cardTarget.style.transform = `translateX(-${distance}px)`
-          this.actionsTarget.style.width = `${actionWidth}px`
+          this.actionsTarget.style.width = `${distance}px`
           this.actionsTarget.style.opacity = '1'
           
-          // Update the button inside to fill the space and add visual feedback
+          // Button stays at right edge and stretches to fill available space
           const actionButton = this.actionsTarget.querySelector('a')
           if (actionButton) {
-            actionButton.style.width = '100%'
-            actionButton.style.minWidth = `${actionWidth}px`
+            actionButton.style.position = 'absolute'
+            actionButton.style.right = '0px'
+            actionButton.style.left = 'auto'
+            actionButton.style.width = `${distance}px`
+            actionButton.style.minWidth = `${distance}px`
             
             // Add visual feedback when approaching trigger threshold
+            const icon = actionButton.querySelector('svg')
+            const text = actionButton.querySelector('span')
+            
             if (distance > this.triggerThresholdValue * 0.8) {
-              actionButton.style.backgroundColor = 'black' // Green when close to trigger
+              actionButton.style.backgroundColor = 'black' // Dark when close to trigger
+              
+              // Change icon to checkmark when ready to trigger
+              if (icon) {
+                icon.innerHTML = '<path stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5"/>'
+                icon.setAttribute('viewBox', '0 0 24 24')
+              }
+              if (text) {
+                text.textContent = 'Complete'
+              }
             } else {
               actionButton.style.backgroundColor = '' // Reset to default
+              
+              // Reset to original circle-fading-plus icon
+              if (icon) {
+                icon.innerHTML = '<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/><circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/>'
+                icon.setAttribute('viewBox', '0 0 24 24')
+              }
+              if (text) {
+                text.textContent = 'Check-in'
+              }
             }
           }
         }
@@ -189,9 +210,23 @@ export default class extends Controller {
     // Reset button styles
     const actionButton = this.actionsTarget.querySelector('a')
     if (actionButton) {
+      actionButton.style.position = 'relative'
+      actionButton.style.left = ''
+      actionButton.style.right = ''
       actionButton.style.width = '100%'
       actionButton.style.minWidth = `${this.snapPointValue}px`
       actionButton.style.backgroundColor = '' // Reset color
+      
+      // Reset icon and text to original circle-fading-plus
+      const icon = actionButton.querySelector('svg')
+      const text = actionButton.querySelector('span')
+      if (icon) {
+        icon.innerHTML = '<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/><circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/>'
+        icon.setAttribute('viewBox', '0 0 24 24')
+      }
+      if (text) {
+        text.textContent = 'Check-in'
+      }
     }
     
     // Add haptic feedback if available
@@ -211,9 +246,23 @@ export default class extends Controller {
     // Reset button styles
     const actionButton = this.actionsTarget.querySelector('a')
     if (actionButton) {
+      actionButton.style.position = 'relative'
+      actionButton.style.left = ''
+      actionButton.style.right = ''
       actionButton.style.width = '100%'
       actionButton.style.minWidth = '80px'
       actionButton.style.backgroundColor = '' // Reset color
+      
+      // Reset icon and text to original circle-fading-plus
+      const icon = actionButton.querySelector('svg')
+      const text = actionButton.querySelector('span')
+      if (icon) {
+        icon.innerHTML = '<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/><circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/>'
+        icon.setAttribute('viewBox', '0 0 24 24')
+      }
+      if (text) {
+        text.textContent = 'Check-in'
+      }
     }
   }
 
@@ -226,9 +275,23 @@ export default class extends Controller {
     // Reset button styles
     const actionButton = this.actionsTarget.querySelector('a')
     if (actionButton) {
+      actionButton.style.position = 'relative'
+      actionButton.style.left = ''
+      actionButton.style.right = ''
       actionButton.style.width = '100%'
       actionButton.style.minWidth = '80px'
       actionButton.style.backgroundColor = '' // Reset color
+      
+      // Reset icon and text to original circle-fading-plus
+      const icon = actionButton.querySelector('svg')
+      const text = actionButton.querySelector('span')
+      if (icon) {
+        icon.innerHTML = '<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/><circle cx="12" cy="12" r="6" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/>'
+        icon.setAttribute('viewBox', '0 0 24 24')
+      }
+      if (text) {
+        text.textContent = 'Check-in'
+      }
     }
   }
 
