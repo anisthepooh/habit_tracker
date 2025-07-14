@@ -16,4 +16,10 @@ class ApplicationController < ActionController::Base
     @path = path
     @title = title
   end
+
+  protected
+
+  def flash_with_icon(type, message, icon = nil, delay: 0)
+    flash[type] = icon ? { message: message, icon: icon, delay: delay } : message
+  end
 end

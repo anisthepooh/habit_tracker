@@ -1,0 +1,26 @@
+<div
+  data-controller="flash"
+  data-flash-target="wrapper"
+  <%= "data-flash-delay-value=\"#{local_assigns[:delay] || 0}\"" if local_assigns[:delay] %>
+  class="fixed top-6 left-0 right-0 z-50 w-full px-4
+         transition-all duration-300 ease-out
+         transform-gpu will-change-transform"
+  style="opacity: 0; transform: translateY(-10px);">
+  <div class="mx-auto max-w-2xl flex items-center gap-3 rounded-2xl border px-4 py-3 text-sm shadow-xl
+              backdrop-blur-sm touch-none select-none
+              <%= type == 'alert' ? 'border-red-200 bg-red-50/90 text-red-700' :
+                   type == 'notice' ? 'border-border bg-white/90 text-text' :
+                   'border-stone-200 bg-stone-50/90 text-stone-800' %>">
+    <% if icon %>
+      <div class="flex-shrink-0">
+        <%= lucide_icon(icon, class: "w-5 h-5 #{type == 'alert' ? 'text-red-500' : type == 'notice' ? 'text-green-500' : 'text-stone-500'}") %>
+      </div>
+    <% end %>
+    <div class="flex-1 min-w-0">
+      <%= message %>
+    </div>
+    <div class="flex-shrink-0 text-gray-400">
+      <%= lucide_icon("chevron-up", class: "w-4 h-4 opacity-50") %>
+    </div>
+  </div>
+</div>

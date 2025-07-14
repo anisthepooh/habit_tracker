@@ -36,6 +36,7 @@ class EntriesController < ApplicationController
 
     respond_to do |format|
       if @entry.save
+                flash_with_icon(:notice, "Entry logged successfully!", "check-circle", delay: 500)
         format.turbo_stream do
           turbo_streams = [
             turbo_stream.replace("entries",
@@ -47,8 +48,6 @@ class EntriesController < ApplicationController
               locals: { habit: @habit }
             )
           ]
-
-          # Add completion celebration if habit is completed
           if @habit.completed?
             turbo_streams << turbo_stream.replace("habit_completion_status",
               partial: "habits/completion_status",

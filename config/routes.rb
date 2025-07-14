@@ -11,6 +11,14 @@ Rails.application.routes.draw do
     patch :archive, on: :member
     resources :entries
   end
+  resources :onboardings, only: [ :index ] do
+    collection do
+      get :save_to_homescreen
+      get :create_habit
+      get :add_check_in
+      post :mark_completed
+    end
+  end
   get :completed_habits, to: "habits#completed_index"
   get :archived_habits, to: "habits#archived_index"
   get :entries, to: "entries#index_all"

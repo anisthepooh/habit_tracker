@@ -1,0 +1,30 @@
+<div class="">
+  <%= render OnboardingHeaderComponent.new(
+    title: "Learn how to leaveage Bite Habit",
+    description: "You will find a collection of guides and tips on this page"
+  ) %>
+  <div class="w-full py-2 bg-gray-100 rounded-md px-2 font-medium mt-1 mb-2">Intall Bite Habit on your phone</div>
+  <div class="space-y-4">
+    <%= render OnboardingItemComponent.new(
+      path: save_to_homescreen_onboardings_path,
+      title: "Save to homescreen (IOS)",
+      description: "Learn how to unlock PWA mode and save it to your homescreen.",
+      onboarding_key: "save_to_homescreen"
+    ) %>
+  </div>
+  <div class="w-full py-2 bg-gray-100 rounded-md px-2 font-medium mt-6 mb-2">How to use the app</div>
+  <div class="space-y-4">
+    <%= render OnboardingItemComponent.new(
+      path: create_habit_onboardings_path,
+      title: "Creating a Habit",
+      description: "Learn how to create a habit.",
+      onboarding_key: "create_habit"
+    ) %>
+    <%#= render OnboardingItemComponent.new(
+      path: add_check_in_onboardings_path,
+      title: "Add a check-in",
+      description: "Learn how to unlock PWA mode and save it to your homescreen.",
+      onboarding_key: "add_check_in"
+    ) %>
+  </div>
+</div>

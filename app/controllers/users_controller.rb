@@ -15,13 +15,14 @@ class UsersController < ApplicationController
 
   def update
     @user.build_user_configuration unless @user.user_configuration
-    flash[:notice] = "Profile updated!"
     if @user.update(user_params)
       if params[:new_user]
         WelcomeNotification.with(user: @user).deliver(@user)
       end
-      redirect_to @user, notice: "Profile updated!"
+      flash_with_icon(:notice, "Profile updated successfully!", "check-circle")
+      redirect_to @user
     else
+      flash_with_icon(:alert, "There was an error updating your profile.", "alert-circle")
       render :edit, status: :unprocessable_entity
     end
   end

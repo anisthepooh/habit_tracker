@@ -2,7 +2,7 @@
   <div class="flex items-center justify-between">
     <%=link_to @path, class: "transition-opacity flex gap-1 items-center #{@path.present? ? 'flex' : 'opacity-0'}"  do %>
       <%= lucide_icon('chevron-left')%>
-      <p class="text-xs font-medium text-muted-foreground">
+      <p class="text-xs font-medium text-muted-foreground line-clamp-1 max-w-[100px]">
         <%= @title if @title.present? %>
       </p>
     <% end %> 

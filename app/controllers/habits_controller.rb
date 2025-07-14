@@ -48,9 +48,11 @@ class HabitsController < ApplicationController
 
     respond_to do |format|
       if @habit.save
-        format.html { redirect_to @habit, notice: "Habit was successfully created." }
+        flash_with_icon(:notice, "Habit was successfully created!", "check-circle")
+        format.html { redirect_to @habit }
         format.json { render :show, status: :created, location: @habit }
       else
+        flash_with_icon(:alert, "There was an error creating your habit.", "alert-circle")
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @habit.errors, status: :unprocessable_entity }
       end

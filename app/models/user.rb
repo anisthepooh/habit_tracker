@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :habits, dependent: :destroy
   has_many :entries, through: :habits
+  has_many :onboardings, dependent: :destroy
   has_one_attached :avatar
   has_one_attached :cropped_avatar
   has_one :user_configuration, dependent: :destroy
@@ -79,5 +80,30 @@ class User < ApplicationRecord
       Rails.logger.error "Avatar display generation failed: #{e.message}"
       avatar # Fallback to original if variant fails
     end
+  end
+
+  def has_seen_onboarding?(guide_name)
+    onboardings.for_guide(guide_name).viewed.exists?
+  end
+
+  def has_completed_onboarding?(guide_name)
+    onboardings.for_guide(guide_name).completed.exists?
+  end
+
+  def mark_onboarding_viewed(guide_name)
+    onboarding = onboardings.find_or_initialize_by(guide_name: guide_name)
+    onboarding.mark_viewed! unless onboarding.viewed?
+    onboarding
+  end
+
+  def mark_onboarding_completed(guide_name)
+    onboarding = onboardings.find_or_initialize_by(guide_name: guide_name)
+    onboarding.mark_viewed! unless onboarding.viewed?
+    onboarding.mark_completed! unless onboarding.completed?
+    onboarding
+  end
+
+  def onboarding_for(guide_name)
+    onboardings.find_by(guide_name: guide_name)
   end
 end

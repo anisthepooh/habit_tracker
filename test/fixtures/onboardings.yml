@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+save_to_homescreen_completed:
+  user: one
+  guide_name: save_to_homescreen
+  viewed_at: <%= 1.week.ago %>
+  completed_at: <%= 1.week.ago %>
+
+create_first_habit_viewed:
+  user: one
+  guide_name: create_first_habit
+  viewed_at: <%= 2.days.ago %>
+  completed_at: 
+
+user_two_save_to_homescreen:
+  user: two
+  guide_name: save_to_homescreen
+  viewed_at: <%= 3.days.ago %>
+  completed_at:

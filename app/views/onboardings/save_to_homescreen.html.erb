@@ -1,0 +1,36 @@
+
+  <%= render OnboardingHeaderComponent.new(
+    title: "How to save to homescreen",
+    description: "Follow the steps in this video to add our app to your home screen for quick access."
+  ) %>
+    <%= image_tag "onboarding/save_to_homescreen.gif", class: "w-auto h-[400px] rounded-2xl border-4 border-gray-200 mx-auto ", alt: "How to save app to home screen" %>
+    <div class="mt-6">
+      <p class="text-text font-medium text-lg ">Step by step guide</p>
+      <div class="mt-2 w-full space-y-6">
+        <%= render OnboardingStepComponent.new(step_number: 1) do %>
+          Head to the Bitehabie.app in your browser on your phone.
+        <% end %>
+        <%= render OnboardingStepComponent.new(step_number: 2) do %>
+          Click the share icon <span class="inline-flex items-center"><%= lucide_icon "share", class: "w-4 h-4 text-muted-foreground mx-1" %></span> and choose "Add to homescreen"
+        <% end %>
+        <%= render OnboardingStepComponent.new(step_number: 3) do %>
+          Then click <span class="text-blue-500 font-medium">Add</span> and it will be saved as a PWA on your homescreen.
+        <% end %>
+      </div>
+      
+      <div class="mt-8">
+        <% unless Current.user.has_completed_onboarding?("save_to_homescreen") %>
+          <%= link_to mark_completed_onboardings_path(guide_name: "save_to_homescreen"), data: { "turbo-method": :post } do %>
+            <%= render ButtonComponent.new() do %>
+              <%= lucide_icon("check", class: "w-4 h-4") %>
+              Mark as Completed
+            <% end %>
+          <% end %>
+        <% else %>
+          <div class="inline-flex items-center justify-center text-center gap-2  text-primary px-6 py-3 rounded-lg font-medium w-full">
+            <%= lucide_icon("check-circle", class: "w-4 h-4") %>
+            Completed at <%= Current.user.onboardings.find_by(guide_name: action_name).completed_at.strftime("%d %B %Y")%>
+          </div>
+        <% end %>
+      </div>
+    </div>

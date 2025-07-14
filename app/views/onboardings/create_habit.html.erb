@@ -1,0 +1,33 @@
+<%= render OnboardingHeaderComponent.new(
+  title: "Create your first habit!",
+  description: "Let's get you started by creating your first habit to track. This will help you understand how the app works."
+) %>
+<div class="space-y-4">
+  <%= render OnboardingStepComponent.new(step_number: 1) do %>
+    Click the plus icon 
+    <span class="inline-flex items-center rounded-full bg-primary w-4 h-4 mx-1 mt-2"><%= lucide_icon "plus", class: "w-4 h-4 text-primary-foreground" %></span> 
+    in the top right cornor or the "Add habit" at the bottom.
+  <% end %>
+  <%= render OnboardingStepComponent.new(step_number: 2) do %>
+    Choose a fitting icon, give it a name and a description. Choose a start date and a duration.  
+  <% end %>
+  <%= render OnboardingStepComponent.new(step_number: 3) do %>
+    Click "Create Habit" and you have now created a habit to track. 
+  <% end %>
+    
+  <div class="mt-8">
+    <% unless Current.user.has_completed_onboarding?(action_name) %>
+      <%= link_to mark_completed_onboardings_path(guide_name: action_name), data: { "turbo-method": :post } do %>
+        <%= render ButtonComponent.new() do %>
+          <%= lucide_icon("check", class: "w-4 h-4") %>
+          Mark as Completed
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="inline-flex items-center justify-center text-center gap-2  text-primary px-6 py-3 rounded-lg font-medium w-full">
+        <%= lucide_icon("check-circle", class: "w-4 h-4") %>
+        Completed at <%= Current.user.onboardings.find_by(guide_name: action_name).completed_at.strftime("%d %B %Y")%>
+      </div>
+    <% end %>
+  </div>
+</div>

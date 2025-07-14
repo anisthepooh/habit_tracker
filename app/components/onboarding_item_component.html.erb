@@ -1,0 +1,13 @@
+<%= link_to path, link_options do %>
+  <div class="flex-1">
+    <p class="font-medium text-black text-sm"><%= title %></p>
+    <p class="text-sm font-medium text-muted-foreground"><%= description %></p>
+    <% if status_text %>
+      <p class="<%= status_classes %>">
+        <%= lucide_icon(status_icon, class: "w-4 h-4") %>
+        <%= status_text %>
+      </p>
+    <% end %>
+  </div>
+  <%= lucide_icon(completion_icon, class: completion_icon_classes) %>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_08_120813) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_14_054910) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -168,6 +168,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_08_120813) do
     t.index ["recipient_type", "recipient_id"], name: "index_noticed_notifications_on_recipient"
   end
 
+  create_table "onboardings", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "guide_name", null: false
+    t.datetime "viewed_at"
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "guide_name"], name: "index_onboardings_on_user_id_and_guide_name", unique: true
+    t.index ["user_id"], name: "index_onboardings_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "ip_address"
@@ -241,6 +252,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_08_120813) do
   add_foreign_key "beta_testers", "users"
   add_foreign_key "entries", "habits"
   add_foreign_key "habits", "users"
+  add_foreign_key "onboardings", "users"
   add_foreign_key "sessions", "users"
   add_foreign_key "taggings", "tags"
   add_foreign_key "user_configurations", "users"
