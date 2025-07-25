@@ -15,7 +15,7 @@ module HabitsHelper
     if label == "Custom"
       "#{days} days"
     else
-      "#{label} (#{days} days)"
+      "(#{days} days)"
     end
   end
 

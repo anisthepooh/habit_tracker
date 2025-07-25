@@ -44,12 +44,12 @@
       <% now = Time.zone.now.strftime("%Y-%m-%dT%H:%M") %>
     <%= form.label :start_date %>
     <div class="flex">
-      <%= form.datetime_field :start_date, id: "entry_date_field", value: now, class: "block mt-1", reqired: true %>
+      <%= form.date_field :start_date, id: "entry_date_field", value: now, class: "block mt-1", reqired: true %>
     </div>
     </div>
 
     <div class="my-5">
-      <%= form.label :duration, "Duration", class: "block text-sm font-medium text-stone-700 mb-1" %>
+      <%= form.label :duration, "Duration", class: "block text-sm font-medium text-stone-700 mb-3" %>
       <%
         duration_options = [
           {
@@ -70,15 +70,38 @@
             title: "Medium (30 days)",
             description: "Build lasting habits"
           },
-          {
-            value: 90,
-            icon: "trending-up",
-            title: "Long (90 days)",
-            description: "Transform your lifestyle"
-          }
         ]
       %>
-      <%= render SelectComponent.new(form: form, field: :duration, selected: form.object.duration, options: duration_options) %>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <% duration_options.each do |option| %>
+          <label class="cursor-pointer group">
+            <%= form.radio_button :duration, option[:value], 
+                  class: "sr-only peer",
+                  id: "duration_#{option[:value]}" %>
+            
+            <div class="relative overflow-hidden rounded-lg border-2 border-gray-200 bg-white p-2 transition-all duration-200 peer-checked:border-black peer-checked:bg-gray-50 peer-checked:shadow-md group-hover:border-gray-300">
+              <div class="flex items-start gap-3">
+                <!-- Icon -->
+                <div class="flex-shrink-0 mt-1">
+                  <%= lucide_icon(option[:icon], class: "w-5 h-5 text-primary") %>
+                </div>
+                
+                <!-- Content -->
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-medium text-sm text-gray-900"><%= option[:title] %></h3>
+                  <p class="text-xs text-gray-500 mt-1"><%= option[:description] %></p>
+                </div>
+                
+                <!-- Check indicator -->
+                <div class="flex-shrink-0 opacity-0 peer-checked:opacity-100 transition-opacity duration-200">
+                  <%= lucide_icon("check", class: "w-4 h-4 text-blue-600") %>
+                </div>
+              </div>
+            </div>
+          </label>
+        <% end %>
+      </div>
     </div>
   <% if Flipper.enabled?(:reminder, Current.user)%>
   <div class="bg-white mt-2 mb-8 px-4 rounded-2xl flex flex-col divide-stone-200 divide-y" data-controller="time-picker">
