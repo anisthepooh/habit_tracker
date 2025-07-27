@@ -25,6 +25,13 @@
   .text-primary {
     color: var(--primary);
   }
+
+  .amber-glow {
+    background-image: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #f59e0b 100%)
+  }
+  .morning-haze {
+    background-image:radial-gradient(circle at 50% 100%, rgba(253, 224, 71, 0.4) 0%, transparent 60%), radial-gradient(circle at 50% 100%, rgba(251, 191, 36, 0.4) 0%, transparent 70%), radial-gradient(circle at 50% 100%, rgba(244, 114, 182, 0.5) 0%, transparent 80%)
+  }
   .text-primary-foreground {
     color: var(--primary-foreground);
   }

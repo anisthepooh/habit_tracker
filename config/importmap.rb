@@ -22,3 +22,4 @@ pin "@cropper/utils", to: "@cropper--utils.js" # @2.0.0
 pin "alpinejs" # @3.14.9
 pin "chartkick", to: "chartkick.js"
 pin "Chart.bundle", to: "Chart.bundle.js"
+pin "@stimulus-components/password-visibility", to: "https://ga.jspm.io/npm:@stimulus-components/password-visibility@3.0.0/dist/stimulus-password-visibility.mjs"
