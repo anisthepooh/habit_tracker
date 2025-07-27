@@ -5,6 +5,12 @@ class User < ApplicationRecord
   ROLES= %w[admin user]
 
   has_secure_password
+
+  validates :password, length: { minimum: 8 },
+                      format: { with: /\A(?=.*[A-Z])(?=.*\d).*\z/,
+                               message: "must contain at least one uppercase letter and one digit" },
+                      if: -> { password.present? }
+
   has_many :sessions, dependent: :destroy
   has_many :habits, dependent: :destroy
   has_many :entries, through: :habits

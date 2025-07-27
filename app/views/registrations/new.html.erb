@@ -7,9 +7,62 @@
       <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email", value: params[:email_address] %>
     </div>
 
-    <div class="flex flex-col items-start gap-2">
+    <div class="flex flex-col items-start gap-2" data-controller="password-visibility password-strength">
       <%= form.label :password, "Password" %>
-      <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %>
+      <div class="relative w-full">
+        <%= form.password_field :password, 
+            required: true, 
+            autocomplete: "new-password", 
+            placeholder: "Enter your password", 
+            maxlength: 72,
+            data: { 
+              password_visibility_target: "input",
+              password_strength_target: "input",
+              action: "input->password-strength#update"
+            },
+            spellcheck: false%>
+        
+        <button type="button" 
+                data-action="password-visibility#toggle" 
+                class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 focus:outline-none focus:text-gray-600 transition-colors duration-200">
+          <span data-password-visibility-target="icon" class="w-5 h-5">
+            <%= lucide_icon "eye", class: "w-5 h-5" %>
+          </span>
+          <span data-password-visibility-target="icon" class="hidden w-5 h-5">
+            <%= lucide_icon "eye-off", class: "w-5 h-5" %>
+          </span>
+        </button>
+      </div>
+      
+      <!-- Password Strength Indicator -->
+      <div class="w-full mt-2">
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs text-gray-600">Password strength:</span>
+          <span class="text-xs font-medium" data-strength-label></span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2">
+          <div data-password-strength-target="indicator" 
+               class="h-2 rounded-full transition-all duration-300 w-0"
+               style="transition-property: width, background-color;">
+          </div>
+        </div>
+      </div>
+      
+      <!-- Password Requirements -->
+      <div data-password-strength-target="requirements" class="mt-2 space-y-1">
+        <div data-requirement="length" class="flex items-center text-xs text-gray-500">
+          <span data-requirement-icon class="mr-2 w-4 h-4 flex items-center justify-center">○</span>
+          <span data-requirement-text>At least 8 characters</span>
+        </div>
+        <div data-requirement="uppercase" class="flex items-center text-xs text-gray-500">
+          <span data-requirement-icon class="mr-2 w-4 h-4 flex items-center justify-center">○</span>
+          <span data-requirement-text>One uppercase letter</span>
+        </div>
+        <div data-requirement="number" class="flex items-center text-xs text-gray-500">
+          <span data-requirement-icon class="mr-2 w-4 h-4 flex items-center justify-center">○</span>
+          <span data-requirement-text>One number</span>
+        </div>
+      </div>
     </div>
 
     <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -25,6 +78,6 @@
     </p>
   <% end %>
 </div>
-<div class="w-full absolute md:relative md:w-[50%] left-0 h-full flex-grow rounded-none md:rounded-4xl ring-1 ring-black/5 ring-inset bg-linear-115 from-[#fff1be] from-28% via-[#ee87cb] via-70% to-[#b060ff] sm:bg-linear-145">
+<div class="w-full absolute md:relative md:w-[50%] left-0 h-full flex-grow rounded-none md:rounded-4xl ring-1 ring-black/5 ring-inset  morning-haze " >
 
 </div>
