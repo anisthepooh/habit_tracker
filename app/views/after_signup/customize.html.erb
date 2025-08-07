@@ -1,0 +1,48 @@
+<%= form_with model: @user, 
+    url: wizard_path, 
+    local: true, 
+    class: "space-y-6", 
+    builder: CustomFormBuilder do |form| %>
+  
+  <%= render "after_signup/form_errors", user: @user %>
+
+  <!-- Theme Selection -->
+  <div>
+    <% 
+    mesh_images = Dir.glob(Rails.root.join('app/assets/images/mesh/*')).map do |file|
+      "mesh/#{File.basename(file)}"
+    end
+  
+    images = ["blank"] + mesh_images
+    %>
+
+    <%= form.label :card_background, "Choose a theme for your card", class: "pb-1" %>
+    <%= image_radio_group(form, label: "General", images: images, group: "general") %>
+  </div>
+
+  <!-- Preferences -->
+  <div>
+    <%= form.fields_for :user_configuration do |config_form| %>
+      <p class="text-xs text-muted-foreground font-medium pl-1 uppercase">Preferences</p>
+      <div class="bg-white mt-2 mb-8 px-4 rounded-2xl flex flex-col divide-stone-200 divide-y border">
+        <div class="flex justify-between items-center py-4">
+          <div class="ms-3 text-sm font-medium text-gray-900">
+            <p>Accept newsletter</p> 
+            <span class="text-muted-foreground">Receive updates on emails about new features</span>
+          </div>
+          <%= config_form.label :newsletter_accepted, class: "inline-flex items-center cursor-pointer" do %>
+            <%= config_form.check_box :newsletter_accepted, class: "sr-only peer" %>
+
+            <div class="relative w-11 h-6 bg-stone-200 rounded-full peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-200
+                        peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full
+                        peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px]
+                        after:bg-white after:border-stone-200 after:border after:rounded-full after:w-5 after:h-5 after:transition-all
+                        peer-checked:bg-green-500"></div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= render "after_signup/form_navigation", form: form, show_back: true %>
+<% end %>

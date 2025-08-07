@@ -1,0 +1,10 @@
+<div class="flex justify-between">
+  <% if show_back %>
+    <%= link_to "Back", previous_wizard_path, class: "w-32 rounded-md px-3.5 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium cursor-pointer text-center inline-block" %>
+  <% else %>
+    <div></div> <!-- Empty div for spacing -->
+  <% end %>
+  
+  <% button_text = step == :intro ? "Get Started" : "Next" %>
+  <%= form.submit button_text, class: "w-32 rounded-md px-3.5 py-2.5 bg-primary hover:opacity-80 text-white font-medium cursor-pointer" %>
+</div>

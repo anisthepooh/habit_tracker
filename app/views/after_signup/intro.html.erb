@@ -1,0 +1,40 @@
+<div class="text-center">
+  <div class="mb-6">
+    <%= lucide_icon("check-circle", class: "w-16 h-16 text-green-500 mx-auto mb-4") %>
+    <h3 class="text-xl font-semibold text-gray-900 mb-2">
+      Profile Complete!
+    </h3>
+    <p class="text-gray-600">
+      Your account is now ready. Let's start building some amazing habits together.
+    </p>
+  </div>
+
+  <div class="space-y-4">
+    <div class="bg-gray-50 rounded-lg p-4 text-left">
+      <h4 class="font-medium text-gray-900 mb-2">Next steps:</h4>
+      <ul class="text-sm text-gray-600 space-y-1">
+        <li class="flex items-center">
+          <%= lucide_icon("plus", class: "w-4 h-4 text-primary mr-2") %>
+          Create your first habit
+        </li>
+        <li class="flex items-center">
+          <%= lucide_icon("target", class: "w-4 h-4 text-primary mr-2") %>
+          Set your daily goals
+        </li>
+        <li class="flex items-center">
+          <%= lucide_icon("trending-up", class: "w-4 h-4 text-primary mr-2") %>
+          Track your progress
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <%= form_with model: @user, 
+      url: wizard_path, 
+      local: true, 
+      class: "mt-6", 
+      builder: CustomFormBuilder do |form| %>
+    
+    <%= render "after_signup/form_navigation", form: form, show_back: true %>
+  <% end %>
+</div>

@@ -90,3 +90,5 @@ gem "tailwindcss-rails", "~> 4.2"
 gem "lucide-rails", "~> 0.5.1"
 
 gem "shadcn-ui", "~> 0.0.15"
+
+gem "wicked", "~> 2.0"

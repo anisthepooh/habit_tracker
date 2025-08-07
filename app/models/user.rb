@@ -21,6 +21,8 @@ class User < ApplicationRecord
   has_many :notifications, as: :recipient, dependent: :destroy, class_name: "Noticed::Notification"
   accepts_nested_attributes_for :user_configuration
 
+  after_create :ensure_user_configuration
+
   scope :created_in_the_past_month, -> { where("created_at >= ?", 1.month.ago) }
 
    def self.ransackable_associations(auth_object = nil)
@@ -111,5 +113,11 @@ class User < ApplicationRecord
 
   def onboarding_for(guide_name)
     onboardings.find_by(guide_name: guide_name)
+  end
+
+  private
+
+  def ensure_user_configuration
+    build_user_configuration unless user_configuration
   end
 end

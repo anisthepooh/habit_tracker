@@ -1,0 +1,48 @@
+<div class="flex items-center justify-center space-x-4">
+  <% 
+  steps_config = [
+    { key: :info, number: 1, label: "Info" },
+    { key: :customize, number: 2, label: "Customize" },
+    { key: :intro, number: 3, label: "Intro" }
+  ]
+  
+  current_step_index = steps_config.find_index { |s| s[:key] == step }
+  %>
+  
+  <% steps_config.each_with_index do |step_config, index| %>
+    <% 
+    is_current = step_config[:key] == step
+    is_completed = index < current_step_index
+    is_future = index > current_step_index
+    %>
+    
+    <div class="flex items-center">
+      <div class="<%= 
+        if is_completed
+          'w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-medium'
+        elsif is_current
+          'w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white text-sm font-medium'
+        else
+          'w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-500 text-sm font-medium'
+        end
+      %>">
+        <%= is_completed ? "✓" : step_config[:number] %>
+      </div>
+      <span class="ml-2 text-sm font-medium <%= 
+        if is_completed
+          'text-green-600'
+        elsif is_current
+          'text-primary'
+        else
+          'text-gray-500'
+        end
+      %>">
+        <%= step_config[:label] %>
+      </span>
+    </div>
+    
+    <% unless index == steps_config.length - 1 %>
+      <div class="w-12 h-0.5 <%= is_completed ? 'bg-green-300' : 'bg-gray-300' %>"></div>
+    <% end %>
+  <% end %>
+</div>

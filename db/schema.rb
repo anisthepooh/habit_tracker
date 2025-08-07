@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_14_054910) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_27_205046) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -243,6 +243,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_14_054910) do
     t.boolean "otp_enabled", default: false, null: false
     t.text "otp_backup_codes"
     t.datetime "otp_verified_at"
+    t.string "card_pattern_type", default: "image"
+    t.text "card_pattern_config"
+    t.boolean "after_signup_completed", default: false
+    t.index ["card_pattern_type"], name: "index_users_on_card_pattern_type"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
     t.index ["otp_enabled"], name: "index_users_on_otp_enabled"
   end

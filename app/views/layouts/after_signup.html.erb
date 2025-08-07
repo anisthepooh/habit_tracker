@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <%= render partial: "layouts/head" %>
+  <body class="bg-gray-50">
+    <main class="mx-auto bg-background min-h-screen container max-w-lg relative p-4">
+      <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="text-center">
+          <h2 class="text-3xl font-extrabold text-gray-900">
+            <%= @page_title || "Complete Your Profile" %>
+          </h2>
+          <p class="mt-2 text-sm text-gray-600">
+            <%= @page_subtitle || "Let's get you set up" %>
+          </p>
+        </div>
+        <div class="mt-8 mb-6">
+          <%= render "after_signup/progress_indicator" %>
+        </div>
+      </div>
+      <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
