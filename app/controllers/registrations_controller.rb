@@ -10,6 +10,9 @@ class RegistrationsController < ApplicationController
     user = User.new(user_params)
 
     if user.save
+      # Send welcome email
+      WelcomeNotification.with(user: user).deliver(user)
+      
       start_new_session_for user
       redirect_to after_signup_path(:info), notice: "Welcome! Let's complete your profile."
     else
