@@ -9,3 +9,9 @@
 <%= icon_radio_group(form, label: "Nature", icons: icons_nature, group: "nature") %>
 <%= icon_radio_group(form, label: "Emoji", icons: icons_emojis, group: "emoji") %>
 <%= icon_radio_group(form, label: "Food", icons: icons_foods, group: "food") %>
+
+<div class="sticky -bottom-4 w-full bg-green-500">
+  <%= render ButtonComponent.new(type: "button", data:{action: "click->modal#close"}) do %>
+  Choose
+  <% end %>
+</div>

@@ -41,10 +41,10 @@
     </div>
 
     <div class="my-5">
-      <% now = Time.zone.now.strftime("%Y-%m-%dT%H:%M") %>
+      <% time_value = form.object.start_date || Time.zone.now  %>
     <%= form.label :start_date %>
     <div class="flex">
-      <%= form.date_field :start_date, id: "entry_date_field", value: now, class: "block mt-1", reqired: true %>
+      <%= form.date_field :start_date,  id: "entry_date_field", value: time_value, class: "block mt-1", reqired: true %>
     </div>
     </div>
 
