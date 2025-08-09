@@ -11,7 +11,7 @@ class RegistrationsController < ApplicationController
 
     if user.save
       start_new_session_for user
-      redirect_to edit_user_path(user, new_user: true), notice: "Successfully signed up!"
+      redirect_to after_signup_path(:info), notice: "Welcome! Let's complete your profile."
     else
       render :new
     end

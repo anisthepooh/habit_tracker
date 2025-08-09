@@ -23,11 +23,11 @@
       <% else %>
         <%= link_to change_log_path, class: "text-sm font-medium hover:opacity-80 text-primary flex items-center gap-1" do %>
           <%= lucide_icon("square-chart-gantt", class:"w-4 h-4 text-muted-foreground")%>
-          <p>Change log</p>
+          <p class="hidden sm:block">Change log</p>
         <% end %>
         <%= link_to new_session_path, class: "text-sm font-medium hover:opacity-80 text-primary flex items-center gap-1" do %>
           <%= lucide_icon("log-in", class:"w-4 h-4 text-muted-foreground")%>
-          <p>Sign in</p>
+          <p class="hidden sm:block">Sign in</p>
         <% end %>
       <% end %>
     </div>

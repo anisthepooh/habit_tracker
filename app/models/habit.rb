@@ -40,10 +40,12 @@ class Habit < ApplicationRecord
   end
 
   def total_days
+    return 0 if end_date.nil? || start_date.nil?
     (end_date - start_date).to_i
   end
 
   def elapsed_days
+    return 0 if end_date.nil? || start_date.nil?
     [ (Date.current - start_date).to_i, total_days ].min
   end
 
@@ -98,6 +100,7 @@ class Habit < ApplicationRecord
 
   # Completion methods for habit resume feature
   def completed?
+    return false if end_date.nil?
     Date.current >= end_date
   end
 

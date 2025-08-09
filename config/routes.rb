@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get :finish_profile, to: "users#new_user",  on: :member
     get :report
   end
+  resources :after_signup, only: [:show, :update]
   patch "croppable/:id", to: "users#croppable", as: "croppable"
    # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
