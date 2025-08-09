@@ -37,6 +37,7 @@ class AfterSignupController < ApplicationController
       end
     when :intro
       if @user.update(after_signup_completed: true)
+        WelcomeNotification.with(user: @user).deliver(@user)
         redirect_to home_path, notice: "Welcome! Your profile is now complete."
       else
         render_wizard
